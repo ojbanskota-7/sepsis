@@ -5,6 +5,9 @@
 > **Document role:** Single working guide for the project team  
 > **Current major milestone:** Data retrieval, cohort construction, preprocessing, and construction/auditing of Variants A, B, and C are complete. Model-training preparation is next.
 
+> [!IMPORTANT]
+> **Rendering policy for this file:** formulas are intentionally written as plain-text equations inside fenced blocks rather than LaTeX. This avoids dependence on GitHub/VS Code math-rendering settings and makes the roadmap display consistently everywhere.
+
 ---
 
 ## Table of Contents
@@ -114,7 +117,7 @@ The project therefore uses a controlled three-variant experiment:
 |---|---|---|
 | **A** | Physiological baseline | Vitals + GCS + labs + missingness indicators |
 | **B** | Flat treatment baseline | Variant A + norepinephrine-equivalent dose + vasopressor-active flag |
-| **C** | Proposed dynamic representation | Variant A + $\Delta MAP$ + $\Delta Dose$ + $TRC$ + antibiotic intensification |
+| **C** | Proposed dynamic representation | Variant A + ΔMAP + ΔDose + TRC + antibiotic intensification |
 
 > [!IMPORTANT]
 > **Variant C is not Variant B plus extra features.**  
@@ -164,7 +167,7 @@ The split was made by `subject_id`, so one patient's ICU stays cannot appear in 
 - [x] Variant A construction and audit
 - [x] Hourly norepinephrine-equivalent treatment construction
 - [x] Variant B construction and audit
-- [x] Dynamic $\Delta MAP$, $\Delta Dose$, and $TRC$ design
+- [x] Dynamic ΔMAP, ΔDose, and TRC design
 - [x] Antibiotic-intensification construction
 - [x] Variant C construction and audit
 - [x] Methodology text revised to match implementation
@@ -515,9 +518,9 @@ After temporal eligibility filtering, the final modeling cohort became:
 
 Thus:
 
-$$
-13{,}769 + 45{,}893 = 59{,}662
-$$
+```text
+13,769 + 45,893 = 59,662
+```
 
 ## 10.3 Exploratory onset-timing check
 
@@ -546,19 +549,16 @@ The clinical Sepsis-3 definition describes organ dysfunction as an acute SOFA in
 
 ## 11.2 Prediction target
 
-At each modeled hour $t$, the task is:
+At each modeled hour `t`, the task is:
 
 > **Will Sepsis-3 onset occur after the current hour and within the next six hours?**
 
 The hourly label is:
 
-$$
-Y_t =
-\begin{cases}
-1, & 0 < T_{\text{sepsis}} - t \le 6 \text{ hours} \\
-0, & \text{otherwise}
-\end{cases}
-$$
+```text
+sepsis_next_6h(t) = 1  if  0 < sepsis_time - t <= 6 hours
+                     0  otherwise
+```
 
 ## 11.3 Leakage prevention
 
@@ -579,9 +579,9 @@ A timestep at or after the sepsis event is not used to predict that same event.
 
 The positive-row rate is approximately:
 
-$$
-\frac{48{,}330}{4{,}169{,}659} \times 100 \approx 1.16\%
-$$
+```text
+Positive hourly rate = (48,330 / 4,169,659) × 100 ≈ 1.16%
+```
 
 This is a **highly imbalanced hourly classification task**.
 
@@ -688,7 +688,7 @@ Six physiological variables were extracted:
 
 1. Heart rate
 2. Mean arterial pressure (MAP)
-3. SpO$_2$
+3. SpO₂
 4. Temperature
 5. Respiratory rate
 6. Glasgow Coma Scale (GCS)
@@ -709,7 +709,7 @@ The hourly vitals table produced:
 | Stays with vitals | **58,813** |
 | HR available | **3,881,092** |
 | MAP available | **3,676,066** |
-| SpO$_2$ available | **3,807,653** |
+| SpO₂ available | **3,807,653** |
 | Temperature available | **1,153,539** |
 | Respiratory rate available | **3,817,767** |
 
@@ -784,7 +784,7 @@ After aligning vitals and GCS with all 4,169,659 timeline rows:
 |---|---:|
 | Heart rate | **6.92%** |
 | MAP | **11.84%** |
-| SpO$_2$ | **8.68%** |
+| SpO₂ | **8.68%** |
 | Temperature | **72.33%** |
 | Respiratory rate | **8.44%** |
 | GCS | **72.71%** |
@@ -799,7 +799,7 @@ The current implemented methodology uses:
 |---|---:|
 | HR | **4 h** |
 | MAP | **4 h** |
-| SpO$_2$ | **4 h** |
+| SpO₂ | **4 h** |
 | Respiratory rate | **4 h** |
 | Temperature | **6 h** |
 | GCS | **6 h** |
@@ -815,7 +815,7 @@ The goal is to use recent information without pretending that a very old observa
 |---|---:|---:|
 | HR | 6.92% | **2.28%** |
 | MAP | 11.84% | **2.89%** |
-| SpO$_2$ | 8.68% | **2.80%** |
+| SpO₂ | 8.68% | **2.80%** |
 | Temperature | 72.33% | **6.44%** |
 | Respiratory rate | 8.44% | **3.17%** |
 | GCS | 72.71% | **9.99%** |
@@ -846,7 +846,7 @@ Any value still missing after the allowed LOCF period is filled using a median c
 |---|---:|
 | Heart rate | **83** |
 | MAP | **79** |
-| SpO$_2$ | **97** |
+| SpO₂ | **97** |
 | Temperature | **36.89** |
 | Respiratory rate | **19** |
 | GCS | **15** |
@@ -895,7 +895,7 @@ Variant A contains:
 
 - heart rate
 - MAP
-- SpO$_2$
+- SpO₂
 - temperature
 - respiratory rate
 - GCS
@@ -955,9 +955,10 @@ Conceptually, if:
 
 the hourly value is:
 
-$$
-\frac{0.10(15) + 0.20(45)}{60} = 0.175
-$$
+```text
+Hourly dose = [0.10 × 15 min + 0.20 × 45 min] / 60 min
+            = 0.175
+```
 
 Hours with no overlapping vasopressor treatment are assigned dose **0**.
 
@@ -970,13 +971,10 @@ Variant B adds:
 
 where:
 
-$$
-vasopressor\_active =
-\begin{cases}
-1, & Dose_{NE} > 0 \\
-0, & Dose_{NE}=0
-\end{cases}
-$$
+```text
+vasopressor_active = 1  if NE-equivalent dose > 0
+                     0  if NE-equivalent dose = 0
+```
 
 ## 18.3 Treatment exposure audit
 
@@ -1041,39 +1039,31 @@ Variant C therefore does **not** automatically carry the flat NE dose and vasopr
 
 For each stay:
 
-$$
-\Delta Dose_{vaso}(t)
-=
-Dose_{vaso}(t)-Dose_{vaso}(t-1)
-$$
+```text
+ΔDose_vaso(t) = Dose_vaso(t) - Dose_vaso(t-1)
+```
 
 ---
 
 ## 19.2 MAP change
 
-$$
-\Delta MAP(t)
-=
-MAP(t)-MAP(t-1)
-$$
+```text
+ΔMAP(t) = MAP(t) - MAP(t-1)
+```
 
 ---
 
 ## 19.3 Treatment-response interaction
 
-$$
-TRC(t)
-=
-\Delta Dose_{vaso}(t)
-\times
-\Delta MAP(t)
-$$
+```text
+TRC(t) = ΔDose_vaso(t) × ΔMAP(t)
+```
 
 All three are retained:
 
-- $\Delta Dose_{vaso}$
-- $\Delta MAP$
-- $TRC$
+- ΔDose_vaso
+- ΔMAP
+- TRC
 
 This is important because the sign of the product alone can be ambiguous.
 
@@ -1094,17 +1084,13 @@ At the first modeled hour of each ICU stay there is no previous hour.
 
 Therefore:
 
-$$
-\Delta Dose_{vaso}(1)=0
-$$
+```text
+For the first modeled hour of each stay:
 
-$$
-\Delta MAP(1)=0
-$$
-
-$$
-TRC(1)=0
-$$
+ΔDose_vaso(1) = 0
+ΔMAP(1)       = 0
+TRC(1)        = 0
+```
 
 Only current and previous information is used.
 
@@ -1160,28 +1146,22 @@ The project therefore created a reproducible measure of **increased concurrent a
 
 Let:
 
-$$
-A(t)
-=
-\text{number of distinct antibiotics active during hour }t
-$$
+```text
+A(t) = number of distinct antibiotics active during hour t
+```
 
 Then:
 
-$$
-I_{ABX}(t)
-=
-\begin{cases}
-1, & A(t)>A(t-1) \\
-0, & \text{otherwise}
-\end{cases}
-$$
+```text
+I_ABX(t) = 1  if A(t) > A(t-1)
+           0  otherwise
+```
 
 For the first modeled hour:
 
-$$
-I_{ABX}(1)=0
-$$
+```text
+I_ABX(1) = 0
+```
 
 ## 19.7 Why we call it intensification, not spectrum escalation
 
@@ -1222,9 +1202,9 @@ Therefore:
 ## 19.10 Variant C feature count
 
 - 22 Variant A features
-- $\Delta MAP$
-- $\Delta Dose$
-- $TRC$
+- ΔMAP
+- ΔDose
+- TRC
 - antibiotic intensification
 - **26 total model inputs**
 
@@ -1432,23 +1412,23 @@ This section records decisions that should not be forgotten later.
 
 An early proposal version used:
 
-$$
-MAP_{expected}(t)
-=
-65+\alpha \times Dose_{NE}(t)
-$$
+```text
+REJECTED FORMULA:
+
+MAP_expected(t) = 65 + α × Dose_NE(t)
+```
 
 and:
 
-$$
-\Delta_{vaso}
-=
-MAP_{actual}-MAP_{expected}
-$$
+```text
+REJECTED DERIVED FEATURE:
+
+delta_vaso = MAP_actual - MAP_expected
+```
 
 ### Why rejected
 
-A universal fixed $\alpha$ for heterogeneous ICU patients was not sufficiently justified.
+A universal fixed α for heterogeneous ICU patients was not sufficiently justified.
 
 Using an arbitrary coefficient would make the proposed feature look physiologically precise without a defensible universal mapping.
 
@@ -1456,17 +1436,13 @@ Using an arbitrary coefficient would make the proposed feature look physiologica
 
 Use observed temporal changes:
 
-$$
-\Delta Dose_t = Dose_t-Dose_{t-1}
-$$
+```text
+FINAL DYNAMIC FORMULATION:
 
-$$
-\Delta MAP_t = MAP_t-MAP_{t-1}
-$$
-
-$$
-TRC_t=\Delta Dose_t \times \Delta MAP_t
-$$
+ΔDose(t) = Dose(t) - Dose(t-1)
+ΔMAP(t)  = MAP(t) - MAP(t-1)
+TRC(t)   = ΔDose(t) × ΔMAP(t)
+```
 
 **Status: ✅ finalized**
 
@@ -1573,8 +1549,8 @@ They must not be described as completed results.
 - [x] Variant A
 - [x] Hourly vasopressor representation
 - [x] Variant B
-- [x] $\Delta MAP$
-- [x] $\Delta Dose$
+- [x] ΔMAP
+- [x] ΔDose
 - [x] TRC
 - [x] Hourly antibiotic count
 - [x] Antibiotic intensification
@@ -1670,7 +1646,7 @@ A + ΔMAP + ΔDose + TRC + antibiotic intensification
 
 ### Figure 4.1
 
-Check terminology only. Remove any outdated reference to expected MAP / $\alpha$.
+Check terminology only. Remove any outdated reference to expected MAP / α.
 
 ### Figures 4.5 and 4.6
 
@@ -1678,7 +1654,7 @@ Likely no conceptual change unless they explicitly show the obsolete feature def
 
 ## Completion criterion
 
-- [ ] No figure contains expected-MAP/$\alpha$ logic.
+- [ ] No figure contains expected-MAP/α logic.
 - [ ] No figure calls concurrent-antibiotic count a validated spectrum escalation.
 - [ ] Variant C is visually separate from Variant B.
 - [ ] Figure labels agree with methodology text.
@@ -1830,17 +1806,15 @@ Z-score normalization has **not**.
 
 ## Formula
 
-For continuous feature $X$:
+For continuous feature `X`:
 
-$$
-X_{norm}
-=
-\frac{X-\mu_{train}}{\sigma_{train}}
-$$
+```text
+X_normalized = (X - mean_train) / std_train
+```
 
 ## Training-only rule
 
-Compute $\mu$ and $\sigma$ from the **training split only**.
+Compute μ and σ from the **training split only**.
 
 Then apply the same values to:
 
@@ -1854,7 +1828,7 @@ Then apply the same values to:
 
 - heart rate
 - MAP
-- SpO$_2$
+- SpO₂
 - temperature
 - respiratory rate
 - GCS
@@ -1938,8 +1912,8 @@ y = [T]
 
 where:
 
-- $T$ = number of modeled hours in that stay,
-- $F$ = input dimension.
+- `T` = number of modeled hours in that stay,
+- `F` = input dimension.
 
 ## Example
 
@@ -2045,7 +2019,7 @@ The proposal discussed choices such as:
 - hidden size around 64,
 - class-weighted BCE,
 - Adam,
-- learning rate around $10^{-3}$,
+- learning rate around 1e-3,
 - ReduceLROnPlateau,
 - early stopping.
 
@@ -2132,11 +2106,10 @@ Compute class weights **from the training split**, not the entire dataset.
 
 A common candidate is:
 
-$$
-w_1
-=
-\frac{N_{neg,train}}{N_{pos,train}}
-$$
+```text
+candidate_positive_class_weight =
+    number_of_negative_training_rows / number_of_positive_training_rows
+```
 
 Do not copy the global imbalance ratio blindly.
 
@@ -2231,20 +2204,18 @@ Calibration is performed **after model training**.
 
 Temperature scaling is a suitable planned post-hoc method.
 
-For logit $z$:
+For logit `z`:
 
-$$
-p_{cal}
-=
-\sigma\left(\frac{z}{T}\right)
-$$
+```text
+p_calibrated = sigmoid(logit / temperature)
+```
 
-where $T$ is fitted on validation data.
+where `T` is fitted on validation data.
 
 ## Rules
 
 - model weights stay frozen,
-- fit $T$ using validation,
+- fit `T` using validation,
 - evaluate calibrated performance on test.
 
 ## Report
@@ -2277,7 +2248,7 @@ The selected model will be analyzed using SHAP or a compatible recurrent-model a
 ## Key questions
 
 - Is TRC influential?
-- Are $\Delta Dose$ and $\Delta MAP$ influential?
+- Are ΔDose and ΔMAP influential?
 - Does antibiotic intensification contribute?
 - Are explanations physiologically plausible?
 - Does the model depend excessively on missingness indicators?
@@ -2393,7 +2364,7 @@ If the user modifies a treatment value, derived treatment-response variables mus
 
 For example, changing dose can affect:
 
-- $\Delta Dose$
+- ΔDose
 - TRC
 
 Do not allow mutually inconsistent feature vectors.
@@ -2641,7 +2612,7 @@ Document every methodology change after the dataset freeze.
 - [x] A/B/C definitions
 - [x] TRC equation updated
 - [x] Antibiotic intensification terminology
-- [x] Old $\alpha$-expected-MAP formula removed
+- [x] Old α-expected-MAP formula removed
 - [ ] Update feature-engineering figure
 - [ ] Update ablation figure
 - [ ] Check overview figure
@@ -2675,7 +2646,7 @@ Later generate:
 6. Why bounded LOCF?
 7. Why training-only medians?
 8. What is the difference between Variant B and C?
-9. Why was the expected-MAP/$\alpha$ formula removed?
+9. Why was the expected-MAP/α formula removed?
 10. What does TRC mean?
 11. Why is TRC not causal?
 12. Why call the antibiotic feature intensification?
@@ -2794,7 +2765,7 @@ __pycache__/
 
 - [x] Extract HR
 - [x] Extract MAP
-- [x] Extract SpO$_2$
+- [x] Extract SpO₂
 - [x] Extract temperature
 - [x] Extract respiratory rate
 - [x] Extract GCS
@@ -2811,7 +2782,7 @@ __pycache__/
 
 ## H. Missing-data preprocessing
 
-- [x] 4-hour LOCF for HR/MAP/SpO$_2$/RR
+- [x] 4-hour LOCF for HR/MAP/SpO₂/RR
 - [x] 6-hour LOCF for temperature/GCS
 - [x] 24-hour LOCF for labs
 - [x] Create missingness indicators
@@ -2840,9 +2811,9 @@ __pycache__/
 
 ## K. Variant C
 
-- [x] Reject expected-MAP/$\alpha$ formulation
-- [x] Define $\Delta Dose$
-- [x] Define $\Delta MAP$
+- [x] Reject expected-MAP/α formulation
+- [x] Define ΔDose
+- [x] Define ΔMAP
 - [x] Define TRC
 - [x] Prototype-test dynamic calculation
 - [x] Build hourly active-antibiotic counts
@@ -2856,7 +2827,7 @@ __pycache__/
 - [x] Update treatment-response methodology text
 - [x] Correct Variant C definition
 - [x] Change escalation → intensification
-- [x] Remove universal $\alpha$
+- [x] Remove universal α
 - [ ] Update Figure 4.3
 - [ ] Update Figure 4.4.3
 - [ ] Review Figure 4.1
@@ -3027,8 +2998,8 @@ Created as the team's master project roadmap after completion of the A/B/C BigQu
 - Variant A physiology baseline,
 - Variant B flat vasopressor baseline,
 - Variant C dynamic treatment-response representation,
-- rejection of expected-MAP/$\alpha$ formula,
-- $\Delta MAP$, $\Delta Dose$, and TRC retained separately,
+- rejection of expected-MAP/α formula,
+- ΔMAP, ΔDose, and TRC retained separately,
 - antibiotic "intensification" terminology,
 - Variant C does not inherit Variant B's flat predictors,
 - BigQuery A/B/C tables structurally audited and frozen for the current methodology.

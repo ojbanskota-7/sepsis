@@ -1,9 +1,9 @@
 # Treatment-Response Coupling in GRU-Based Sepsis Prediction
 ## Master Project Roadmap, Progress Tracker, and Team Execution Guide
 
-> **Project status date:** 13 August 2026  
+> **Project status date:** 21 August 2026  
 > **Document role:** Single working guide for the project team  
-> **Current major milestone:** Data retrieval, cohort construction, preprocessing, and construction/auditing of Variants A, B, and C are complete. Model-training preparation is next.
+> **Current major milestone:** Phase 1 data engineering is complete in BigQuery. The report framing has been aligned around two research gaps, while dataset handoff, model development, evaluation, and prototype implementation remain prospective.
 
 > [!IMPORTANT]
 > **Rendering policy for this file:** formulas are intentionally written as plain-text equations inside fenced blocks rather than LaTeX. This avoids dependence on GitHub/VS Code math-rendering settings and makes the roadmap display consistently everywhere.
@@ -28,29 +28,29 @@
 14. [Physiological Feature Extraction](#14-physiological-feature-extraction)
 15. [Laboratory Feature Extraction](#15-laboratory-feature-extraction)
 16. [Missing-Data Engineering](#16-missing-data-engineering)
-17. [Variant A — Physiological Baseline](#17-variant-a--physiological-baseline)
-18. [Variant B — Flat Treatment Baseline](#18-variant-b--flat-treatment-baseline)
-19. [Variant C — Dynamic Treatment-Response Model Input](#19-variant-c--dynamic-treatment-response-model-input)
+17. [Variant A â€” Physiological Baseline](#17-variant-a--physiological-baseline)
+18. [Variant B â€” Flat Treatment Baseline](#18-variant-b--flat-treatment-baseline)
+19. [Variant C â€” Dynamic Treatment-Response Model Input](#19-variant-c--dynamic-treatment-response-model-input)
 20. [Dataset Integrity Audits](#20-dataset-integrity-audits)
 21. [BigQuery Table Manifest and Lineage](#21-bigquery-table-manifest-and-lineage)
 22. [Feature Dictionary](#22-feature-dictionary)
 23. [Important Research Decisions and Corrections](#23-important-research-decisions-and-corrections)
 24. [What Is Complete vs. What Is Not Complete](#24-what-is-complete-vs-what-is-not-complete)
-25. [What We Do Next — Detailed Execution Plan](#25-what-we-do-next--detailed-execution-plan)
-26. [Phase 1 Next — Synchronize Methodology Figures](#26-phase-1-next--synchronize-methodology-figures)
-27. [Phase 2 Next — Freeze and Version the Datasets](#27-phase-2-next--freeze-and-version-the-datasets)
-28. [Phase 3 Next — Export BigQuery Data for Training](#28-phase-3-next--export-bigquery-data-for-training)
-29. [Phase 4 Next — Training-Only Normalization](#29-phase-4-next--training-only-normalization)
-30. [Phase 5 Next — GRU Sequence Construction](#30-phase-5-next--gru-sequence-construction)
-31. [Phase 6 Next — Finalize the GRU Experiment](#31-phase-6-next--finalize-the-gru-experiment)
-32. [Phase 7 Next — Train GRU-A, GRU-B, GRU-C](#32-phase-7-next--train-gru-a-gru-b-gru-c)
-33. [Phase 8 Next — Final Evaluation and Ablation Analysis](#33-phase-8-next--final-evaluation-and-ablation-analysis)
-34. [Phase 9 Next — Statistical Uncertainty](#34-phase-9-next--statistical-uncertainty)
-35. [Phase 10 Next — Probability Calibration](#35-phase-10-next--probability-calibration)
-36. [Phase 11 Next — Explainability](#36-phase-11-next--explainability)
-37. [Phase 12 Next — Fairness Evaluation](#37-phase-12-next--fairness-evaluation)
-38. [Phase 13 Next — Error Analysis and Robustness](#38-phase-13-next--error-analysis-and-robustness)
-39. [Phase 14 Next — Prototype System](#39-phase-14-next--prototype-system)
+25. [What We Do Next â€” Detailed Execution Plan](#25-what-we-do-next--detailed-execution-plan)
+26. [Report Synchronization Before Modeling](#26-report-synchronization-before-modeling)
+27. [Phase 2 Next â€” Freeze and Version the Datasets](#27-phase-2-next--freeze-and-version-the-datasets)
+28. [Phase 3 Next â€” Transfer BigQuery Data for Training](#28-phase-3-next--transfer-bigquery-data-for-training)
+29. [Phase 4 Next â€” Training-Only Normalization](#29-phase-4-next--training-only-normalization)
+30. [Phase 5 Next â€” GRU Sequence Construction](#30-phase-5-next--gru-sequence-construction)
+31. [Phase 6 Next â€” Finalize the GRU Experiment](#31-phase-6-next--finalize-the-gru-experiment)
+32. [Phase 7 Next â€” Train GRU-A, GRU-B, GRU-C](#32-phase-7-next--train-gru-a-gru-b-gru-c)
+33. [Phase 8 Next â€” Final Evaluation and Ablation Analysis](#33-phase-8-next--final-evaluation-and-ablation-analysis)
+34. [Phase 9 Next â€” Statistical Uncertainty](#34-phase-9-next--statistical-uncertainty)
+35. [Phase 10 Next â€” Probability Calibration](#35-phase-10-next--probability-calibration)
+36. [Phase 11 Next â€” Explainability](#36-phase-11-next--explainability)
+37. [Phase 12 Next â€” Fairness Evaluation](#37-phase-12-next--fairness-evaluation)
+38. [Phase 13 Next â€” Error Analysis and Robustness](#38-phase-13-next--error-analysis-and-robustness)
+39. [Phase 14 Next â€” Prototype System](#39-phase-14-next--prototype-system)
 40. [Team Workstreams and Learning Guide](#40-team-workstreams-and-learning-guide)
 41. [Progress Estimate](#41-progress-estimate)
 42. [Critical Leakage and Validity Rules](#42-critical-leakage-and-validity-rules)
@@ -68,6 +68,8 @@
 
 This document is intended to be the **single project-level roadmap** for the team.
 
+Use it together with `sepsis_major_project_continuation_handbook.md`, which contains the code-oriented post-examination implementation walkthrough. This master roadmap preserves the exact Phase 1 BigQuery history, counts, definitions, decisions, and completion tracker; the companion handbook is the practical coding guide from data handoff through the final prototype. If the two appear to disagree, apply the source-of-truth priority below and update both documents in the same commit.
+
 A team member should be able to use it to answer four questions:
 
 1. **What exactly is our research project?**
@@ -77,11 +79,11 @@ A team member should be able to use it to answer four questions:
 
 ### Status labels used in this document
 
-- ✅ **Completed** — implemented and checked.
-- 🟡 **Planned / next** — agreed direction but not yet implemented.
-- ⚠️ **Decision gate** — must be resolved before moving further.
-- 🔍 **Exploratory/audit context** — useful check performed during development, but not necessarily a final model feature or thesis result.
-- ❌ **Rejected** — considered previously but deliberately removed.
+- âœ… **Completed** â€” implemented and checked.
+- ðŸŸ¡ **Planned / next** â€” agreed direction but not yet implemented.
+- âš ï¸ **Decision gate** â€” must be resolved before moving further.
+- ðŸ” **Exploratory/audit context** â€” useful check performed during development, but not necessarily a final model feature or thesis result.
+- âŒ **Rejected** â€” considered previously but deliberately removed.
 
 > [!IMPORTANT]
 > If an older chat message, old figure, old proposal sentence, or old note conflicts with the finalized implementation described here, **use this guide together with the actual frozen BigQuery tables and version-controlled SQL as the source of truth**.
@@ -111,13 +113,22 @@ Standard sepsis prediction models often use physiological measurements such as h
 
 The research question in this project is whether it is more useful to explicitly represent **how treatment changes and physiology changes together over time**.
 
+## The two research gaps
+
+The final report should consistently present two connected gaps:
+
+1. **Treatment-representation gap:** most early-warning models either omit treatment or encode it as a flat input. This makes it difficult to distinguish untreated physiology from physiology observed under active support. The controlled A/B/C experiment evaluates whether explicit treatment-response dynamics add value beyond flat treatment variables.
+2. **Clinical-usability gap:** strong discrimination alone does not make a model trustworthy or usable. Probability calibration, explanation, subgroup evaluation, and clinician-controlled model-behaviour exploration are therefore integrated into one retrospective framework.
+
+The first gap is tested directly by the A/B/C ablation. The second is addressed by the calibrated, explainable, fairness-aware prototype. The literature review, introduction, motivation, methodology, results, and conclusion must preserve this same order and must not imply that either gap has already been solved before experiments are completed.
+
 The project therefore uses a controlled three-variant experiment:
 
 | Variant | Purpose | Input representation |
 |---|---|---|
 | **A** | Physiological baseline | Vitals + GCS + labs + missingness indicators |
 | **B** | Flat treatment baseline | Variant A + norepinephrine-equivalent dose + vasopressor-active flag |
-| **C** | Proposed dynamic representation | Variant A + ΔMAP + ΔDose + TRC + antibiotic intensification |
+| **C** | Proposed dynamic representation | Variant A + Î”MAP + Î”Dose + TRC + antibiotic intensification |
 
 > [!IMPORTANT]
 > **Variant C is not Variant B plus extra features.**  
@@ -134,7 +145,7 @@ The current hourly modeling timeline contains:
 | Unique patients | **46,494** |
 | Positive 6-hour-ahead rows | **48,330** |
 | Negative rows | **4,121,329** |
-| Positive hourly rate | **≈ 1.16%** |
+| Positive hourly rate | **â‰ˆ 1.16%** |
 
 ## Patient-level split
 
@@ -167,16 +178,19 @@ The split was made by `subject_id`, so one patient's ICU stays cannot appear in 
 - [x] Variant A construction and audit
 - [x] Hourly norepinephrine-equivalent treatment construction
 - [x] Variant B construction and audit
-- [x] Dynamic ΔMAP, ΔDose, and TRC design
+- [x] Dynamic Î”MAP, Î”Dose, and TRC design
 - [x] Antibiotic-intensification construction
 - [x] Variant C construction and audit
 - [x] Methodology text revised to match implementation
+- [x] Literature-review structure aligned with the two research gaps
+- [x] Core literature table reduced to seven representative papers
 
 ### Next
 
 - [ ] Update methodology figures
 - [ ] Freeze/version table schemas and manifest
-- [ ] Export A/B/C from BigQuery to private Parquet storage
+- [ ] Choose and validate the BigQuery-to-Python transfer route
+- [ ] Use private Parquet only if persistent local/chunked storage is required
 - [ ] Compute training-only normalization statistics
 - [ ] Build GRU sequences
 - [ ] Finalize identical GRU architecture/training configuration
@@ -214,19 +228,19 @@ Build a reproducible pipeline covering:
 
 ```text
 MIMIC-IV
-    ↓
+    â†“
 Cohort and labels
-    ↓
+    â†“
 Hourly feature engineering
-    ↓
+    â†“
 A/B/C ablation datasets
-    ↓
+    â†“
 GRU training
-    ↓
+    â†“
 Evaluation
-    ↓
+    â†“
 Calibration + Explainability + Fairness
-    ↓
+    â†“
 Retrospective research dashboard
 ```
 
@@ -247,9 +261,9 @@ ICU patients are observed repeatedly. Their state is not one static row.
 A simplified trajectory is:
 
 ```text
-Hour 1 → HR 86, MAP 77, SpO2 97, ...
-Hour 2 → HR 92, MAP 72, SpO2 96, ...
-Hour 3 → HR 105, MAP 65, SpO2 94, ...
+Hour 1 â†’ HR 86, MAP 77, SpO2 97, ...
+Hour 2 â†’ HR 92, MAP 72, SpO2 96, ...
+Hour 3 â†’ HR 105, MAP 65, SpO2 94, ...
 ...
 ```
 
@@ -286,11 +300,11 @@ This motivates Variant C.
 
 ```mermaid
 flowchart TD
-    BASE["Same cohort<br/>Same hourly timestamps<br/>Same labels<br/>Same patient split<br/>Same GRU/training rules"]
+    BASE["Same cohort, timeline, labels, split, and GRU rules"]
 
-    BASE --> A["Variant A<br/>Physiology"]
-    BASE --> B["Variant B<br/>Physiology + Flat Treatment"]
-    BASE --> C["Variant C<br/>Physiology + Dynamic Treatment-Response"]
+    BASE --> A["Variant A: physiology"]
+    BASE --> B["Variant B: physiology + flat treatment"]
+    BASE --> C["Variant C: physiology + dynamic response"]
 
     A --> EA["GRU-A"]
     B --> EB["GRU-B"]
@@ -338,14 +352,14 @@ flowchart TD
     LABS --> PREP
 
     PREP --> A["Variant A"]
-    A --> B["Variant B<br/>+ Flat Vasopressor Features"]
-    A --> C["Variant C<br/>+ Dynamic Treatment-Response"]
+    A --> B["Variant B: flat vasopressor features"]
+    A --> C["Variant C: dynamic treatment-response"]
 
     VASO --> B
     VASO --> C
     ABX --> C
 
-    A --> EXPORT["Parquet Export / Training Environment"]
+    A --> EXPORT["Verified Query or Private Parquet Handoff"]
     B --> EXPORT
     C --> EXPORT
 
@@ -365,25 +379,25 @@ flowchart TD
 
 | Phase | Status | Notes |
 |---|---|---|
-| Research framing | ✅ Completed for current stage | Research question and A/B/C logic defined |
-| Data access and exploration | ✅ Completed | MIMIC-IV v3.1 explored in BigQuery |
-| Cohort + Sepsis labels | ✅ Completed | Final cohort and target validated |
-| Hourly feature engineering | ✅ Completed | Vitals, labs, GCS, treatments aligned |
-| Missing-data preprocessing | ✅ Completed | Bounded LOCF + indicators + train medians |
-| Variant A construction | ✅ Completed | Audited |
-| Variant B construction | ✅ Completed | Audited |
-| Variant C construction | ✅ Completed | Audited |
-| Methodology text synchronization | ✅ Mostly completed | Figure synchronization still pending |
-| Dataset export | 🟡 Next | BigQuery → private Parquet |
-| Normalization | 🟡 Next | Must be training-only |
-| Sequence/DataLoader pipeline | 🟡 Next | Strategy must be finalized |
-| GRU training | ⬜ Not started | A/B/C |
-| Final evaluation | ⬜ Not started | Test set remains untouched for final use |
-| Calibration | ⬜ Not started | Selected model |
-| SHAP | ⬜ Not started | Selected model |
-| Fairness | ⬜ Not started | Selected model |
-| Prototype | ⬜ Not started | PostgreSQL/FastAPI/React |
-| Final thesis/defense | ⬜ Not complete | Continues throughout project |
+| Research framing | âœ… Completed for current stage | Research question and A/B/C logic defined |
+| Data access and exploration | âœ… Completed | MIMIC-IV v3.1 explored in BigQuery |
+| Cohort + Sepsis labels | âœ… Completed | Final cohort and target validated |
+| Hourly feature engineering | âœ… Completed | Vitals, labs, GCS, treatments aligned |
+| Missing-data preprocessing | âœ… Completed | Bounded LOCF + indicators + train medians |
+| Variant A construction | âœ… Completed | Audited |
+| Variant B construction | âœ… Completed | Audited |
+| Variant C construction | âœ… Completed | Audited |
+| Report synchronization | âœ… Mostly completed | Literature review and framing revised; figures and final citation QA remain |
+| Dataset handoff | ðŸŸ¡ Next | Verify BigQuery, then query by split/variant or export private Parquet |
+| Normalization | ðŸŸ¡ Next | Must be training-only |
+| Sequence/DataLoader pipeline | ðŸŸ¡ Next | Strategy must be finalized |
+| GRU training | â¬œ Not started | A/B/C |
+| Final evaluation | â¬œ Not started | Test set remains untouched for final use |
+| Calibration | â¬œ Not started | Selected model |
+| SHAP | â¬œ Not started | Selected model |
+| Fairness | â¬œ Not started | Selected model |
+| Prototype | â¬œ Not started | PostgreSQL/FastAPI/React |
+| Final thesis/defense | â¬œ Not complete | Continues throughout project |
 
 ---
 
@@ -449,15 +463,15 @@ The workflow was:
 
 ```text
 MIMIC-IV in BigQuery
-        ↓
+        â†“
 Inspect schemas
-        ↓
+        â†“
 Prototype queries on individual stays
-        ↓
+        â†“
 Validate timestamps and measurement frequency
-        ↓
+        â†“
 Create permanent project tables
-        ↓
+        â†“
 Audit every major transformation
 ```
 
@@ -467,19 +481,21 @@ The team's working project dataset is:
 sepsis-gru-mimic.sepsis_gru
 ```
 
-BigQuery is the **data-engineering environment**, not the final GRU-training runtime.
+BigQuery is the **data-engineering environment and source of truth**, not the final GRU-training runtime.
 
 Later:
 
 ```text
 BigQuery
-   ↓
-Parquet export
-   ↓
+   â†“
+Verified split-wise query or private Parquet handoff
+   â†“
 Python / PyTorch
-   ↓
+   â†“
 GRU training
 ```
+
+Direct split-wise loading is acceptable when memory and network performance are manageable. Private Parquet is the preferred persistent/chunked handoff when repeated downloads or RAM limits become a problem. The scientific requirement is verified equivalence with the frozen BigQuery tables, not one compulsory file format.
 
 ---
 
@@ -490,7 +506,7 @@ GRU training
 The methodology restricts the modeling population to:
 
 - adult patients,
-- age ≥ 18,
+- age â‰¥ 18,
 - ICU stays exceeding 24 hours.
 
 ## 10.2 Exploratory cohort counts
@@ -580,7 +596,7 @@ A timestep at or after the sepsis event is not used to predict that same event.
 The positive-row rate is approximately:
 
 ```text
-Positive hourly rate = (48,330 / 4,169,659) × 100 ≈ 1.16%
+Positive hourly rate = (48,330 / 4,169,659) Ã— 100 â‰ˆ 1.16%
 ```
 
 This is a **highly imbalanced hourly classification task**.
@@ -615,10 +631,10 @@ Therefore the split was created using `subject_id`.
 
 ```text
 Patient A
-├── Stay 1
-├── Stay 2
-└── Stay 3
-        ↓
+â”œâ”€â”€ Stay 1
+â”œâ”€â”€ Stay 2
+â””â”€â”€ Stay 3
+        â†“
 all must belong to ONE split
 ```
 
@@ -659,13 +675,13 @@ sepsis_next_6h
 For a non-septic stay:
 
 ```text
-ICU admission → hourly rows → ICU discharge
+ICU admission â†’ hourly rows â†’ ICU discharge
 ```
 
 For a septic stay:
 
 ```text
-ICU admission → hourly rows → stop BEFORE Sepsis-3 onset
+ICU admission â†’ hourly rows â†’ stop BEFORE Sepsis-3 onset
 ```
 
 ## Final timeline
@@ -688,7 +704,7 @@ Six physiological variables were extracted:
 
 1. Heart rate
 2. Mean arterial pressure (MAP)
-3. SpO₂
+3. SpOâ‚‚
 4. Temperature
 5. Respiratory rate
 6. Glasgow Coma Scale (GCS)
@@ -709,7 +725,7 @@ The hourly vitals table produced:
 | Stays with vitals | **58,813** |
 | HR available | **3,881,092** |
 | MAP available | **3,676,066** |
-| SpO₂ available | **3,807,653** |
+| SpOâ‚‚ available | **3,807,653** |
 | Temperature available | **1,153,539** |
 | Respiratory rate available | **3,817,767** |
 
@@ -743,17 +759,17 @@ Five laboratory variables were selected:
 
 Implementation grouped the measurements using MIMIC-derived concepts:
 
-- lactate → blood-gas derived concept
-- WBC / platelets → complete blood count
-- creatinine → chemistry
-- bilirubin → enzyme/liver-related derived concept
+- lactate â†’ blood-gas derived concept
+- WBC / platelets â†’ complete blood count
+- creatinine â†’ chemistry
+- bilirubin â†’ enzyme/liver-related derived concept
 
 ## 15.3 Observed hourly lab audit
 
 | Item | Count |
 |---|---:|
-| Hours with ≥1 selected lab | **433,384** |
-| Stays with ≥1 selected lab | **53,399** |
+| Hours with â‰¥1 selected lab | **433,384** |
+| Stays with â‰¥1 selected lab | **53,399** |
 | Lactate observations | **117,740** |
 | WBC observations | **255,856** |
 | Creatinine observations | **278,424** |
@@ -784,7 +800,7 @@ After aligning vitals and GCS with all 4,169,659 timeline rows:
 |---|---:|
 | Heart rate | **6.92%** |
 | MAP | **11.84%** |
-| SpO₂ | **8.68%** |
+| SpOâ‚‚ | **8.68%** |
 | Temperature | **72.33%** |
 | Respiratory rate | **8.44%** |
 | GCS | **72.71%** |
@@ -799,7 +815,7 @@ The current implemented methodology uses:
 |---|---:|
 | HR | **4 h** |
 | MAP | **4 h** |
-| SpO₂ | **4 h** |
+| SpOâ‚‚ | **4 h** |
 | Respiratory rate | **4 h** |
 | Temperature | **6 h** |
 | GCS | **6 h** |
@@ -815,7 +831,7 @@ The goal is to use recent information without pretending that a very old observa
 |---|---:|---:|
 | HR | 6.92% | **2.28%** |
 | MAP | 11.84% | **2.89%** |
-| SpO₂ | 8.68% | **2.80%** |
+| SpOâ‚‚ | 8.68% | **2.80%** |
 | Temperature | 72.33% | **6.44%** |
 | Respiratory rate | 8.44% | **3.17%** |
 | GCS | 72.71% | **9.99%** |
@@ -846,7 +862,7 @@ Any value still missing after the allowed LOCF period is filled using a median c
 |---|---:|
 | Heart rate | **83** |
 | MAP | **79** |
-| SpO₂ | **97** |
+| SpOâ‚‚ | **97** |
 | Temperature | **36.89** |
 | Respiratory rate | **19** |
 | GCS | **15** |
@@ -885,7 +901,7 @@ The indicator tells the model whether the feature was actually observed during t
 
 ---
 
-# 17. Variant A — Physiological Baseline
+# 17. Variant A â€” Physiological Baseline
 
 ## Definition
 
@@ -895,7 +911,7 @@ Variant A contains:
 
 - heart rate
 - MAP
-- SpO₂
+- SpOâ‚‚
 - temperature
 - respiratory rate
 - GCS
@@ -930,11 +946,11 @@ Identifiers, timestamps, split labels, and target columns are stored with the da
 
 ### Status
 
-**Variant A construction: ✅ COMPLETE AND FROZEN**
+**Variant A construction: âœ… COMPLETE AND FROZEN**
 
 ---
 
-# 18. Variant B — Flat Treatment Baseline
+# 18. Variant B â€” Flat Treatment Baseline
 
 Variant B asks:
 
@@ -949,14 +965,14 @@ The project converted these intervals into an hourly time-weighted treatment int
 Conceptually, if:
 
 ```text
-10:00–10:15 → dose 0.10
-10:15–11:00 → dose 0.20
+10:00â€“10:15 â†’ dose 0.10
+10:15â€“11:00 â†’ dose 0.20
 ```
 
 the hourly value is:
 
 ```text
-Hourly dose = [0.10 × 15 min + 0.20 × 45 min] / 60 min
+Hourly dose = [0.10 Ã— 15 min + 0.20 Ã— 45 min] / 60 min
             = 0.175
 ```
 
@@ -1016,11 +1032,11 @@ The maximum is an extreme tail value.
 
 ### Status
 
-**Variant B construction: ✅ COMPLETE AND FROZEN**
+**Variant B construction: âœ… COMPLETE AND FROZEN**
 
 ---
 
-# 19. Variant C — Dynamic Treatment-Response Model Input
+# 19. Variant C â€” Dynamic Treatment-Response Model Input
 
 Variant C is the proposed research representation.
 
@@ -1040,7 +1056,7 @@ Variant C therefore does **not** automatically carry the flat NE dose and vasopr
 For each stay:
 
 ```text
-ΔDose_vaso(t) = Dose_vaso(t) - Dose_vaso(t-1)
+Î”Dose_vaso(t) = Dose_vaso(t) - Dose_vaso(t-1)
 ```
 
 ---
@@ -1048,7 +1064,7 @@ For each stay:
 ## 19.2 MAP change
 
 ```text
-ΔMAP(t) = MAP(t) - MAP(t-1)
+Î”MAP(t) = MAP(t) - MAP(t-1)
 ```
 
 ---
@@ -1056,13 +1072,13 @@ For each stay:
 ## 19.3 Treatment-response interaction
 
 ```text
-TRC(t) = ΔDose_vaso(t) × ΔMAP(t)
+TRC(t) = Î”Dose_vaso(t) Ã— Î”MAP(t)
 ```
 
 All three are retained:
 
-- ΔDose_vaso
-- ΔMAP
+- Î”Dose_vaso
+- Î”MAP
 - TRC
 
 This is important because the sign of the product alone can be ambiguous.
@@ -1070,8 +1086,8 @@ This is important because the sign of the product alone can be ambiguous.
 For example:
 
 ```text
-Dose ↑ + MAP ↑ → positive TRC
-Dose ↓ + MAP ↓ → positive TRC
+Dose â†‘ + MAP â†‘ â†’ positive TRC
+Dose â†“ + MAP â†“ â†’ positive TRC
 ```
 
 Both products are positive, but they describe different trajectories.
@@ -1087,8 +1103,8 @@ Therefore:
 ```text
 For the first modeled hour of each stay:
 
-ΔDose_vaso(1) = 0
-ΔMAP(1)       = 0
+Î”Dose_vaso(1) = 0
+Î”MAP(1)       = 0
 TRC(1)        = 0
 ```
 
@@ -1107,14 +1123,14 @@ Example:
 ```text
 Previous dose = 0.0600
 Current dose  = 0.1561
-ΔDose         = +0.0961
+Î”Dose         = +0.0961
 
 Previous MAP = 73
 Current MAP  = 51
-ΔMAP         = -22
+Î”MAP         = -22
 
-TRC = 0.0961 × (-22)
-    ≈ -2.1138
+TRC = 0.0961 Ã— (-22)
+    â‰ˆ -2.1138
 ```
 
 This means:
@@ -1169,10 +1185,10 @@ The implementation does not rank antibiotics according to antimicrobial spectrum
 
 Therefore:
 
-- ✅ **antibiotic intensification**
-- ✅ **increase in concurrent antibiotic therapy**
-- ❌ **validated spectrum escalation**
-- ❌ **stronger antibiotic**
+- âœ… **antibiotic intensification**
+- âœ… **increase in concurrent antibiotic therapy**
+- âŒ **validated spectrum escalation**
+- âŒ **stronger antibiotic**
 
 ## 19.8 Antibiotic audits
 
@@ -1183,7 +1199,7 @@ Therefore:
 | No-antibiotic hours | **2,523,746** |
 | Maximum simultaneous antibiotics | **7** |
 | Intensification hours | **55,879** |
-| Stays with ≥1 intensification | **24,037** |
+| Stays with â‰¥1 intensification | **24,037** |
 | NULL intensification flags | **0** |
 
 ## 19.9 Variant C final audit
@@ -1202,15 +1218,15 @@ Therefore:
 ## 19.10 Variant C feature count
 
 - 22 Variant A features
-- ΔMAP
-- ΔDose
+- Î”MAP
+- Î”Dose
 - TRC
 - antibiotic intensification
 - **26 total model inputs**
 
 ### Status
 
-**Variant C construction: ✅ COMPLETE AND FROZEN**
+**Variant C construction: âœ… COMPLETE AND FROZEN**
 
 ---
 
@@ -1406,16 +1422,16 @@ This section records decisions that should not be forgotten later.
 
 ---
 
-## Decision 1 — Reject universal expected-MAP formula
+## Decision 1 â€” Reject universal expected-MAP formula
 
-### Previous idea — rejected
+### Previous idea â€” rejected
 
 An early proposal version used:
 
 ```text
 REJECTED FORMULA:
 
-MAP_expected(t) = 65 + α × Dose_NE(t)
+MAP_expected(t) = 65 + Î± Ã— Dose_NE(t)
 ```
 
 and:
@@ -1428,7 +1444,7 @@ delta_vaso = MAP_actual - MAP_expected
 
 ### Why rejected
 
-A universal fixed α for heterogeneous ICU patients was not sufficiently justified.
+A universal fixed Î± for heterogeneous ICU patients was not sufficiently justified.
 
 Using an arbitrary coefficient would make the proposed feature look physiologically precise without a defensible universal mapping.
 
@@ -1439,16 +1455,16 @@ Use observed temporal changes:
 ```text
 FINAL DYNAMIC FORMULATION:
 
-ΔDose(t) = Dose(t) - Dose(t-1)
-ΔMAP(t)  = MAP(t) - MAP(t-1)
-TRC(t)   = ΔDose(t) × ΔMAP(t)
+Î”Dose(t) = Dose(t) - Dose(t-1)
+Î”MAP(t)  = MAP(t) - MAP(t-1)
+TRC(t)   = Î”Dose(t) Ã— Î”MAP(t)
 ```
 
-**Status: ✅ finalized**
+**Status: âœ… finalized**
 
 ---
 
-## Decision 2 — TRC is not causal
+## Decision 2 â€” TRC is not causal
 
 TRC represents concurrent temporal movement.
 
@@ -1460,17 +1476,17 @@ All writing, SHAP interpretation, and dashboard wording must preserve this disti
 
 ---
 
-## Decision 3 — Antibiotic "intensification", not "spectrum escalation"
+## Decision 3 â€” Antibiotic "intensification", not "spectrum escalation"
 
 The implementation measures increased concurrent antibiotic count.
 
 No validated antimicrobial-spectrum hierarchy has been implemented.
 
-**Status: ✅ finalized terminology**
+**Status: âœ… finalized terminology**
 
 ---
 
-## Decision 4 — Variant C does not inherit Variant B
+## Decision 4 â€” Variant C does not inherit Variant B
 
 Final experimental logic:
 
@@ -1482,35 +1498,35 @@ B = physiology + flat treatment
 C = physiology + dynamic treatment-response
 ```
 
-**Status: ✅ finalized**
+**Status: âœ… finalized**
 
 ---
 
-## Decision 5 — Split by patient before data-dependent preprocessing
+## Decision 5 â€” Split by patient before data-dependent preprocessing
 
 All stays from one `subject_id` remain in the same split.
 
-**Status: ✅ completed**
+**Status: âœ… completed**
 
 ---
 
-## Decision 6 — Median statistics from training only
+## Decision 6 â€” Median statistics from training only
 
 Validation/test values cannot influence imputation statistics.
 
-**Status: ✅ completed**
+**Status: âœ… completed**
 
 ---
 
-## Decision 7 — Normalization is NOT completed yet
+## Decision 7 â€” Normalization is NOT completed yet
 
 The roadmap/thesis must not claim that z-score scaling has already been executed.
 
-**Status: 🟡 next stage**
+**Status: ðŸŸ¡ next stage**
 
 ---
 
-## Decision 8 — Downstream AI components remain prospective
+## Decision 8 â€” Downstream AI components remain prospective
 
 The following are still planned:
 
@@ -1549,8 +1565,8 @@ They must not be described as completed results.
 - [x] Variant A
 - [x] Hourly vasopressor representation
 - [x] Variant B
-- [x] ΔMAP
-- [x] ΔDose
+- [x] Î”MAP
+- [x] Î”Dose
 - [x] TRC
 - [x] Hourly antibiotic count
 - [x] Antibiotic intensification
@@ -1560,9 +1576,10 @@ They must not be described as completed results.
 ## Not completed
 
 - [ ] Final methodology figure updates
+- [ ] Final bibliography/citation-context verification in the report
 - [ ] Immutable table snapshots/version tags
-- [ ] Parquet export
-- [ ] Export manifest verification
+- [ ] BigQuery-to-training transfer decision and implementation
+- [ ] Transfer/export manifest verification
 - [ ] Train-only normalization
 - [ ] Sequence-length analysis
 - [ ] Final sequence strategy
@@ -1592,29 +1609,40 @@ They must not be described as completed results.
 
 ---
 
-# 25. What We Do Next — Detailed Execution Plan
+# 25. What We Do Next â€” Detailed Execution Plan
 
 The next stages should be done in order.
 
 ```mermaid
-flowchart LR
-    F["Update Figures"] --> S["Freeze Dataset Version"]
-    S --> E["Export Parquet"]
-    E --> V["Verify Export"]
-    V --> N["Train-Only Normalization"]
-    N --> Q["Sequence Construction"]
-    Q --> G["Finalize GRU"]
-    G --> A["Train A"]
-    A --> B["Train B"]
-    B --> C["Train C"]
-    C --> T["Final Test Evaluation"]
-    T --> R["Calibration / SHAP / Fairness"]
-    R --> P["Prototype"]
+flowchart TD
+    F["Synchronize report"] --> S["Freeze dataset version"]
+    S --> E["Transfer one split and variant"]
+    E --> V["Verify handoff"]
+    V --> N["Normalize from train only"]
+    N --> Q["Build sequences"]
+    Q --> G["Freeze common GRU protocol"]
+    G --> M["Train A, B, and C"]
+    M --> T["Locked test evaluation"]
+    T --> R["Calibration, SHAP, and fairness"]
+    R --> P["Retrospective prototype"]
 ```
 
 ---
 
-# 26. Phase 1 Next — Synchronize Methodology Figures
+# 26. Report Synchronization Before Modeling
+
+The literature review, introduction, and motivation have been restructured around the two gaps, but this remains a **report draft** until the final bibliography and citation-context check is complete. Do not change the technical definition of A/B/C merely to match an older sentence or figure.
+
+## Literature-review quality gate
+
+- [x] Opens with the clinical and early-warning problem.
+- [x] Moves from traditional scores to time-series machine learning.
+- [x] Synthesizes what prior sepsis-prediction studies achieved.
+- [x] Identifies the flat-treatment representation limitation.
+- [x] Connects calibration, explainability, subgroup analysis, and human oversight to the second gap.
+- [x] Ends by stating what the present project proposes without claiming results.
+- [x] Uses seven representative papers in the summary table rather than eleven.
+- [ ] Verify every author/year/citation key against the final bibliography and confirm that each cited paper supports the sentence in which it appears.
 
 ## What to update
 
@@ -1641,12 +1669,12 @@ Variant B
 A + NE-equivalent dose + vaso-active
 
 Variant C
-A + ΔMAP + ΔDose + TRC + antibiotic intensification
+A + Î”MAP + Î”Dose + TRC + antibiotic intensification
 ```
 
 ### Figure 4.1
 
-Check terminology only. Remove any outdated reference to expected MAP / α.
+Check terminology only. Remove any outdated reference to expected MAP / Î±.
 
 ### Figures 4.5 and 4.6
 
@@ -1654,14 +1682,14 @@ Likely no conceptual change unless they explicitly show the obsolete feature def
 
 ## Completion criterion
 
-- [ ] No figure contains expected-MAP/α logic.
+- [ ] No figure contains expected-MAP/Î± logic.
 - [ ] No figure calls concurrent-antibiotic count a validated spectrum escalation.
 - [ ] Variant C is visually separate from Variant B.
 - [ ] Figure labels agree with methodology text.
 
 ---
 
-# 27. Phase 2 Next — Freeze and Version the Datasets
+# 27. Phase 2 Next â€” Freeze and Version the Datasets
 
 Before exporting anything, create a reproducibility snapshot.
 
@@ -1711,13 +1739,28 @@ exists and matches BigQuery.
 
 ---
 
-# 28. Phase 3 Next — Export BigQuery Data for Training
+# 28. Phase 3 Next â€” Transfer BigQuery Data for Training
 
-## Recommended format
+The data currently remains in BigQuery. That is acceptable. Do not export all three variants at once merely because training will eventually occur outside BigQuery.
 
-**Parquet**, not one giant CSV.
+## Recommended first route
 
-Why:
+1. Query exactly one variant and one split.
+2. Select only identifiers, timestamp, label, and that variant's frozen feature list.
+3. Sort by `stay_id, hour` after loading.
+4. Run the handoff checks below.
+5. Continue directly in Python if memory and repeated-access cost are acceptable.
+
+## When to use private Parquet
+
+Use **Parquet**, not one giant CSV, when:
+
+- the same rows will be read repeatedly,
+- the download is too slow to repeat,
+- RAM requires chunked/lazy reading,
+- the team wants a reproducible private training snapshot.
+
+Parquet is useful because it is:
 
 - columnar,
 - compressed,
@@ -1726,25 +1769,25 @@ Why:
 - easier to process in chunks,
 - much more suitable for millions of rows.
 
-## Recommended organization
+## Recommended private organization, if Parquet is used
 
 ```text
 private_data/
-├── variant_a/
-│   ├── train/
-│   ├── validation/
-│   └── test/
-├── variant_b/
-│   ├── train/
-│   ├── validation/
-│   └── test/
-└── variant_c/
-    ├── train/
-    ├── validation/
-    └── test/
+â”œâ”€â”€ variant_a/
+â”‚   â”œâ”€â”€ train/
+â”‚   â”œâ”€â”€ validation/
+â”‚   â””â”€â”€ test/
+â”œâ”€â”€ variant_b/
+â”‚   â”œâ”€â”€ train/
+â”‚   â”œâ”€â”€ validation/
+â”‚   â””â”€â”€ test/
+â””â”€â”€ variant_c/
+    â”œâ”€â”€ train/
+    â”œâ”€â”€ validation/
+    â””â”€â”€ test/
 ```
 
-## Example BigQuery export pattern
+## Example optional BigQuery export pattern
 
 Replace the bucket placeholder with the team's private Google Cloud Storage bucket.
 
@@ -1760,16 +1803,16 @@ WHERE dataset_split = 'train'
 ORDER BY stay_id, hour;
 ```
 
-Repeat for:
+If the team adopts this route, repeat for:
 
 - validation,
 - test,
 - Variant B,
 - Variant C.
 
-## Export validation
+## Handoff validation
 
-For every exported split:
+For every queried or exported split:
 
 1. count rows,
 2. count unique stays,
@@ -1783,13 +1826,13 @@ For every exported split:
 ## Decision gate
 
 > [!IMPORTANT]
-> **DO NOT normalize or train until exported counts match BigQuery.**
+> **DO NOT normalize or train until transferred counts, keys, labels, and schemas match BigQuery.**
 
 ## Memory strategy
 
 Do not assume all 4.17 million rows must be loaded into RAM simultaneously.
 
-Use:
+When Parquet is needed, use:
 
 - PyArrow datasets,
 - Parquet row groups,
@@ -1798,7 +1841,7 @@ Use:
 
 ---
 
-# 29. Phase 4 Next — Training-Only Normalization
+# 29. Phase 4 Next â€” Training-Only Normalization
 
 Median imputation has been completed.
 
@@ -1814,7 +1857,7 @@ X_normalized = (X - mean_train) / std_train
 
 ## Training-only rule
 
-Compute μ and σ from the **training split only**.
+Compute Î¼ and Ïƒ from the **training split only**.
 
 Then apply the same values to:
 
@@ -1828,7 +1871,7 @@ Then apply the same values to:
 
 - heart rate
 - MAP
-- SpO₂
+- SpOâ‚‚
 - temperature
 - respiratory rate
 - GCS
@@ -1875,8 +1918,8 @@ artifacts/scalers_v1.json
 
 Training continuous variables should be approximately:
 
-- mean ≈ 0
-- standard deviation ≈ 1
+- mean â‰ˆ 0
+- standard deviation â‰ˆ 1
 
 Validation/test do **not** need mean 0.
 
@@ -1885,7 +1928,7 @@ Validation/test do **not** need mean 0.
 
 ---
 
-# 30. Phase 5 Next — GRU Sequence Construction
+# 30. Phase 5 Next â€” GRU Sequence Construction
 
 Rows must now become sequences.
 
@@ -1919,17 +1962,17 @@ where:
 
 ```text
 Stay 123
-├── Hour 1 → x1, y1
-├── Hour 2 → x2, y2
-├── Hour 3 → x3, y3
-└── Hour T → xT, yT
+â”œâ”€â”€ Hour 1 â†’ x1, y1
+â”œâ”€â”€ Hour 2 â†’ x2, y2
+â”œâ”€â”€ Hour 3 â†’ x3, y3
+â””â”€â”€ Hour T â†’ xT, yT
 ```
 
 ## Major design decision still pending
 
 We have not yet frozen whether training will use:
 
-### Option A — full ICU sequences
+### Option A â€” full ICU sequences
 
 Advantages:
 
@@ -1940,7 +1983,7 @@ Challenges:
 
 - very long stays create memory/padding inefficiency.
 
-### Option B — fixed-length rolling windows
+### Option B â€” fixed-length rolling windows
 
 Examples:
 
@@ -1992,7 +2035,7 @@ and the same stay/hour order must be recoverable for debugging.
 
 ---
 
-# 31. Phase 6 Next — Finalize the GRU Experiment
+# 31. Phase 6 Next â€” Finalize the GRU Experiment
 
 The model configuration should be frozen **before** final A/B/C training.
 
@@ -2038,6 +2081,13 @@ Run small development experiments using train/validation only to verify:
 
 Then freeze one configuration for A/B/C.
 
+## Predeclared validation and seed rule
+
+- Use validation AUPRC as the primary checkpoint/early-stopping metric because the hourly positive class is rare.
+- Use validation AUROC as a secondary metric and validation NLL as a later tie-breaker.
+- Use at least three fixed random seeds if compute permits, and apply the same seeds to A/B/C.
+- Do not choose a different architecture, stopping rule, or seed after inspecting test results.
+
 ## Reproducibility
 
 Record:
@@ -2058,14 +2108,14 @@ Record:
 
 ---
 
-# 32. Phase 7 Next — Train GRU-A, GRU-B, GRU-C
+# 32. Phase 7 Next â€” Train GRU-A, GRU-B, GRU-C
 
 Train one model per variant.
 
 ```text
-Variant A → GRU-A
-Variant B → GRU-B
-Variant C → GRU-C
+Variant A â†’ GRU-A
+Variant B â†’ GRU-B
+Variant C â†’ GRU-C
 ```
 
 ## Do not modify training rules between models
@@ -2091,13 +2141,15 @@ Save per epoch:
 
 Save best checkpoint according to one predefined validation rule.
 
+For this project, the default rule is **highest validation AUPRC**. If a different rule is approved, record it before the locked test run.
+
 Example:
 
 ```text
 checkpoints/
-├── gru_a_best.pt
-├── gru_b_best.pt
-└── gru_c_best.pt
+â”œâ”€â”€ gru_a_best.pt
+â”œâ”€â”€ gru_b_best.pt
+â””â”€â”€ gru_c_best.pt
 ```
 
 ## Class imbalance
@@ -2115,9 +2167,11 @@ Do not copy the global imbalance ratio blindly.
 
 ---
 
-# 33. Phase 8 Next — Final Evaluation and Ablation Analysis
+# 33. Phase 8 Next â€” Final Evaluation and Ablation Analysis
 
 After training/hyperparameter decisions are complete, perform the final evaluation on the untouched test set.
+
+The locked test stage begins only after feature order, normalization, sequence strategy, architecture, seeds, checkpoint rule, calibration procedure, and classification-threshold rule have been frozen. Evaluate all three variants under the same protocol. Do not repeatedly use test results to revise the pipeline.
 
 ## Primary discrimination metrics
 
@@ -2144,6 +2198,10 @@ If a classification threshold is needed:
 
 Never choose a threshold because it looks good on test data.
 
+## Prototype checkpoint selection
+
+Choose the single checkpoint used by the prototype from validation performance only. A defensible predeclared rule is: select the variant using the mean validation AUPRC across seeds, then use that variant's seed/checkpoint with the highest validation AUPRC. Report the multi-seed test results as the scientific comparison; do not choose the demonstration checkpoint because it happened to score highest on test.
+
 ## Research interpretation
 
 ### If B > A
@@ -2158,7 +2216,7 @@ Dynamic treatment-response features add signal beyond physiology.
 
 This is the most direct support for the project's central claim that dynamic representation adds value beyond flat treatment representation.
 
-### If C ≈ B or C < B
+### If C â‰ˆ B or C < B
 
 That is still a scientifically valid result.
 
@@ -2166,7 +2224,7 @@ Do not force the expected conclusion.
 
 ---
 
-# 34. Phase 9 Next — Statistical Uncertainty
+# 34. Phase 9 Next â€” Statistical Uncertainty
 
 Hourly rows from the same patient are correlated.
 
@@ -2174,7 +2232,7 @@ Therefore, uncertainty should not be estimated by pretending all 4.17 million ro
 
 ## Recommended approach
 
-Use patient- or stay-level bootstrap resampling for:
+Use **patient-level bootstrap resampling** for:
 
 - AUROC confidence intervals,
 - AUPRC confidence intervals,
@@ -2185,6 +2243,8 @@ Use patient- or stay-level bootstrap resampling for:
 ## Paired comparison
 
 Because all variants predict on the same patients/hours, use paired resampling when comparing model metrics.
+
+Resample the same `subject_id` values for A, B, and C in each replicate. Stay-level resampling is not the primary choice because one patient can contribute more than one ICU stay.
 
 Record:
 
@@ -2198,7 +2258,7 @@ seed
 
 ---
 
-# 35. Phase 10 Next — Probability Calibration
+# 35. Phase 10 Next â€” Probability Calibration
 
 Calibration is performed **after model training**.
 
@@ -2226,14 +2286,25 @@ where `T` is fitted on validation data.
 - Brier score if adopted
 - reliability diagram
 
+Use a single documented ECE binning rule, such as ten equal-width bins, for every model. Calibration changes the mapping from logits to probabilities; it should not be described as improving discrimination automatically.
+
 > [!WARNING]
 > Do not fit temperature on the test set.
 
 ---
 
-# 36. Phase 11 Next — Explainability
+# 36. Phase 11 Next â€” Explainability
 
 The selected model will be analyzed using SHAP or a compatible recurrent-model attribution approach.
+
+## Freeze the explanation target
+
+Explain the model output for one patient-hour using a **fixed 24-hour window ending at that hour**. Keep the model weights, scaler, feature order, padding rule, and fitted temperature fixed. Display both:
+
+- timestep-specific contributions, and
+- absolute contributions aggregated across the 24-hour window.
+
+For calibrated explanations, explain the **calibrated logit** (`raw_logit / temperature`) through a wrapper. Do not casually label a SHAP value as a change of probability percentage points, because the sigmoid is nonlinear.
 
 ## Procedure
 
@@ -2245,10 +2316,23 @@ The selected model will be analyzed using SHAP or a compatible recurrent-model a
    - timestep,
    - patient/stay.
 
+First test `DeepExplainer` on ten fixed windows. Check output shape, finite values, and approximate additivity. If it fails or is unstable with the recurrent/masking implementation, record the reason and use `GradientExplainer`. Do not silently change explainers after viewing attractive results.
+
+## Feasibility gate
+
+Before promising explanations for the entire test set:
+
+1. precompute explanations for 100 representative patient-hours,
+2. record runtime, memory use, saved-file size, and failure rate,
+3. extrapolate the cost to the planned scope,
+4. obtain supervisor agreement if the proposal's original scope must be reduced.
+
+The dashboard may use a precomputed representative subset if full-test explanation is computationally infeasible, but the limitation and selection rule must be reported.
+
 ## Key questions
 
 - Is TRC influential?
-- Are ΔDose and ΔMAP influential?
+- Are Î”Dose and Î”MAP influential?
 - Does antibiotic intensification contribute?
 - Are explanations physiologically plausible?
 - Does the model depend excessively on missingness indicators?
@@ -2259,7 +2343,7 @@ The selected model will be analyzed using SHAP or a compatible recurrent-model a
 
 ---
 
-# 37. Phase 12 Next — Fairness Evaluation
+# 37. Phase 12 Next â€” Fairness Evaluation
 
 Fairness variables are primarily for evaluation, not automatically model inputs.
 
@@ -2276,8 +2360,8 @@ Age bins should be made non-overlapping before analysis.
 For example:
 
 ```text
-18–40
-41–64
+18â€“40
+41â€“64
 65+
 ```
 
@@ -2295,7 +2379,7 @@ Small subgroups must be interpreted cautiously.
 
 ---
 
-# 38. Phase 13 Next — Error Analysis and Robustness
+# 38. Phase 13 Next â€” Error Analysis and Robustness
 
 Do not stop after reporting one AUROC number.
 
@@ -2323,7 +2407,7 @@ These must be labeled secondary/sensitivity analyses, not silently mixed with th
 
 ---
 
-# 39. Phase 14 Next — Prototype System
+# 39. Phase 14 Next â€” Prototype System
 
 This comes after the model experiment.
 
@@ -2331,11 +2415,13 @@ Planned stack:
 
 ```text
 PostgreSQL
-    ↓
+    â†“
 FastAPI
-    ↓
+    â†“
 React
 ```
+
+BigQuery remains the source of truth for the full research dataset. PostgreSQL should store only the de-identified dashboard/test subset, predictions, explanations, treatment events, and model metadata needed by the prototype. Duplicating the complete processed cohort into PostgreSQL requires a clear operational reason and supervisor agreement.
 
 ## PostgreSQL
 
@@ -2364,10 +2450,12 @@ If the user modifies a treatment value, derived treatment-response variables mus
 
 For example, changing dose can affect:
 
-- ΔDose
+- Î”Dose
 - TRC
 
 Do not allow mutually inconsistent feature vectors.
+
+Use **model-behaviour simulation** as the primary interface label. If the word counterfactual is retained for consistency with the project title, accompany it with a clear statement that the output shows how the fitted model changes under an edited input; it does not estimate the causal effect of a treatment.
 
 ## Safety framing
 
@@ -2389,7 +2477,7 @@ Official owner assignment has not yet been frozen in this roadmap.
 
 The team should assign one primary owner and at least one backup for each workstream.
 
-## Workstream A — Data and Reproducibility
+## Workstream A â€” Data and Reproducibility
 
 ### Must understand
 
@@ -2401,18 +2489,18 @@ The team should assign one primary owner and at least one backup for each workst
 - LOCF
 - missingness indicators
 - A/B/C lineage
-- Parquet export
+- split-wise BigQuery loading and optional private Parquet export
 
 ### Next deliverables
 
 - dataset manifest
-- export scripts
+- query/export scripts
 - row-count validation
-- private storage organization
+- private storage organization if Parquet is adopted
 
 ---
 
-## Workstream B — GRU / Machine Learning
+## Workstream B â€” GRU / Machine Learning
 
 ### Must understand
 
@@ -2436,7 +2524,7 @@ The team should assign one primary owner and at least one backup for each workst
 
 ---
 
-## Workstream C — Evaluation / Responsible AI
+## Workstream C â€” Evaluation / Responsible AI
 
 ### Must understand
 
@@ -2459,7 +2547,7 @@ The team should assign one primary owner and at least one backup for each workst
 
 ---
 
-## Workstream D — System / Documentation
+## Workstream D â€” System / Documentation
 
 ### Must understand
 
@@ -2497,7 +2585,7 @@ A more defensible status is:
 
 ## Data-engineering milestone
 
-**≈ 100% complete for the currently defined A/B/C dataset-construction stage.**
+**â‰ˆ 100% complete for the currently defined A/B/C dataset-construction stage.**
 
 ## Overall project
 
@@ -2514,7 +2602,7 @@ A reasonable milestone-based description is:
 
 > **The project has completed its major data-engineering foundation and all three ablation datasets. Modeling and downstream evaluation/system work remain.**
 
-If a rough range is required for team planning, use **approximately 35–45% of the full end-to-end project**, with the explicit note that this is a milestone estimate, not a measured percentage.
+If a rough range is required for team planning, use **approximately 35â€“45% of the full end-to-end project**, with the explicit note that this is a milestone estimate, not a measured percentage.
 
 ---
 
@@ -2568,9 +2656,13 @@ Document every methodology change after the dataset freeze.
 | Extreme treatment values | Can distort scaling/training | inspect train distribution; sensitivity analysis if needed |
 | Very long ICU sequences | GPU/padding issues | analyze sequence lengths before choosing strategy |
 | Class imbalance | Model predicts mostly zero | train-set class weighting + AUPRC |
-| Correlated hourly rows | Overconfident CIs | bootstrap by stay/patient |
+| Correlated hourly rows | Overconfident CIs | paired bootstrap by patient |
 | TRC causal overclaim | Scientifically incorrect | describe as temporal interaction only |
-| Antibiotic terminology | Count increase ≠ broader spectrum | call it intensification |
+| Antibiotic terminology | Count increase â‰  broader spectrum | call it intensification |
+| Model chosen from test performance | Optimistic final result | choose variant/checkpoint from validation only |
+| SHAP scope too expensive | Explainability stage stalls | benchmark 100 windows and document any scope change |
+| What-if output treated as causal | Unsafe interpretation | label as model-behaviour simulation + persistent disclaimer |
+| Full cohort duplicated in PostgreSQL | Unnecessary privacy/storage burden | keep BigQuery as source of truth; store only prototype subset/artifacts |
 | MIMIC redistribution | DUA/privacy violation | never publish exported patient-level data |
 | Figure/method mismatch | Defense confusion | synchronize figures before next modeling phase |
 
@@ -2587,7 +2679,7 @@ Document every methodology change after the dataset freeze.
 - [ ] SQL files committed to repository
 - [ ] Dataset table manifest committed
 - [ ] BigQuery schemas exported/documented
-- [ ] Parquet export manifest created
+- [ ] BigQuery-to-training transfer manifest created
 - [ ] Normalization parameters stored
 - [ ] Feature-order files stored
 - [ ] Sequence strategy documented
@@ -2612,10 +2704,19 @@ Document every methodology change after the dataset freeze.
 - [x] A/B/C definitions
 - [x] TRC equation updated
 - [x] Antibiotic intensification terminology
-- [x] Old α-expected-MAP formula removed
+- [x] Old Î±-expected-MAP formula removed
 - [ ] Update feature-engineering figure
 - [ ] Update ablation figure
 - [ ] Check overview figure
+
+## Literature review and framing
+
+- [x] Introduction and motivation aligned with the two research gaps
+- [x] Literature review rewritten with paragraph-to-paragraph flow
+- [x] Summary table reduced to seven representative papers
+- [ ] Verify all citation keys, author/year fields, titles, venues, and DOI/URLs against the final bibliography
+- [ ] Confirm that each in-text claim is supported by the cited paper's actual scope
+- [ ] Keep all statements about the proposed framework in future/conditional tense until results exist
 
 ## Results
 
@@ -2646,7 +2747,7 @@ Later generate:
 6. Why bounded LOCF?
 7. Why training-only medians?
 8. What is the difference between Variant B and C?
-9. Why was the expected-MAP/α formula removed?
+9. Why was the expected-MAP/Î± formula removed?
 10. What does TRC mean?
 11. Why is TRC not causal?
 12. Why call the antibiotic feature intensification?
@@ -2765,7 +2866,7 @@ __pycache__/
 
 - [x] Extract HR
 - [x] Extract MAP
-- [x] Extract SpO₂
+- [x] Extract SpOâ‚‚
 - [x] Extract temperature
 - [x] Extract respiratory rate
 - [x] Extract GCS
@@ -2782,7 +2883,7 @@ __pycache__/
 
 ## H. Missing-data preprocessing
 
-- [x] 4-hour LOCF for HR/MAP/SpO₂/RR
+- [x] 4-hour LOCF for HR/MAP/SpOâ‚‚/RR
 - [x] 6-hour LOCF for temperature/GCS
 - [x] 24-hour LOCF for labs
 - [x] Create missingness indicators
@@ -2811,9 +2912,9 @@ __pycache__/
 
 ## K. Variant C
 
-- [x] Reject expected-MAP/α formulation
-- [x] Define ΔDose
-- [x] Define ΔMAP
+- [x] Reject expected-MAP/Î± formulation
+- [x] Define Î”Dose
+- [x] Define Î”MAP
 - [x] Define TRC
 - [x] Prototype-test dynamic calculation
 - [x] Build hourly active-antibiotic counts
@@ -2826,8 +2927,8 @@ __pycache__/
 
 - [x] Update treatment-response methodology text
 - [x] Correct Variant C definition
-- [x] Change escalation → intensification
-- [x] Remove universal α
+- [x] Change escalation â†’ intensification
+- [x] Remove universal Î±
 - [ ] Update Figure 4.3
 - [ ] Update Figure 4.4.3
 - [ ] Review Figure 4.1
@@ -2837,11 +2938,10 @@ __pycache__/
 - [ ] Create dataset manifest
 - [ ] Record schemas
 - [ ] Record BigQuery table metadata
-- [ ] Create private GCS location
-- [ ] Export Variant A train/val/test Parquet
-- [ ] Export Variant B train/val/test Parquet
-- [ ] Export Variant C train/val/test Parquet
-- [ ] Verify export row counts
+- [ ] Test direct loading of one variant/split
+- [ ] Decide whether persistent private Parquet is needed
+- [ ] If needed, create private GCS location and export A/B/C by split
+- [ ] Verify transferred row counts
 - [ ] Verify duplicate keys
 - [ ] Verify patient separation
 
@@ -2946,7 +3046,7 @@ __pycache__/
 
 The following are the main authoritative references this roadmap is grounded in. Map them to the final thesis bibliography.
 
-1. **MIMIC-IV v3.1 — PhysioNet**  
+1. **MIMIC-IV v3.1 â€” PhysioNet**  
    Johnson A, Bulgarelli L, Pollard T, et al. *MIMIC-IV (version 3.1).* PhysioNet, 2024.  
    https://physionet.org/content/mimiciv/3.1/
 
@@ -2961,7 +3061,7 @@ The following are the main authoritative references this roadmap is grounded in.
    https://github.com/MIT-LCP/mimic-code/blob/main/mimic-iv/concepts_postgres/sepsis/sepsis3.sql
 
 5. **Sepsis-3**  
-   Singer M, Deutschman CS, Seymour CW, et al. *The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3).* JAMA. 2016;315(8):801–810.  
+   Singer M, Deutschman CS, Seymour CW, et al. *The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3).* JAMA. 2016;315(8):801â€“810.  
    https://doi.org/10.1001/jama.2016.0287
 
 6. **GRU / RNN Encoder-Decoder**  
@@ -2980,11 +3080,28 @@ The following are the main authoritative references this roadmap is grounded in.
    Google Cloud. *Export statements in GoogleSQL / Export table data to Cloud Storage.*  
    https://docs.cloud.google.com/bigquery/docs/reference/standard-sql/export-statements
 
+10. **PyTorch GRU documentation**  
+    PyTorch. *torch.nn.GRU.*  
+    https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html
+
+11. **PyTorch packed-sequence documentation**  
+    PyTorch. *pack_padded_sequence.*  
+    https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.rnn.pack_padded_sequence.html
+
+12. **SHAP explainer documentation**  
+    SHAP. *DeepExplainer and GradientExplainer.*  
+    https://shap.readthedocs.io/en/latest/generated/shap.DeepExplainer.html  
+    https://shap.readthedocs.io/en/latest/generated/shap.GradientExplainer.html
+
+13. **FastAPI request-body documentation**  
+    FastAPI. *Request Body.*  
+    https://fastapi.tiangolo.com/tutorial/body/
+
 ---
 
 # 49. Change Log
 
-## Version 1.0 — 13 August 2026
+## Version 1.0 â€” 13 August 2026
 
 Created as the team's master project roadmap after completion of the A/B/C BigQuery dataset-construction stage.
 
@@ -2998,20 +3115,36 @@ Created as the team's master project roadmap after completion of the A/B/C BigQu
 - Variant A physiology baseline,
 - Variant B flat vasopressor baseline,
 - Variant C dynamic treatment-response representation,
-- rejection of expected-MAP/α formula,
-- ΔMAP, ΔDose, and TRC retained separately,
+- rejection of expected-MAP/Î± formula,
+- Î”MAP, Î”Dose, and TRC retained separately,
 - antibiotic "intensification" terminology,
 - Variant C does not inherit Variant B's flat predictors,
 - BigQuery A/B/C tables structurally audited and frozen for the current methodology.
+
+## Version 1.1 â€” 21 August 2026
+
+Aligned the roadmap with the revised report framing and the detailed post-examination continuation plan.
+
+### Main updates
+
+- recorded the two connected research gaps,
+- recorded completion of the revised literature-review structure and seven-paper summary table,
+- kept final reference validation as an explicit report-quality gate,
+- changed mandatory Parquet export into a verified BigQuery-to-Python handoff decision,
+- made validation AUPRC the default checkpoint rule and added a multi-seed protocol,
+- required patient-level paired bootstrap for model comparisons,
+- required validation-only selection of the prototype checkpoint,
+- defined fixed-window SHAP output, explainer fallback, and a feasibility benchmark,
+- kept BigQuery as the full-data source of truth and limited PostgreSQL to prototype needs,
+- reframed counterfactual output as non-causal model-behaviour simulation.
 
 ---
 
 ## Final Reminder
 
 > **Current position:**  
-> We have the datasets.  
+> We have the frozen Phase 1 datasets in BigQuery and the aligned report framing.  
 > We have not trained the GRUs yet.
 >
 > **Immediate next order:**  
-> Figures → dataset freeze/manifest → Parquet export → validation → training-only normalization → sequence construction → GRU experiment.
-
+> Final report/figure QA â†’ dataset manifest â†’ verified data handoff â†’ training-only normalization â†’ sequence construction â†’ one correct Variant A pilot â†’ frozen A/B/C experiment.

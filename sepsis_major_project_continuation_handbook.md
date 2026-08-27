@@ -171,25 +171,34 @@ Variant C intentionally does not simultaneously include the flat dose and vasopr
 Complete this block and commit the document to the private project repository. Do not place passwords, service-account keys, or MIMIC-derived data in Git.
 
 ```yaml
-gcp_project_id: FILL_ME
-bigquery_location: FILL_ME
-bigquery_dataset_id: FILL_ME
+BigQuery project: sepsis-gru-mimic
+Dataset: sepsis_gru
 
-variant_a_table: FILL_ME
-variant_b_table: FILL_ME
-variant_c_table: FILL_ME
+Variant A: variant_a
+Variant B: variant_b
+Variant C: variant_c
 
-split_column: FILL_ME
-label_column: FILL_ME
-patient_id_column: subject_id
-stay_id_column: stay_id
-hour_column: FILL_ME
+Patient ID: subject_id
+Stay ID: stay_id
+Hour column: hour
+Split column: dataset_split
+Label column: sepsis_next_6h
 
-bigquery_saved_query_folder: FILL_ME
-github_repository: FILL_ME
-latest_git_commit: FILL_ME
-team_shared_document_folder: FILL_ME
-physionet_access_owner: FILL_ME
+Rows: 4,169,659
+Patients: 46,494
+ICU stays: 59,662
+Positive hours: 48,330
+Negative hours: 4,121,329
+
+Split:
+train = 32,500 patients
+validation = 6,929
+test = 7,065
+
+Patient leakage = 0
+A/B mismatch = 0
+A/C mismatch = 0
+Variant C dynamic nulls = 0
 ```
 
 Also record:

@@ -1,7 +1,7 @@
 # Sepsis-GRU V2 Master Research Handbook
 
 **Research title:** Treatment-Response Coupling in GRU-Based Sepsis Prediction: A Calibrated, Explainable, and Counterfactual Framework  
-**Version:** 1.1 — team-review draft with proposed post-training demonstrator  
+**Version:** 1.2 — team-review draft with verified diagrams and text alternatives  
 **Last updated / source reviewed:** 2026-10-23 (Asia/Katmandu)  
 **Owner:** Research lead / documentation maintainer — person to be assigned  
 **Source Git commit:** `1e6914c13089c783baecde95715caef545cd403d`  
@@ -67,6 +67,12 @@ This is the team's operating and learning manual, not a replacement for source c
 > **Single next recommended action:** arrange a supervisor/institutional execution-and-retention decision: record the supported methodology version and approval reference, nominate an authorized storage/compute environment and an owner for preserving the expiring V2 snapshot. Do this before transferring data or launching training. Complete this decision record rather than reopen broad source audits.
 
 **Step 83 documentation status:** this handbook and its system-development addendum are prepared for review and remain uncommitted. The last completed committed milestone is still Step 82. [Part VI](#part-vi) proposes a local fictional-input demonstrator; neither its implementation nor its scope is approved by this design. If research training/analysis has since finished, use [the system checklist](#chapter-40) to find the next software task and [local presentation guidance](#chapter-37) before trying to launch an app. No application startup command exists yet.
+
+### Diagram display on GitHub
+
+The handbook contains 12 Mermaid diagrams. If GitHub shows **Unable to render rich display**, expand **Diagram text alternative (no Mermaid required)** below the affected diagram; it contains the same connections and branch conditions as a normal Markdown table. These alternatives do not change the research workflow.
+
+Rendering verification: all 12 original diagrams rendered successfully with Mermaid 11.12.0 in a temporary headless browser. The supplied GitHub page was also checked: its 12 diagram frames were present with no rich-display error, and the first and final diagrams were visually confirmed. The earlier reported failure was not reproduced; its cause is unconfirmed. If it recurs, try a hard refresh (`Ctrl+Shift+R`) or a private browser window to distinguish a transient loading/browser issue from a persistent page failure. GitHub notes that third-party Mermaid browser plugins can cause errors; do not change research content to work around a browser problem. See [GitHub's diagram documentation](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
 ### Recover the working state
 
@@ -144,6 +150,34 @@ flowchart TD
     Q --> M
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Inspect Git and current status | Then | Version-bound science and execution approvals? |
+| Version-bound science and execution approvals? | No | Record supervisor support; obtain environment and retention decision |
+| Version-bound science and execution approvals? | Yes | Frozen snapshot preserved and identifiable? |
+| Frozen snapshot preserved and identifiable? | No | Authorized custodian preserves snapshot and dependencies |
+| Frozen snapshot preserved and identifiable? | Yes | Statistics, arrays and preflight verified? |
+| Statistics, arrays and preflight verified? | No | Authorized conversion and verification |
+| Statistics, arrays and preflight verified? | Yes | All six training runs complete? |
+| All six training runs complete? | No | A first, then B, C and ablations; validation only |
+| All six training runs complete? | Yes | Calibration and evaluation implemented and frozen? |
+| Calibration and evaluation implemented and frozen? | No | Complete synthetic-tested R2C and test-release approval |
+| Calibration and evaluation implemented and frozen? | Yes | Approved evaluation, sensitivities and explanations |
+| Approved evaluation, sensitivities and explanations | Then | Optional local demonstrator scope confirmed? |
+| Optional local demonstrator scope confirmed? | No | Thesis, supervisor revision and defense |
+| Optional local demonstrator scope confirmed? | Yes | Verified bundle services and UI complete? |
+| Verified bundle services and UI complete? | No | Follow Part VI staged synthetic implementation |
+| Verified bundle services and UI complete? | Yes | Verify fictional demonstration and rehearse |
+| Follow Part VI staged synthetic implementation | Then | Verify fictional demonstration and rehearse |
+| Verify fictional demonstration and rehearse | Then | Thesis, supervisor revision and defense |
+
+</details>
+
 Urgent retention planning can proceed while approval details are recorded; actual transfers require permission. Inconsistent evidence sends work to bounded review, not to a bypass branch.
 
 <a id="evidence-precedence"></a>
@@ -186,6 +220,23 @@ flowchart LR
     E --> I["Sensitivity and interpretation"]
     I --> R["Report and defense"]
 ```
+
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Recovered definitions | Then | Frozen V2 snapshot and evidence |
+| Frozen V2 snapshot and evidence | Then | Authorized sorted arrays |
+| Authorized sorted arrays | Then | Six validation-selected GRUs |
+| Six validation-selected GRUs | Then | Validation calibration |
+| Validation calibration | Then | Sealed evaluation |
+| Sealed evaluation | Then | Sensitivity and interpretation |
+| Sensitivity and interpretation | Then | Report and defense |
+
+</details>
 
 **Verify / next:** describe the target without claiming biological onset; identify the comparison isolating TRC; read the supervisor package before proposing a new study arm.
 
@@ -274,6 +325,22 @@ flowchart LR
     R -->|Yes| Y["Label 1"]
     R -->|No or null| N["Label 0"]
 ```
+
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Hour start h | Then | Eligible completed-hour inputs |
+| Eligible completed-hour inputs | Then | Prediction p = h + 1h |
+| Prediction p = h + 1h | Then | Target interval: p exclusive to p + 6h inclusive |
+| Target interval: p exclusive to p + 6h inclusive | Then | Reference inside interval? |
+| Reference inside interval? | Yes | Label 1 |
+| Reference inside interval? | No or null | Label 0 |
+
+</details>
 
 Fictional admission at 08:20 makes the 08:00 bucket ineligible. The 09:00 bucket supports prediction 10:00 if discharge is no earlier. Reference 16:00 yields label 1; 16:01 yields 0; reference 10:00 excludes the endpoint entirely. End-of-hour prediction prevents the future target from including the completed input hour, but does not prove every input was electronically available by that time.
 
@@ -420,6 +487,48 @@ flowchart TD
     CV --> X["split export SQL; external sorting required"]
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| ICU stays and patients | Then | cohort |
+| derived sepsis3 | Then | cohort |
+| cohort | Then | patient_split |
+| cohort | Then | original hourly_timeline |
+| patient_split | Then | original hourly_timeline |
+| original hourly_timeline | Then | recovered timeline COPY |
+| recovered timeline COPY | Then | hourly_timeline_v2 |
+| ICU stays and patients | Then | hourly_timeline_v2 |
+| derived vitalsign and gcs | Then | hourly values and LOCF |
+| original hourly_timeline | Then | hourly values and LOCF |
+| hourly values and LOCF | Then | recovered LOCF COPY |
+| hourly_timeline_v2 | Then | lab_events_v2 |
+| hospital labevents | Then | lab_events_v2 |
+| lab_events_v2 | Then | lab_asof_selected_v2 |
+| hourly_timeline_v2 | Then | lab_asof_selected_v2 |
+| lab_asof_selected_v2 | Then | hourly_labs_features_v2 |
+| hourly_timeline_v2 | Then | hourly_labs_features_v2 |
+| hourly_labs_features_v2 | Then | lab_train_medians_v2 |
+| hourly_labs_features_v2 | Then | hourly_labs_imputed_v2 view |
+| lab_train_medians_v2 | Then | hourly_labs_imputed_v2 view |
+| hourly_timeline_v2 | Then | variant_a_v2_view |
+| recovered LOCF COPY | Then | variant_a_v2_view |
+| hourly_labs_imputed_v2 view | Then | variant_a_v2_view |
+| original hourly_timeline | Then | hourly_treatment then recovered COPY |
+| derived NEeq intervals | Then | hourly_treatment then recovered COPY |
+| original hourly_timeline | Then | hourly_antibiotics |
+| derived antibiotic | Then | hourly_antibiotics |
+| variant_a_v2_view | Then | variant_b_v2_view |
+| hourly_treatment then recovered COPY | Then | variant_b_v2_view |
+| hourly_antibiotics | Then | variant_b_v2_view |
+| variant_b_v2_view | Then | variant_c_v2_view |
+| variant_c_v2_view | Then | split export SQL; external sorting required |
+
+</details>
+
 ### Recovered constructions and essential outputs
 
 The links name all 16 preserved SQL definitions. Dependencies shown are logical, not assertions of current table availability.
@@ -529,6 +638,23 @@ flowchart LR
     L --> S["Sigmoid for probability metrics"]
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| One endpoint: last 1 to 24 consecutive rows | Then | Select A22, B26 or C33 features |
+| Select A22, B26 or C33 features | Then | Right-pad; retain true lengths |
+| Right-pad; retain true lengths | Then | Packed single-layer GRU64 |
+| Packed single-layer GRU64 | Then | Last hidden state |
+| Last hidden state | Then | Linear 64 to 1 logit |
+| Linear 64 to 1 logit | Then | BCE logits loss during training |
+| Linear 64 to 1 logit | Then | Sigmoid for probability metrics |
+
+</details>
+
 Core helper functions accept a device argument, but **production currently enforces CPU only** and creates CPU model/batches. A CUDA-capable runtime does not automatically accelerate this runner. CPU settings are one Torch thread, deterministic algorithms and zero loader workers. GPU support would need separately authorized engineering/synthetic verification, with frozen scientific settings preserved. There is no GPU flag to recommend now.
 
 **Verify / next:** check forward shapes, padding/gap tests, selected features and checkpoint metadata. Do not change hidden size or batch size to make a demo faster and then report it as the approved production configuration; historical small smoke tests use different settings deliberately.
@@ -557,6 +683,21 @@ flowchart TD
     C --> CN["C_no_antibiotics: 28"]
     C --> CT["C_no_TRC: 32"]
 ```
+
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| A: 22 physiology and lab features | Then | B: A plus 4 flat treatments |
+| B: A plus 4 flat treatments | Then | C: B plus 7 dynamic features |
+| B: A plus 4 flat treatments | Then | B_no_antibiotics: 24 |
+| C: B plus 7 dynamic features | Then | C_no_antibiotics: 28 |
+| C: B plus 7 dynamic features | Then | C_no_TRC: 32 |
+
+</details>
 
 Every arm receives the same 33-column source arrays and selects its own ordered columns. Labels, patient assignments, histories and preprocessing policies remain identical. Train each independently under the fixed policy and seed. Different input dimensions mean equal seeds do not make initialized weight tensors identical across architectures; controlled settings do not imply paired random weights.
 
@@ -787,6 +928,25 @@ flowchart TD
     T -->|Yes| E["Authorized operator executes outside shared workspace"]
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Only code or generated fictional data? | Yes | Reviewed synthetic workflow |
+| Only code or generated fictional data? | No | Individual data access and environment authorized? |
+| Individual data access and environment authorized? | No | Stop; obtain custodian authorization |
+| Individual data access and environment authorized? | Yes | Storage, retention and protocol approved? |
+| Storage, retention and protocol approved? | No | Stop; obtain custodian authorization |
+| Storage, retention and protocol approved? | Yes | Verify snapshot, statistics and input preflight |
+| Verify snapshot, statistics and input preflight | Then | All evidence and contracts pass? |
+| All evidence and contracts pass? | No | Stop and resolve discrepancy |
+| All evidence and contracts pass? | Yes | Authorized operator executes outside shared workspace |
+
+</details>
+
 Real CSVs, arrays, identifier lists, patient-hour predictions, exclusion masks, checkpoints and potentially identifying logs remain restricted. The repository is currently a OneDrive-backed code workspace: do not place records there. Git ignores are a guardrail, not an encryption or disclosure mechanism; forcing a file into Git defeats them. Do not use Codex to inspect restricted inputs or ordinary synced services to solve a storage shortage.
 
 Safe Git content includes reviewed code, synthetic tests, SQL definitions without records, non-sensitive methodology/configuration templates, archive hashes and permitted global aggregate evidence. Real paths can disclose user/account details; public examples use placeholders. Even aggregate tables need applicable disclosure-policy review, especially small cells or combinations that permit inference.
@@ -920,6 +1080,27 @@ flowchart TD
     S -->|Yes| C["Reload best, verify validation and inputs; COMPLETE"]
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Approval and full preflight | Then | Train one epoch |
+| Train one epoch | Then | Validation AP and other metrics |
+| Validation AP and other metrics | Then | AP improves by tolerance? |
+| AP improves by tolerance? | Yes | Update best payload; reset patience |
+| AP improves by tolerance? | No | Increment stale count |
+| Update best payload; reset patience | Then | Atomic resume state |
+| Increment stale count | Then | Atomic resume state |
+| Atomic resume state | Then | Publish best inference and history |
+| Publish best inference and history | Then | 30 epochs or patience 5? |
+| 30 epochs or patience 5? | No | Train one epoch |
+| 30 epochs or patience 5? | Yes | Reload best, verify validation and inputs; COMPLETE |
+
+</details>
+
 Resume with the same final protocol bytes, environment, input hashes and experiment selection:
 
 ```powershell
@@ -995,6 +1176,26 @@ flowchart TD
     S --> B
     B --> R[Report raw calibrated and qualified findings]
 ```
+
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Validation AP selects each checkpoint | Then | Fit positive slope sigmoid on validation |
+| Fit positive slope sigmoid on validation | Then | Freeze models calibrators metrics and analysis rules |
+| Freeze models calibrators metrics and analysis rules | Then | Final evaluation release approved? |
+| Final evaluation release approved? | No | Keep test performance inaccessible |
+| Final evaluation release approved? | Yes | Compute predefined test predictions |
+| Compute predefined test predictions | Then | Paired primary and ablation comparisons |
+| Compute predefined test predictions | Then | Mandatory strict followup subset |
+| Paired primary and ablation comparisons | Then | Patient clustered confidence intervals |
+| Mandatory strict followup subset | Then | Patient clustered confidence intervals |
+| Patient clustered confidence intervals | Then | Report raw calibrated and qualified findings |
+
+</details>
 
 This diagram is an analysis plan, not a callable command. Do not try `evaluate_test: true` to implement it: production deliberately fails closed. Build and review the separate final-evaluation implementation under a later authorization.
 
@@ -1609,6 +1810,30 @@ flowchart TD
     R --> F
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Frontend: fictional history and model selection | Then | Backend controller: bounded request and session state |
+| Backend controller: bounded request and session state | Then | Input validation: schema provenance chronology and values |
+| Input validation: schema provenance chronology and values | Then | Feature service: coherent raw C fields then frozen scaling |
+| Feature service: coherent raw C fields then frozen scaling | Then | Inference: selected mask packed GRU and logit |
+| Verified immutable artifact registry | Then | Feature service: coherent raw C fields then frozen scaling |
+| Verified immutable artifact registry | Then | Inference: selected mask packed GRU and logit |
+| Verified immutable artifact registry | Then | Calibration: bound positive slope sigmoid |
+| Inference: selected mask packed GRU and logit | Then | Calibration: bound positive slope sigmoid |
+| Inference: selected mask packed GRU and logit | Then | Explainability: validated logit Integrated Gradients |
+| Backend controller: bounded request and session state | Then | What-if engine: bounded raw dose scenario |
+| What-if engine: bounded raw dose scenario | Then | Input validation: schema provenance chronology and values |
+| Calibration: bound positive slope sigmoid | Then | Response assembler: scores versions and qualifications |
+| Explainability: validated logit Integrated Gradients | Then | Response assembler: scores versions and qualifications |
+| Response assembler: scores versions and qualifications | Then | Frontend: fictional history and model selection |
+
+</details>
+
 The frontend displays and edits synthetic case state. The backend controller owns request identity, validation and capability checks. These can be Python functions in Streamlit; a separate HTTP service is optional. Input validation distinguishes malformed values from unsupported features and never silently drops hours. The feature service is the only authority for deriving dynamics and scaling. Inference owns immutable model instances, feature masks and sequence lengths. Calibration consumes logits, not already-sigmoided probabilities. IG uses a separate gradient-enabled path. The what-if engine returns a new raw scenario through the same validation/preprocessing path, never directly patches a normalized tensor.
 
 ```mermaid
@@ -1623,6 +1848,25 @@ flowchart LR
     U --> O["Synthetic-only view with artifact and request identity"]
     K --> O
 ```
+
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Fictional scenario generator or bounded editor | Then | Validated hourly history with relative times |
+| Validated hourly history with relative times | Then | Recompute dependent raw features |
+| Recompute dependent raw features | Then | Frozen normalization exactly once |
+| Frozen normalization exactly once | Then | Canonical selected features and gap-aware window |
+| Canonical selected features and gap-aware window | Then | Frozen model logit |
+| Frozen model logit | Then | Raw sigmoid score |
+| Frozen model logit | Then | Matching calibration transform |
+| Raw sigmoid score | Then | Synthetic-only view with artifact and request identity |
+| Matching calibration transform | Then | Synthetic-only view with artifact and request identity |
+
+</details>
 
 The presentation contract should use a single fictional stay and relative integer hour offsets, avoiding birth dates, names or hospital identifiers. It must still reproduce the research window and transition semantics. An endpoint after a missing-hour gap gets only its current consecutive segment, up to 24 hours. Precomputed dynamics may depend on a preceding raw hour outside the model window; preserve that context in the fixture service rather than invent a predecessor.
 
@@ -1994,6 +2238,28 @@ flowchart TD
     P --> G
 ```
 
+<details>
+<summary>Diagram text alternative (no Mermaid required)</summary>
+
+The following table preserves every connection and branch in the diagram above.
+
+| From | Condition / transition | To |
+|---|---|---|
+| Preserved dataset construction and authorized snapshot | Then | Frozen six-arm GRU training |
+| Frozen six-arm GRU training | Then | Validation AP selects checkpoints |
+| Validation AP selects checkpoints | Then | Validation-only calibration |
+| Validation-only calibration | Then | Freeze analyses and approve final test release |
+| Freeze analyses and approve final test release | Then | Final test and mandatory sensitivity evaluation |
+| Final test and mandatory sensitivity evaluation | Then | Reviewed explanations and input sensitivity |
+| Reviewed explanations and input sensitivity | Then | Freeze approved inference artifact package |
+| Freeze approved inference artifact package | Then | Local fictional-input demonstration application |
+| Local fictional-input demonstration application | Then | Parity usability and privacy verification |
+| Parity usability and privacy verification | Then | Report supervisor revision and viva |
+| Synthetic fixtures and engineering weights | Then | Parallel service and UI development |
+| Parallel service and UI development | Then | Local fictional-input demonstration application |
+
+</details>
+
 Model and calibrator parameters are frozen **before** final test performance is inspected. The later artifact-packaging step copies those fixed components and adds provenance; it does not refit or choose a more impressive model based on test or demonstration behavior. Likewise, explanation/scenario analysis policies are frozen before their applicable test use, as specified in chapters 16–19. Final results can reveal limitations without authorizing a new primary experiment.
 
 Each boundary has a reviewable handoff: dataset to training is the authorized input/evidence protocol; training to analysis is the selected checkpoint and validation provenance; analysis to packaging is the frozen calibrator/configuration and released conclusions; packaging to app is the hash-bound trusted bundle; app to viva is the reproducible fictional fixture and verified presentation version. Keep private source evidence separate from public methodology summaries.
@@ -2090,6 +2356,12 @@ All 68 tracked source files remain byte-identical to HEAD. Only this handbook wa
 
 Remaining application gaps are optional scope confirmation, stack/dependency qualification, trusted bundle exporter/loader, shared inference and analysis adapters, fictional fixture generation, UI and application tests, verified local startup commands and artifact-handling approval. These are separate from the still-pending authorized research inputs/execution and final-analysis work. The handbook is ready for team design review, not application execution.
 
+### Diagram compatibility verification — version 1.2
+
+All 12 Mermaid blocks remain byte-for-byte unchanged from the restored version 1.1 file. They passed actual SVG generation with Mermaid 11.12.0. Read-only inspection of the supplied GitHub page found 12 embedded diagram frames and no rich-display error; the decision tree and final integration diagram were visually confirmed. This supersedes the earlier renderer-pending status for this diagram review without changing the historical verification records above.
+
+Each diagram now has a collapsible Markdown table preserving every edge and branch, usable even if GitHub's embedded renderer fails. Only this handbook is changed. No application/research code, configurations, approvals or data were modified; no packages were installed, files committed or remote changes made. The cause of the earlier GitHub failure remains unconfirmed.
+
 ### How to keep the handbook current
 
 After each approved milestone, update the top version/date/source commit, START HERE status/next action, decision tree if needed, chapter status, roadmap checkbox and gap disposition together. If the demonstrator is in scope, also update chapter 40, the actual-versus-proposed file inventory, available bundle/capability status and verified application startup/test commands. Add the evidence reference and reviewer role. Link to a new protocol/decision record instead of silently rewriting original scientific or approval documents. An experiment is complete only when its artifacts and acceptance checks are reviewed, not when a command was launched.
@@ -2097,7 +2369,7 @@ After each approved milestone, update the top version/date/source commit, START 
 Before releasing an update:
 
 1. Compare against current code, manifests, protocol and actual approved evidence; check that all six feature dimensions and frozen parameters agree.
-2. Recheck every relative link and explicit internal anchor, balanced code fences and Mermaid diagrams in GitHub preview.
+2. Recheck every relative link and explicit internal anchor, balanced code fences and Mermaid diagrams in GitHub preview. Keep each diagram text alternative synchronized with its nodes, edges and branch conditions.
 3. Verify command flags against the CLI; label authorized placeholders and synthetic examples clearly.
 4. Recheck privacy: no patient records/identifiers, credentials, sensitive environment paths or unreviewed model outputs.
 5. Review Git changes and explicitly stage only intended non-sensitive documentation if separately authorized. This edition remains uncommitted for the project owner's review.

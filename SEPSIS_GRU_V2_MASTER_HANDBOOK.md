@@ -9,7 +9,7 @@
 | [Start here](#start-here) · [Next action](#next-action) | [GRU-A runbook](#chapter-14) · [Troubleshooting](#chapter-21) | [Part VI](#part-vi) · [System checklist](#chapter-40) |
 
 **Research title:** Treatment-Response Coupling in GRU-Based Sepsis Prediction: A Calibrated, Explainable, and Counterfactual Framework  
-**Version:** 1.3 — reader edition with rendered mathematics and visual navigation  
+**Version:** 1.4 — spacious reader edition with static diagrams  
 **Last updated / source reviewed:** 2026-10-23 (Asia/Katmandu)  
 **Owner:** Research lead / documentation maintainer — person to be assigned  
 **Source Git commit:** `1e6914c13089c783baecde95715caef545cd403d`  
@@ -26,6 +26,10 @@ This is the team's operating and learning manual, not a replacement for source c
 - [START HERE — project recovery and quick start](#start-here)
 - [What should I do next?](#next-action)
 - [Status labels and evidence precedence](#evidence-precedence)
+
+
+<details>
+<summary><strong>Browse all 40 chapters by part</strong></summary>
 
 **[PART I — RESEARCH QUESTION AND FOUNDATIONS](#part-i)**
 
@@ -87,6 +91,8 @@ This is the team's operating and learning manual, not a replacement for source c
 - [Open questions / evidence gaps](#open-questions)
 - [Verification and maintenance](#maintenance)
 
+</details>
+
 <a id="start-here"></a>
 ## START HERE — If You Are Returning to This Project After a Long Break
 
@@ -95,13 +101,18 @@ This is the team's operating and learning manual, not a replacement for source c
 > [!TIP]
 > **Single next recommended action:** arrange a supervisor/institutional execution-and-retention decision: record the supported methodology version and approval reference, nominate an authorized storage/compute environment and an owner for preserving the expiring V2 snapshot. Do this before transferring data or launching training. Complete this decision record rather than reopen broad source audits.
 
-**Step 83 documentation status:** this handbook and its system-development addendum are prepared for review and remain uncommitted. The last completed committed milestone is still Step 82. [Part VI](#part-vi) proposes a local fictional-input demonstrator; neither its implementation nor its scope is approved by this design. If research training/analysis has since finished, use [the system checklist](#chapter-40) to find the next software task and [local presentation guidance](#chapter-37) before trying to launch an app. No application startup command exists yet.
+**Step 83 documentation status:** this handbook and its system-development addendum are prepared for review and remain uncommitted. The last completed committed milestone is still Step 82. [Part VI](#part-vi) proposes a local fictional-input demonstrator; neither its implementation nor its scope is approved by this design.
+
+If research training/analysis has since finished, use [the system checklist](#chapter-40) to find the next software task and [local presentation guidance](#chapter-37) before trying to launch an app. No application startup command exists yet.
 
 ### Diagram display on GitHub
 
-The handbook contains 12 Mermaid diagrams. If GitHub shows **Unable to render rich display**, expand **Diagram text alternative (no Mermaid required)** below the affected diagram; it contains the same connections and branch conditions as a normal Markdown table. These alternatives do not change the research workflow.
+> [!TIP]
+> **The diagrams are now static SVG images.** They do not use GitHub's live Mermaid renderer. Select any image or **Open full-size diagram** to read a large flowchart at its original size.
 
-Rendering verification: all 12 original diagrams rendered successfully with Mermaid 11.12.0 in a temporary headless browser. The supplied GitHub page was also checked: its 12 diagram frames were present with no rich-display error, and the first and final diagrams were visually confirmed. The earlier reported failure was not reproduced; its cause is unconfirmed. If it recurs, try a hard refresh (`Ctrl+Shift+R`) or a private browser window to distinguish a transient loading/browser issue from a persistent page failure. GitHub notes that third-party Mermaid browser plugins can cause errors; do not change research content to work around a browser problem. See [GitHub's diagram documentation](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+Each diagram also has an editable `.mmd` source and a collapsible text alternative. All three representations describe the same workflow. The larger diagrams are intentionally not squeezed into tiny text; use the full-size view or text alternative when reading on a narrow screen.
+
+**When updating GitHub:** include this Markdown file **and the complete `docs/handbook-assets/` folder**. Uploading only the Markdown file would leave broken image links. No remote update has been made by this task.
 
 ### Recover the working state
 
@@ -118,7 +129,9 @@ git diff --cached --stat
 
 Compare HEAD with the source commit above. A newer commit may be legitimate, but read its change record before using old instructions. Do not reset, clean or overwrite local work. A clean Git status does not mean no local files exist: this repository uses a strict allowlist and ignores most new files. Root recovery ZIPs and current-source diagnostic copies are local ignored artifacts. This handbook is intentionally uncommitted at Step 83.
 
-**Required materials:** the nine root Python modules in [Chapter 10](#chapter-10); the feature manifest, ablations, frozen statistics and execution-v2 protocol; five test modules; source-evidence schema; `provenance/v2/recovery-1/`; two tracked SQL ZIPs; methodology freeze, R2A readiness, source-integrity closure, supervisor review and [GRU-A runbook](docs/sepsis_gru_v2_gru_a_execution_runbook.v1.md). The [source index](#source-index) lists exact filenames. Do not reconstruct missing source from memory.
+**Required materials:** the nine root Python modules in [Chapter 10](#chapter-10); the feature manifest, ablations, frozen statistics and execution-v2 protocol; five test modules; source-evidence schema; `provenance/v2/recovery-1/`; two tracked SQL ZIPs; methodology freeze, R2A readiness, source-integrity closure, supervisor review and [GRU-A runbook](docs/sepsis_gru_v2_gru_a_execution_runbook.v1.md).
+
+The [source index](#source-index) lists exact filenames. Do not reconstruct missing source from memory.
 
 The **complete provenance test** additionally requires four original SQL-only recovery ZIPs listed in [Chapter 11](#chapter-11). They exist locally but are not tracked. Obtain reviewed copies and authenticate them against the inventory. A clone without them will fail that test; this is a packaging prerequisite, not evidence of a model defect.
 
@@ -157,30 +170,12 @@ Status updates must include date, reviewer role, evidence reference and acceptan
 <a id="next-action"></a>
 ### What should I do next? — decision tree
 
-```mermaid
-flowchart TD
-    A["Inspect Git and current status"] --> B{"Version-bound science and execution approvals?"}
-    B -->|No| C["Record supervisor support; obtain environment and retention decision"]
-    B -->|Yes| D{"Frozen snapshot preserved and identifiable?"}
-    D -->|No| E["Authorized custodian preserves snapshot and dependencies"]
-    D -->|Yes| F{"Statistics, arrays and preflight verified?"}
-    F -->|No| G["Authorized conversion and verification"]
-    F -->|Yes| H{"All six training runs complete?"}
-    H -->|No| I["A first, then B, C and ablations; validation only"]
-    H -->|Yes| J{"Calibration and evaluation implemented and frozen?"}
-    J -->|No| K["Complete synthetic-tested R2C and test-release approval"]
-    J -->|Yes| L["Approved evaluation, sensitivities and explanations"]
-    L --> U{"Optional local demonstrator scope confirmed?"}
-    U -->|No| M["Thesis, supervisor revision and defense"]
-    U -->|Yes| N{"Verified bundle services and UI complete?"}
-    N -->|No| O["Follow Part VI staged synthetic implementation"]
-    N -->|Yes| Q["Verify fictional demonstration and rehearse"]
-    O --> Q
-    Q --> M
-```
+[![What should I do next?](docs/handbook-assets/01-next-action.svg)](docs/handbook-assets/01-next-action.svg)
+
+**[Open full-size diagram](docs/handbook-assets/01-next-action.svg)** · [Editable diagram source](docs/handbook-assets/01-next-action.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -235,7 +230,9 @@ Use current code/tests for implementation, the [freeze](docs/sepsis_gru_v2_metho
 > [!NOTE]
 > **Status: SCIENTIFICALLY AGREED / SUPERVISOR VERBALLY SUPPORTED; clinical experiments PLANNED.**
 
-This Computer Engineering project combines temporal data engineering, recurrent neural networks and careful evaluation. It asks whether treatment exposure and treatment–physiology co-change improve prediction of a retrospectively selected suspected-infection reference beyond physiological/laboratory measurements. Three nested models progressively receive measurements (A), flat treatments (B), and engineered temporal changes (C). Ablations separate antibiotic information and the explicit interaction term.
+This Computer Engineering project combines temporal data engineering, recurrent neural networks and careful evaluation. It asks whether treatment exposure and treatment–physiology co-change improve prediction of a retrospectively selected suspected-infection reference beyond physiological/laboratory measurements.
+
+Three nested models progressively receive measurements (A), flat treatments (B), and engineered temporal changes (C). Ablations separate antibiotic information and the explicit interaction term.
 
 ICU records are repeated, irregular observations. Treatments reflect clinicians' assessments, and documentation can surround the event used as a label. A model may recognize that documentation rather than discover biological onset. Timestamp rules, patient isolation and restrained claims therefore matter as much as architecture.
 
@@ -245,19 +242,12 @@ Objectives are to preserve reproducible lineage; compare six arms under one trai
 
 Hypotheses are that B may improve on A, C may improve on B, and C may differ from C_no_TRC. Assess paired differences on identical held-out endpoints after freezing evaluation. A positive result is a credible qualified increment; a neutral result is no clear increment; a negative result may show worse calibration or unnecessary complexity. All can support a defensible thesis. Statistical improvement alone does not establish clinical utility.
 
-```mermaid
-flowchart LR
-    S["Recovered definitions"] --> D["Frozen V2 snapshot and evidence"]
-    D --> X["Authorized sorted arrays"]
-    X --> T["Six validation-selected GRUs"]
-    T --> C["Validation calibration"]
-    C --> E["Sealed evaluation"]
-    E --> I["Sensitivity and interpretation"]
-    I --> R["Report and defense"]
-```
+[![Complete research workflow](docs/handbook-assets/02-research-workflow.svg)](docs/handbook-assets/02-research-workflow.svg)
+
+**[Open full-size diagram](docs/handbook-assets/02-research-workflow.svg)** · [Editable diagram source](docs/handbook-assets/02-research-workflow.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -283,11 +273,17 @@ The following table preserves every connection and branch in the diagram above.
 > [!NOTE]
 > **Status: educational explanation grounded in the frozen project; external bibliography needs verification.** Project-specific source interpretation is in the [addendum](docs/sepsis_gru_v2_methodology_addendum.v1.md) and [freeze](docs/sepsis_gru_v2_methodology_freeze.v0.1-provisional.md).
 
-Sepsis describes life-threatening organ dysfunction associated with a dysregulated response to infection. Sepsis-3 is a clinical framework; a retrospective database algorithm operationalizes it rather than directly observing onset. SOFA summarizes respiratory, coagulation, liver, cardiovascular, neurological and renal dysfunction. Cardiovascular treatment can enter that score. The recorded source concept links antibiotic prescriptions with culture sampling to identify suspected infection; a positive culture is not required. Treatment predictors and the reference are therefore not independent clinical measurements.
+Sepsis describes life-threatening organ dysfunction associated with a dysregulated response to infection. Sepsis-3 is a clinical framework; a retrospective database algorithm operationalizes it rather than directly observing onset. SOFA summarizes respiratory, coagulation, liver, cardiovascular, neurological and renal dysfunction. Cardiovascular treatment can enter that score.
 
-An ICU EHR mixes observations, orders, derived scores and administrative events. Charttime need not equal electronic availability. Lab storetime supplies an additional availability proxy. Patient IDs connect encounters, admission IDs connect hospital episodes, and stay IDs delimit ICU histories. These identifiers support joins and isolation, never model features. A derived table is a computation over source records; public concept code and its historical deployed table are separate provenance objects.
+The recorded source concept links antibiotic prescriptions with culture sampling to identify suspected infection; a positive culture is not required. Treatment predictors and the reference are therefore not independent clinical measurements.
 
-A history window contains past inputs; a prediction horizon defines the future label. Here they are up to 24 consecutive hourly rows and six future hours, respectively. Retrospective label adjudication may use future evidence without being predictor leakage. Leakage occurs when forbidden future information enters inputs or model development. Target coupling means the definition itself depends on information related to predictors. The project must disclose both concepts without conflating them.
+An ICU EHR mixes observations, orders, derived scores and administrative events. Charttime need not equal electronic availability. Lab storetime supplies an additional availability proxy. Patient IDs connect encounters, admission IDs connect hospital episodes, and stay IDs delimit ICU histories. These identifiers support joins and isolation, never model features.
+
+A derived table is a computation over source records; public concept code and its historical deployed table are separate provenance objects.
+
+A history window contains past inputs; a prediction horizon defines the future label. Here they are up to 24 consecutive hourly rows and six future hours, respectively. Retrospective label adjudication may use future evidence without being predictor leakage. Leakage occurs when forbidden future information enters inputs or model development.
+
+Target coupling means the definition itself depends on information related to predictors. The project must disclose both concepts without conflating them.
 
 Positive prevalence is about 0.766% at the prediction-hour level. Always-negative classification can have high accuracy while detecting nothing. AP, calibration and alert burden are more useful. Hourly rows within a patient are correlated: millions of rows are not millions of independent people. Random hour-level splits would place related histories across partitions.
 
@@ -339,7 +335,9 @@ Interpretability attributes model outputs to inputs, not disease mechanisms. A m
 
 No MIN or ROW_NUMBER in the cohort resolves multiple source episodes: it relies on upstream sepsis3 selection/cardinality. The public-concept interpretation recorded in the addendum selects earliest qualifying suspicion per stay, but historical deployed-version correspondence remains unresolved. Later zero duplicate-key results support the audited downstream population; they do not reconstruct historical upstream version history.
 
-Splitting occurs **after cohort selection** on distinct patients. `MOD(ABS(FARM_FINGERPRINT(CAST(subject_id AS STRING))),100)` maps to buckets: below 70 train, below 85 validation, otherwise test. The training seed is unrelated to this hash. Hash collisions group patients into a split rather than cause cross-split duplication. Multiple stays retain a patient's allocation. The signed-minimum ABS case is a theoretical arithmetic limitation of the expression, not an observed failure in the successful construction; do not modify the preserved split rule.
+Splitting occurs **after cohort selection** on distinct patients. `MOD(ABS(FARM_FINGERPRINT(CAST(subject_id AS STRING))),100)` maps to buckets: below 70 train, below 85 validation, otherwise test. The training seed is unrelated to this hash. Hash collisions group patients into a split rather than cause cross-split duplication. Multiple stays retain a patient's allocation.
+
+The signed-minimum ABS case is a theoretical arithmetic limitation of the expression, not an observed failure in the successful construction; do not modify the preserved split rule.
 
 | Partition | Expected hours | Positive hours | Patients | Stays |
 |---|---:|---:|---:|---:|
@@ -360,7 +358,9 @@ These expected audited counts are enforced by [contracts](sepsis_gru_v2_contract
 > [!NOTE]
 > **Status: IMPLEMENTED AND VERIFIED predicates and synthetic boundaries.** Sources: [original timeline](provenance/v2/recovery-1/recovered/timeline_sql_recovery/hourly_timeline_aug11_1256.sql), [V2 timeline](provenance/v2/recovery-1/recovered/recovered_v2_sql/hourly_timeline_v2.sql).
 
-The successful August construction generates hourly timestamps from truncated admission through the truncated earlier-of-discharge/reference. It assigns split and originally labels relative to **hour start**, excluding hour starts at/after a reference. Partial boundary hours can occur. V2 filters the recovered timeline to `hour >= intime` and `hour+1h <= outtime`, defines prediction as hour+1h and requires prediction strictly before reference. It then recomputes labels; original labels are not silently reused.
+The successful August construction generates hourly timestamps from truncated admission through the truncated earlier-of-discharge/reference. It assigns split and originally labels relative to **hour start**, excluding hour starts at/after a reference. Partial boundary hours can occur.
+
+V2 filters the recovered timeline to `hour >= intime` and `hour+1h <= outtime`, defines prediction as hour+1h and requires prediction strictly before reference. It then recomputes labels; original labels are not silently reused.
 
 ```text
 for each recovered timeline row joined to its ICU stay:
@@ -381,18 +381,12 @@ This expression applies only to eligible endpoints. A null reference maps to lab
 
 This is explanatory pseudocode, not a replacement construction query. Prediction exactly at discharge is allowed. The baseline does not require six further ICU hours for every negative endpoint.
 
-```mermaid
-flowchart LR
-    H["Hour start h"] --> O["Eligible completed-hour inputs"]
-    O --> P["Prediction p = h + 1h"]
-    P --> W["Target interval: p exclusive to p + 6h inclusive"]
-    W --> R{"Reference inside interval?"}
-    R -->|Yes| Y["Label 1"]
-    R -->|No or null| N["Label 0"]
-```
+[![Completed-hour prediction and labeling](docs/handbook-assets/03-prediction-timeline.svg)](docs/handbook-assets/03-prediction-timeline.svg)
+
+**[Open full-size diagram](docs/handbook-assets/03-prediction-timeline.svg)** · [Editable diagram source](docs/handbook-assets/03-prediction-timeline.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -409,7 +403,9 @@ The following table preserves every connection and branch in the diagram above.
 
 Fictional admission at 08:20 makes the 08:00 bucket ineligible. The 09:00 bucket supports prediction 10:00 if discharge is no earlier. Reference 16:00 yields label 1; 16:01 yields 0; reference 10:00 excludes the endpoint entirely. End-of-hour prediction prevents the future target from including the completed input hour, but does not prove every input was electronically available by that time.
 
-The mandatory strict-six-hour-follow-up sensitivity evaluates frozen primary models on a predefined restricted held-out subset. The freeze reports removal of 275,358 negative endpoints without complete six-hour ICU follow-up across the whole V2 population, retaining 31,044 positives: 3,778,003 remaining endpoints overall. These are **not test-only counts** or an existing mask. Freeze the rule before seeing test performance and verify split-specific counts. Different prevalence can change AP, so compare models on common subsets.
+The mandatory strict-six-hour-follow-up sensitivity evaluates frozen primary models on a predefined restricted held-out subset. The freeze reports removal of 275,358 negative endpoints without complete six-hour ICU follow-up across the whole V2 population, retaining 31,044 positives: 3,778,003 remaining endpoints overall. These are **not test-only counts** or an existing mask.
+
+Freeze the rule before seeing test performance and verify split-specific counts. Different prevalence can change AP, so compare models on common subsets.
 
 SOFA-reference and suspicion times are distinct. The freeze records earlier/equal/later SOFA in 4,728/158/2,949 of 7,835 included positive-reference stays. In a specifically restricted 123,141-hour subset, 13,807 labels differed; that denominator is not all V2 hours. Report discordance without redefining the primary target. An alternate SOFA-target model is optional and separately specified.
 
@@ -465,7 +461,9 @@ One-based positions below define C. A uses 1–22 and B 1–26. Continuous/count
 
 ### Physiology, GCS and LOCF
 
-[Hourly vitals](provenance/v2/recovery-1/recovered/vitals_treatment_recovery/hourly_vitals_aug11.sql) reads derived vitalsign; [GCS](provenance/v2/recovery-1/recovered/vitals_treatment_recovery/hourly_gcs_aug11.sql) reads derived gcs. `mbp` becomes `map`. Each variable independently takes its latest non-null charttime value per hour, **not an arithmetic hourly mean**. MAP means mean arterial pressure clinically, not a time-average imposed by this SQL. Source charttime must be admission-inclusive and earlier-of-reference/discharge-exclusive. Equal charttime ties have no additional recovered tie-breaker.
+[Hourly vitals](provenance/v2/recovery-1/recovered/vitals_treatment_recovery/hourly_vitals_aug11.sql) reads derived vitalsign; [GCS](provenance/v2/recovery-1/recovered/vitals_treatment_recovery/hourly_gcs_aug11.sql) reads derived gcs. `mbp` becomes `map`. Each variable independently takes its latest non-null charttime value per hour, **not an arithmetic hourly mean**.
+
+MAP means mean arterial pressure clinically, not a time-average imposed by this SQL. Source charttime must be admission-inclusive and earlier-of-reference/discharge-exclusive. Equal charttime ties have no additional recovered tie-breaker.
 
 Expected interpretations are HR beats/min, MAP mmHg, SpO2 percent, temperature Celsius, RR breaths/min and GCS score. The wrapper relies on upstream cleaning/units; it does not contain raw vital item mappings. Public concept interpretation is not proof of the historical deployed revision. The addendum records upstream GCS component carry/default/ETT behavior, so a fresh total can include older/default components.
 
@@ -489,7 +487,9 @@ A's view fills residual null physiology with HR 83, MAP 79, SpO2 97, temperature
 
 These are historical filters, not new clinical recommendations. The SQL selects valuenum without enforcing valueuom. Actual unit correspondence must not be inferred from a CSV header alone.
 
-At prediction p, [as-of selection](provenance/v2/recovery-1/recovered/recovered_v2_sql/lab_asof_selected_v2.sql) requires charttime and storetime <=p and charttime>=p-24h. It orders charttime, storetime, specimen_id descending: latest **collected** eligible result. The sparse grain is `(stay_id,hour,prediction_time,lab_name)`; STRUCT fields are lab_value, measurement_time, available_time, specimen_id. No eligible result means no row. The wide table LEFT JOINs timeline, sets missing flags, and the imputation view fills training medians (reported 1.5/10.4/0.9/0.7/198 in feature order). No qualifying result in the lookback is a different missingness meaning from no fresh vital in this hour.
+At prediction p, [as-of selection](provenance/v2/recovery-1/recovered/recovered_v2_sql/lab_asof_selected_v2.sql) requires charttime and storetime <=p and charttime>=p-24h. It orders charttime, storetime, specimen_id descending: latest **collected** eligible result. The sparse grain is `(stay_id,hour,prediction_time,lab_name)`; STRUCT fields are lab_value, measurement_time, available_time, specimen_id.
+
+No eligible result means no row. The wide table LEFT JOINs timeline, sets missing flags, and the imputation view fills training medians (reported 1.5/10.4/0.9/0.7/198 in feature order). No qualifying result in the lookback is a different missingness meaning from no fresh vital in this hour.
 
 A fictional result collected 09:30, stored 10:20 is unavailable at 10:00 and eligible at 11:00 if no newer qualifying collection wins. Exactly 24-hour age and storetime exactly at prediction are allowed. Passing these rules is retrospective proxy compliance, not proof of live-system latency.
 
@@ -509,11 +509,15 @@ The overlap duration $\tau_{i,h}$ is measured in seconds; $d_i$ is the source in
 
 A fictional 0.12-equivalent rate for 30 minutes contributes 0.06. This is a whole-hour average, not instantaneous end-of-hour rate.
 
-The addendum records public NEeq as norepinephrine + epinephrine + phenylephrine/10 + dopamine/100 + vasopressin(units/hour)*2.5/60, in norepinephrine-equivalent mcg/kg/min. Source rows can be combined exposure intervals, not independent infusions; overlaps do not automatically prove inflated doses. Historical deployed equivalence is unresolved. B fills absent/null dose with zero and defines vasopressor_active iff that filled hourly dose>0. Zero is a representation, not proof of clinical absence.
+The addendum records public NEeq as norepinephrine + epinephrine + phenylephrine/10 + dopamine/100 + vasopressin(units/hour)*2.5/60, in norepinephrine-equivalent mcg/kg/min. Source rows can be combined exposure intervals, not independent infusions; overlaps do not automatically prove inflated doses. Historical deployed equivalence is unresolved.
+
+B fills absent/null dose with zero and defines vasopressor_active iff that filled hourly dose>0. Zero is a representation, not proof of clinical absence.
 
 [Antibiotic SQL](provenance/v2/recovery-1/recovered/recovered_v2_sql/hourly_antibiotics.sql) counts DISTINCT non-null names with start before hour end and COALESCE(stop,start)>=hour. The inclusive stop differs from vasopressor end. B fills count with zero and defines active iff count>0. Prescription overlap does not establish administration, spectrum, appropriateness or escalation.
 
-C applies LAG by stay/hour. Let v mean previous_hour=hour-1h. Delta-MAP and delta-dose equal current minus previous only when v; otherwise zero. Initiation is v and previous_count=0 and current_count>0. Addition is v and previous_count>0 and current_count>previous_count. Count-increase is v and current_count>previous_count. These are binary flags, not increment magnitudes. First/post-gap dynamics are zero. TRC is the **raw-feature** delta_MAP*delta_dose product, then independently standardized.
+C applies LAG by stay/hour. Let v mean previous_hour=hour-1h. Delta-MAP and delta-dose equal current minus previous only when v; otherwise zero. Initiation is v and previous_count=0 and current_count>0. Addition is v and previous_count>0 and current_count>previous_count. Count-increase is v and current_count>previous_count. These are binary flags, not increment magnitudes. First/post-gap dynamics are zero.
+
+TRC is the **raw-feature** delta_MAP*delta_dose product, then independently standardized.
 
 $$
 \Delta M_h=\begin{cases}M_h-M_{\mathrm{prev}},&v_h=1\\0,&v_h=0\end{cases},\qquad
@@ -547,48 +551,18 @@ The writer rejects null/nonfinite inputs; it does not impute. Export frozen-impu
 ## 6. Complete BigQuery and SQL architecture
 
 > [!NOTE]
-> **Status: IMPLEMENTED AND VERIFIED preserved definitions/integrity; historical source equivalence KNOWN LIMITATION.** [Inventory](provenance/v2/recovery-1/inventory.json), [dependency map](provenance/v2/recovery-1/dependency_map.json) and [verification](provenance/v2/recovery-1/verification.json) separate bytes, recorded job metadata and unproven historical continuity. SQL below is evidence, not a deployment order to execute blindly: archived definitions include replacement and expiration clauses.
+> **Status: IMPLEMENTED AND VERIFIED preserved definitions/integrity; historical source equivalence KNOWN LIMITATION.** [Inventory](provenance/v2/recovery-1/inventory.json), [dependency map](provenance/v2/recovery-1/dependency_map.json) and [verification](provenance/v2/recovery-1/verification.json) separate bytes, recorded job metadata and unproven historical continuity.
+>
+> SQL below is evidence, not a deployment order to execute blindly: archived definitions include replacement and expiration clauses.
 
 All project objects belong to `sepsis-gru-mimic.sepsis_gru` unless otherwise identified. Physical constructions use CREATE TABLE/CREATE OR REPLACE TABLE. The four backup view members contain SELECT bodies; their view classification is recorded in the handoff, not independently authenticated against current BigQuery metadata.
 
-```mermaid
-flowchart TD
-    I["ICU stays and patients"] --> C["cohort"]
-    S["derived sepsis3"] --> C
-    C --> P["patient_split"]
-    C --> T["original hourly_timeline"]
-    P --> T
-    T --> R["recovered timeline COPY"]
-    R --> V["hourly_timeline_v2"]
-    I --> V
-    G["derived vitalsign and gcs"] --> H["hourly values and LOCF"]
-    T --> H
-    H --> HR["recovered LOCF COPY"]
-    V --> L["lab_events_v2"]
-    LE["hospital labevents"] --> L
-    L --> AS["lab_asof_selected_v2"]
-    V --> AS
-    AS --> LF["hourly_labs_features_v2"]
-    V --> LF
-    LF --> M["lab_train_medians_v2"]
-    LF --> LI["hourly_labs_imputed_v2 view"]
-    M --> LI
-    V --> A["variant_a_v2_view"]
-    HR --> A
-    LI --> A
-    T --> HT["hourly_treatment then recovered COPY"]
-    NE["derived NEeq intervals"] --> HT
-    T --> AB["hourly_antibiotics"]
-    RX["derived antibiotic"] --> AB
-    A --> B["variant_b_v2_view"]
-    HT --> B
-    AB --> B
-    B --> CV["variant_c_v2_view"]
-    CV --> X["split export SQL; external sorting required"]
-```
+[![SQL and dataset lineage](docs/handbook-assets/04-sql-lineage.svg)](docs/handbook-assets/04-sql-lineage.svg)
+
+**[Open full-size diagram](docs/handbook-assets/04-sql-lineage.svg)** · [Editable diagram source](docs/handbook-assets/04-sql-lineage.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -661,11 +635,15 @@ The links name all 16 preserved SQL definitions. Dependencies shown are logical,
 - `variant_b_v2_view.sql`: `a.*`, LEFT JOIN recovered hourly treatment and antibiotics by stay/hour; adds four zero-filled/derived flat fields.
 - `variant_c_v2_view.sql`: `b.*` with temporary LAG columns removed, then transition/deltas/antibiotic flags and TRC. It inherits labels/keys rather than redefining them.
 
-[sepsis_gru_v2_optimized_sql.zip](sql/sepsis_gru_v2_optimized_sql.zip) contains `source_plan.json`, `source_C_train.sql`, `source_C_validation.sql`, `source_C_test.sql`. The three queries select five metadata plus 33 features from C and filter split. They **do not ORDER BY**. Partitioned export order is not a sequence guarantee; the external sorter supplies global stay/prediction ordering. These archived SELECTs are not permission to run extraction and do not pin changing view dependencies.
+[sepsis_gru_v2_optimized_sql.zip](sql/sepsis_gru_v2_optimized_sql.zip) contains `source_plan.json`, `source_C_train.sql`, `source_C_validation.sql`, `source_C_test.sql`. The three queries select five metadata plus 33 features from C and filter split. They **do not ORDER BY**. Partitioned export order is not a sequence guarantee; the external sorter supplies global stay/prediction ordering.
+
+These archived SELECTs are not permission to run extraction and do not pin changing view dependencies.
 
 ### Historical recovery boundaries
 
-Four root ZIPs contain 8+1+2+5 SQL definitions and original manifests. Their byte-identical copies live under `provenance/v2/recovery-1/recovered/`; local CRC and hash checks verify preservation. The August 11 12:54 construction reportedly failed partition limits; the archive preserves the successful 12:56 construction, not a recovered failed statement. The October timeline `hourly_timeline@0` COPY relationship is user-reported; its job record is not in the one-entry timeline manifest.
+Four root ZIPs contain 8+1+2+5 SQL definitions and original manifests. Their byte-identical copies live under `provenance/v2/recovery-1/recovered/`; local CRC and hash checks verify preservation. The August 11 12:54 construction reportedly failed partition limits; the archive preserves the successful 12:56 construction, not a recovered failed statement.
+
+The October timeline `hourly_timeline@0` COPY relationship is user-reported; its job record is not in the one-entry timeline manifest.
 
 The vitals/treatment manifest does preserve three COPY records: LOCF, hourly treatment and original medians, each from its `@0` source to the corresponding `_recovered` destination. These establish recorded relationships, not that August construction bytes exactly describe the October restored contents. Public concept comparison commit `303d26c623dcc9c49cc0f204468d4acc2f063797` is an inspection reference, not a historical deployment assertion.
 
@@ -709,7 +687,9 @@ No feature correction is indicated for the audited current-source baseline. The 
 | Potential C sequence endpoints | 9530–9539 |
 | Invalid source rows, invalid numeric hours and duplicate V2 keys | 0 |
 
-Repeated identical stay/start/end/dose signatures can change an hourly sum when collapsed. That proves the hypothetical arithmetic differs, not that the repeated rows are erroneous clinical duplicates. Preserve baseline provisionally. A source-dose change at hour j can alter delta-dose at j and j+1; C propagation may therefore reach one further endpoint than B in uninterrupted 24-hour histories. At gaps/stay boundaries propagation resets. Counts describe potentially touched inputs, not altered predictions or measured performance bias.
+Repeated identical stay/start/end/dose signatures can change an hourly sum when collapsed. That proves the hypothetical arithmetic differs, not that the repeated rows are erroneous clinical duplicates. Preserve baseline provisionally. A source-dose change at hour j can alter delta-dose at j and j+1; C propagation may therefore reach one further endpoint than B in uninterrupted 24-hour histories.
+
+At gaps/stay boundaries propagation resets. Counts describe potentially touched inputs, not altered predictions or measured performance bias.
 
 The earlier evidence (1,189 source rows, 617 source stays, 798 intersected hours, 9,214 endpoints, 376 V2 stays, 81 positive endpoints) is a separate supplied aggregate record with incomplete query provenance. Do not convert later bands into exact numbers or treat the older endpoint scope as the final C count.
 
@@ -734,21 +714,16 @@ The lab relationship is many selections to one prediction hour. Absent selection
 
 For batch size B and selected feature count F, input is float32 `[B,24,F]`, labels `[B]` and true lengths int64 `[B]`. Each endpoint takes its current hour plus up to 23 preceding consecutive hours in its stay segment. Early endpoints have shorter histories. A fictional sequence of hours 08,09,11 gives lengths 1,2,1; no invented 10:00 row bridges the gap.
 
-Padding is zero on the right. The model uses `pack_padded_sequence(..., batch_first=True, enforce_sorted=False)` so hidden-state selection ignores padding and batch items need not be sorted by length. `nn.GRU(input_size=F,hidden_size=64,batch_first=True)` is one layer, unidirectional with default no dropout. A `Linear(64,1)` head on `hidden[-1]` produces logits. There is no attention, extra dense stack or probability layer inside forward. Sigmoid is used by metric evaluation; logits go directly to BCEWithLogitsLoss.
+Padding is zero on the right. The model uses `pack_padded_sequence(..., batch_first=True, enforce_sorted=False)` so hidden-state selection ignores padding and batch items need not be sorted by length. `nn.GRU(input_size=F,hidden_size=64,batch_first=True)` is one layer, unidirectional with default no dropout. A `Linear(64,1)` head on `hidden[-1]` produces logits.
 
-```mermaid
-flowchart LR
-    D["One endpoint: last 1 to 24 consecutive rows"] --> X["Select A22, B26 or C33 features"]
-    X --> P["Right-pad; retain true lengths"]
-    P --> G["Packed single-layer GRU64"]
-    G --> H["Last hidden state"]
-    H --> L["Linear 64 to 1 logit"]
-    L --> B["BCE logits loss during training"]
-    L --> S["Sigmoid for probability metrics"]
-```
+There is no attention, extra dense stack or probability layer inside forward. Sigmoid is used by metric evaluation; logits go directly to BCEWithLogitsLoss.
+
+[![GRU architecture](docs/handbook-assets/05-gru-architecture.svg)](docs/handbook-assets/05-gru-architecture.svg)
+
+**[Open full-size diagram](docs/handbook-assets/05-gru-architecture.svg)** · [Editable diagram source](docs/handbook-assets/05-gru-architecture.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -787,17 +762,12 @@ Core helper functions accept a device argument, but **production currently enfor
 
 B_no_antibiotics removes active_antibiotic_count and antibiotic_active. C_no_antibiotics additionally removes antibiotic_initiation, antibiotic_addition and antibiotic_count_increase. C_no_TRC removes only treatment_response_interaction. No alternative masks are implicit in prose.
 
-```mermaid
-flowchart TD
-    A["A: 22 physiology and lab features"] --> B["B: A plus 4 flat treatments"]
-    B --> C["C: B plus 7 dynamic features"]
-    B --> BN["B_no_antibiotics: 24"]
-    C --> CN["C_no_antibiotics: 28"]
-    C --> CT["C_no_TRC: 32"]
-```
+[![Six-experiment feature hierarchy](docs/handbook-assets/06-feature-hierarchy.svg)](docs/handbook-assets/06-feature-hierarchy.svg)
+
+**[Open full-size diagram](docs/handbook-assets/06-feature-hierarchy.svg)** · [Editable diagram source](docs/handbook-assets/06-feature-hierarchy.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -932,11 +902,15 @@ Sepsis-GRU-V2-Research/
 
 The [manifest](sepsis_gru_v2_manifest.json) describes scientific schema, ordered features, populations and pending reviews; it is not a run approval. [Ablations](sepsis_gru_v2_ablations.json) is the exact six-mask contract. [Statistics](sepsis_gru_v2_train_statistics.json) stores aggregate training means/population standard deviations and descriptive quantiles, not raw records. It never authorizes refitting.
 
-[Original protocol](sepsis_gru_v2_training_protocol.json) and [pre-phase1 copy](sepsis_gru_v2_training_protocol.pre_phase1.json) are historical; [phase1](sepsis_gru_v2_training_protocol.phase1.json) adds revised fingerprints. [Execution-v1](sepsis_gru_v2_training_protocol.execution-v1.json) is historical and rejected for execution by current code. [Execution-v2](sepsis_gru_v2_training_protocol.execution-v2.json) is the current unapproved template. Its source_hashes, not inherited historical file_hashes, identify the runtime. A new version-bound approved artifact is required; do not edit the historical drafts.
+[Original protocol](sepsis_gru_v2_training_protocol.json) and [pre-phase1 copy](sepsis_gru_v2_training_protocol.pre_phase1.json) are historical; [phase1](sepsis_gru_v2_training_protocol.phase1.json) adds revised fingerprints. [Execution-v1](sepsis_gru_v2_training_protocol.execution-v1.json) is historical and rejected for execution by current code.
+
+[Execution-v2](sepsis_gru_v2_training_protocol.execution-v2.json) is the current unapproved template. Its source_hashes, not inherited historical file_hashes, identify the runtime. A new version-bound approved artifact is required; do not edit the historical drafts.
 
 [Overlap sensitivity](sepsis_gru_v2_overlap_sensitivity.v1.json) is PREPARED_NOT_EXECUTABLE with null mask path/hash. Its listed model comparisons are a conditional design, not an implemented training mode. The [source-evidence schema](schemas/sepsis_gru_v2_source_evidence.v1.schema.json) describes generated evidence; runtime checks are implemented directly in contracts, not by an added jsonschema dependency.
 
-Provenance files: README explains immutability; inventory records archive/member hashes; dependency_map describes edges/job metadata; verification records CRC/hash review and unresolved equivalence; overlap_summary preserves earlier supplied aggregates. Four recovered manifests stay byte-identical. Chapter 6 describes every recovered SQL member. The proposed diagnostic manifest fingerprints three templates and historical sources; current-source working copies remain ignored and are not new frozen data snapshots.
+Provenance files: README explains immutability; inventory records archive/member hashes; dependency_map describes edges/job metadata; verification records CRC/hash review and unresolved equivalence; overlap_summary preserves earlier supplied aggregates. Four recovered manifests stay byte-identical. Chapter 6 describes every recovered SQL member.
+
+The proposed diagnostic manifest fingerprints three templates and historical sources; current-source working copies remain ignored and are not new frozen data snapshots.
 
 ### Tests and research documents
 
@@ -950,7 +924,11 @@ Provenance files: README explains immutability; inventory records archive/member
 
 The 119 tests are local synthetic/software/provenance tests, not clinical validation. Tests emulate diagnostic CTEs with fictional SQLite data and dialect adaptations; that is not BigQuery compilation.
 
-The [handoff](docs/sepsis_gru_v2_research_handoff.md) records V1→V2 history; [addendum](docs/sepsis_gru_v2_methodology_addendum.v1.md) records recovered semantics; [training readiness v1](docs/sepsis_gru_v2_training_readiness.v1.md) and [Step 62](docs/sepsis_gru_v2_step62_verification.md) describe an older implementation. [Freeze](docs/sepsis_gru_v2_methodology_freeze.v0.1-provisional.md) is the ten-decision scientific record; [reconciliation plan](docs/sepsis_gru_v2_codex_reconciliation_plan.v0.1.md) is historical work sequencing. [R2A readiness](docs/sepsis_gru_v2_r2a_readiness.md) documents current sort/resume/restrictions. [R2B disposition](docs/sepsis_gru_v2_r2b_disposition.md) is pre-execution preparation; [closure](docs/sepsis_gru_v2_source_integrity_closure.v1.md) records supplied results. [Runbook](docs/sepsis_gru_v2_gru_a_execution_runbook.v1.md) provides A commands; [supervisor review](docs/sepsis_gru_v2_supervisor_review.v1.md) summarizes pending decisions at Step 82, before later verbal support.
+The [handoff](docs/sepsis_gru_v2_research_handoff.md) records V1→V2 history; [addendum](docs/sepsis_gru_v2_methodology_addendum.v1.md) records recovered semantics; [training readiness v1](docs/sepsis_gru_v2_training_readiness.v1.md) and [Step 62](docs/sepsis_gru_v2_step62_verification.md) describe an older implementation.
+
+[Freeze](docs/sepsis_gru_v2_methodology_freeze.v0.1-provisional.md) is the ten-decision scientific record; [reconciliation plan](docs/sepsis_gru_v2_codex_reconciliation_plan.v0.1.md) is historical work sequencing. [R2A readiness](docs/sepsis_gru_v2_r2a_readiness.md) documents current sort/resume/restrictions.
+
+[R2B disposition](docs/sepsis_gru_v2_r2b_disposition.md) is pre-execution preparation; [closure](docs/sepsis_gru_v2_source_integrity_closure.v1.md) records supplied results. [Runbook](docs/sepsis_gru_v2_gru_a_execution_runbook.v1.md) provides A commands; [supervisor review](docs/sepsis_gru_v2_supervisor_review.v1.md) summarizes pending decisions at Step 82, before later verbal support.
 
 `.gitignore` is a strict allowlist; new files can be invisible to ordinary status. `.gitattributes` preserves recovered evidence, selected scientific documents and fingerprinted Python bytes. Do not normalize archived line endings. Add future code through reviewed branches and versioned protocols, not edits to recovered SQL or copied evidence. This handbook is the entry point; its descriptions must follow the underlying authorities.
 
@@ -984,7 +962,9 @@ python3.13 -m venv .venv
 .venv/bin/python --version
 ```
 
-No `requirements.txt`, lock file or container image is tracked. Step 62 records Python 3.13.8, NumPy 2.2.6, pandas 2.3.2, PyTorch 2.10.0+cpu and scikit-learn 1.8.0. This is a known tested Windows environment record, not a complete transitive lock or a cross-platform wheel guarantee. Resolve approved artifacts before installation, preserve their provenance and run the suite. Example **offline installation template** for that recorded stack, only if compatible reviewed wheels and all transitive dependencies are available:
+No `requirements.txt`, lock file or container image is tracked. Step 62 records Python 3.13.8, NumPy 2.2.6, pandas 2.3.2, PyTorch 2.10.0+cpu and scikit-learn 1.8.0. This is a known tested Windows environment record, not a complete transitive lock or a cross-platform wheel guarantee. Resolve approved artifacts before installation, preserve their provenance and run the suite.
+
+Example **offline installation template** for that recorded stack, only if compatible reviewed wheels and all transitive dependencies are available:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install --no-index --find-links '<REVIEWED_WHEEL_DIRECTORY>' numpy==2.2.6 pandas==2.3.2 torch==2.10.0+cpu scikit-learn==1.8.0
@@ -1004,7 +984,9 @@ CUDA availability is informational: current production rejects non-CPU devices. 
 
 ### Archive prerequisite and synthetic commands
 
-Full-suite provenance checks require these exact root files: `recovered_v2_sql.zip`, `timeline_sql_recovery.zip`, `cohort_split_recovery.zip`, `vitals_treatment_recovery.zip`. They are **not Git-tracked**, while their extracted SQL/manifests are. Obtain the reviewed non-sensitive originals separately; check SHA-256 against [inventory](provenance/v2/recovery-1/inventory.json). Do not regenerate ZIPs from extracted text because the test checks original archive bytes. This is a confirmed fresh-clone reproducibility gap, documented without changing packaging.
+Full-suite provenance checks require these exact root files: `recovered_v2_sql.zip`, `timeline_sql_recovery.zip`, `cohort_split_recovery.zip`, `vitals_treatment_recovery.zip`. They are **not Git-tracked**, while their extracted SQL/manifests are. Obtain the reviewed non-sensitive originals separately; check SHA-256 against [inventory](provenance/v2/recovery-1/inventory.json).
+
+Do not regenerate ZIPs from extracted text because the test checks original archive bytes. This is a confirmed fresh-clone reproducibility gap, documented without changing packaging.
 
 ```text
 python -B -m unittest discover -s tests -v
@@ -1037,23 +1019,16 @@ They generate fictional data and often use smaller hidden sizes/epochs. The prod
 
 Every collaborator who accesses credentialed records needs their own applicable authorization. Code collaboration and shared institutional affiliation do not transfer someone else's credentials. Confirm dataset credentialing, training and agreement requirements through the authorized custodian. Never paste credentials, access tokens or individual records into chat to demonstrate access.
 
-Separate four decisions: permission to access MIMIC, permission to process it on a particular machine/service, permission to retain/transfer outputs, and permission to execute this frozen protocol. Supervisor methodological support is not all four. No laptop, personal Drive, hosted Colab or institutional server is automatically approved by this handbook. Local runtime checks establish a path contract, not legal/institutional compliance. A mounted cloud directory can appear as a filesystem path; that does not make it approved local storage.
+Separate four decisions: permission to access MIMIC, permission to process it on a particular machine/service, permission to retain/transfer outputs, and permission to execute this frozen protocol. Supervisor methodological support is not all four. No laptop, personal Drive, hosted Colab or institutional server is automatically approved by this handbook.
 
-```mermaid
-flowchart TD
-    D{"Only code or generated fictional data?"} -->|Yes| S["Reviewed synthetic workflow"]
-    D -->|No| A{"Individual data access and environment authorized?"}
-    A -->|No| X["Stop; obtain custodian authorization"]
-    A -->|Yes| P{"Storage, retention and protocol approved?"}
-    P -->|No| X
-    P -->|Yes| V["Verify snapshot, statistics and input preflight"]
-    V --> T{"All evidence and contracts pass?"}
-    T -->|No| R["Stop and resolve discrepancy"]
-    T -->|Yes| E["Authorized operator executes outside shared workspace"]
-```
+Local runtime checks establish a path contract, not legal/institutional compliance. A mounted cloud directory can appear as a filesystem path; that does not make it approved local storage.
+
+[![Authorization and data-handling decisions](docs/handbook-assets/07-data-authorization.svg)](docs/handbook-assets/07-data-authorization.svg)
+
+**[Open full-size diagram](docs/handbook-assets/07-data-authorization.svg)** · [Editable diagram source](docs/handbook-assets/07-data-authorization.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -1077,7 +1052,9 @@ Safe Git content includes reviewed code, synthetic tests, SQL definitions withou
 
 Before processing, the institutional operator should document account access, least-privilege permissions, encryption in transit/at rest, backup/restore, retention/deletion rules, approved temporary directories and access revocation. Keep notebooks free of patient-level outputs and do not share notebook state containing credentials. BigQuery access to a public-derived dataset does not authorize unrestricted exports.
 
-If accidental exposure is suspected, stop transfers, restrict access using authorized incident procedures, notify the institutional data custodian/security contact and preserve appropriate audit evidence without spreading the data. Credential owners revoke exposed tokens; dataset access is removed through authorized administrators. Do not paste secrets into issue trackers or claim deletion of a local file removes remote Git history/caches. Follow institutional remediation, not improvised public history rewriting.
+If accidental exposure is suspected, stop transfers, restrict access using authorized incident procedures, notify the institutional data custodian/security contact and preserve appropriate audit evidence without spreading the data. Credential owners revoke exposed tokens; dataset access is removed through authorized administrators.
+
+Do not paste secrets into issue trackers or claim deletion of a local file removes remote Git history/caches. Follow institutional remediation, not improvised public history rewriting.
 
 **Team checklist:** verify individual access; separate code and data roots; use approved accounts; review staged content; redact logs; document who can access outputs; revoke access when roles end. **Next:** obtain the exact environment/storage decision, not a general claim that a cloud provider is acceptable.
 
@@ -1091,17 +1068,23 @@ If accidental exposure is suspected, stop transfers, restrict access using autho
 
 Preserving SQL preserves a recipe; it does not preserve the ingredient versions or materialized output. A view alone does not preserve underlying tables. Upstream versions, old COPY snapshots and expired dependencies can prevent identical reconstruction. The 6.03 GiB figure is not the required disk space for CSV exports, SQLite staging, arrays, checkpoints and backups.
 
-Choose through the authorized owner: funded BigQuery retention with explicit expiry/dependency management; an explicitly approved alternative storage/transfer/restore plan; or documented acceptance of reconstruction risk. Enabling billing must not be assumed to change existing expirations automatically. Record the owner, decision date, object inventory, permitted locations and verification before the earliest deadline. No preservation query or transfer command is executed or authorized here.
+Choose through the authorized owner: funded BigQuery retention with explicit expiry/dependency management; an explicitly approved alternative storage/transfer/restore plan; or documented acceptance of reconstruction risk. Enabling billing must not be assumed to change existing expirations automatically.
+
+Record the owner, decision date, object inventory, permitted locations and verification before the earliest deadline. No preservation query or transfer command is executed or authorized here.
 
 The training snapshot must identify source objects and dependencies, extraction job/query hashes, split membership and frozen statistics origin. Identical table names or agreeing current-source audit aggregates are not snapshot identity. Evidence records contain actual job references when known; unknown fields stay pending outside execution rather than being filled with plausible strings.
 
 ### Conversion contract
 
-[convert_exports](sepsis_gru_v2_export.py) accepts multiple CSV shards under exact approved paths/hashes and an approved execution-v2 protocol. Required columns are `subject_id`, `stay_id`, `prediction_time`, `dataset_split`, `sepsis_next_6h` plus all 33 C features. Extra columns are preserved in sorted_source.csv; header order can differ across shards but column sets must match. Duplicate names or malformed rows are rejected. Labels are literal 0/1; IDs are positive integer strings up to 2**53; if present, admission identity must remain consistent within stays.
+[convert_exports](sepsis_gru_v2_export.py) accepts multiple CSV shards under exact approved paths/hashes and an approved execution-v2 protocol. Required columns are `subject_id`, `stay_id`, `prediction_time`, `dataset_split`, `sepsis_next_6h` plus all 33 C features. Extra columns are preserved in sorted_source.csv; header order can differ across shards but column sets must match.
+
+Duplicate names or malformed rows are rejected. Labels are literal 0/1; IDs are positive integer strings up to 2**53; if present, admission identity must remain consistent within stays.
 
 Prediction times are timezone-naive, whole-hour ISO datetimes. CSV timestamps with offsets, nonzero fractional parts or malformed values are rejected. Do not shift MIMIC timestamps into local time or use hour-start in place of prediction time. Inputs must be **frozen_imputed_unscaled_v2**, not raw missing measurements and not already normalized data.
 
-SQLite stores rows keyed by stay/prediction-hour, rejecting duplicates across shards/chunk boundaries; rows are then streamed in order. Source hashes are checked around conversion. `_convert_shards` uses default 10,000-row chunks, permits 1–100,000, bounds payload batches around 8 MiB and uses an 8 MiB SQLite cache. These are component limits, not a global RAM guarantee. All original column values survive in the sorted CSV. The lower-level writer validates chronology across batches, normalizes once, flushes/closes maps and publishes only completed output. Existing destinations are never intentionally overwritten.
+SQLite stores rows keyed by stay/prediction-hour, rejecting duplicates across shards/chunk boundaries; rows are then streamed in order. Source hashes are checked around conversion. `_convert_shards` uses default 10,000-row chunks, permits 1–100,000, bounds payload batches around 8 MiB and uses an 8 MiB SQLite cache. These are component limits, not a global RAM guarantee.
+
+All original column values survive in the sorted CSV. The lower-level writer validates chronology across batches, normalizes once, flushes/closes maps and publishes only completed output. Existing destinations are never intentionally overwritten.
 
 | Per-split file | Contract |
 |---|---|
@@ -1114,7 +1097,9 @@ SQLite stores rows keyed by stay/prediction-hour, rejecting duplicates across sh
 | evidence_manifest.json | source/sort/normalization/validation evidence |
 | input_manifest.json | v2-arrays-2 metadata, observed counts, hashes of the other nine files |
 
-The [source-evidence schema](schemas/sepsis_gru_v2_source_evidence.v1.schema.json) and `validate_evidence` require common snapshot identity, extraction time with timezone, extraction job and SQL SHA-256, unscaled-imputed representation, shard fingerprints, sorting method/keys/count/hash, frozen normalization and verified temporal/imputation evidence. Required check labels are completed_icu_hour, reference_label, source_availability, train_only_imputation_and_scaling, antibiotic_interval_disposition and vasopressor_overlap_disposition. Source availability refers to the documented retrospective contract; do not turn that label into an unsupported live-availability claim.
+The [source-evidence schema](schemas/sepsis_gru_v2_source_evidence.v1.schema.json) and `validate_evidence` require common snapshot identity, extraction time with timezone, extraction job and SQL SHA-256, unscaled-imputed representation, shard fingerprints, sorting method/keys/count/hash, frozen normalization and verified temporal/imputation evidence.
+
+Required check labels are completed_icu_hour, reference_label, source_availability, train_only_imputation_and_scaling, antibiotic_interval_disposition and vasopressor_overlap_disposition. Source availability refers to the documented retrospective contract; do not turn that label into an unsupported live-availability claim.
 
 The converter generates shard/header, sorting and normalization fields; the authorized protocol supplies the factual seed. Evidence schemas cannot independently establish that source verification occurred. Preflight recounts populations and isolates patients/stays, rather than trusting self-reported counts. **Next:** complete the evidence and authorized paths, then use the staged commands below. Do not create actual clinical manifests in this code workspace.
 
@@ -1148,7 +1133,9 @@ Canonical paths reject symlinks/reparse points, network aliases, checkout-contai
 
 The frozen statistics file used by code is `sepsis_gru_v2_train_statistics.json` beside the modules, SHA-256 `48a13c4f37347e743271afe65b98ab6d88a3a34e2a5284156f00b52821c5b516`. A different preprocessing.statistics path alone does not override that implementation. Source_hashes must match all root sepsis_gru_v2 Python modules plus ablations/statistics. Historical file_hashes is not the active fingerprint. No silent refresh of mismatching hashes.
 
-Evidence seed structure is shown in the runbook. It supplies snapshot_id; extraction.job_reference/extracted_at/sql_sha256/feature_representation; temporal_validation and imputation_validation with status VERIFIED_IN_AUTHORIZED_ENVIRONMENT, matching snapshot, reference and artifact hash; and the exact ordered check labels in Chapter 13. All three splits share the same frozen cohort snapshot identity. The converter fills observed metadata and schema_version v2-source-evidence-1. Neither the seed nor signed approval is fabricated here.
+Evidence seed structure is shown in the runbook. It supplies snapshot_id; extraction.job_reference/extracted_at/sql_sha256/feature_representation; temporal_validation and imputation_validation with status VERIFIED_IN_AUTHORIZED_ENVIRONMENT, matching snapshot, reference and artifact hash; and the exact ordered check labels in Chapter 13. All three splits share the same frozen cohort snapshot identity.
+
+The converter fills observed metadata and schema_version v2-source-evidence-1. Neither the seed nor signed approval is fabricated here.
 
 ### 14.2 Convert in the authorized environment
 
@@ -1187,7 +1174,9 @@ python -B sepsis_gru_v2_production.py --protocol "$trainingProtocol" --experimen
 if ($LASTEXITCODE -ne 0) { throw 'Incomplete run; review authorized artifacts' }
 ```
 
-The CLI syntax is also usable on Linux with shell-appropriate variable assignment and exit handling, after platform qualification; the PowerShell wrappers above are not bash. `--experiments A` selects 22 features from full C arrays. Omitting it runs all six arms. Preflight always checks all three splits: source/statistics and file hashes, populations, dtype/shape/order, finite and binary values, labels, identity consistency, chronology, common snapshot, evidence and all pairwise patient/stay intersections. Test integrity checks do not calculate test performance.
+The CLI syntax is also usable on Linux with shell-appropriate variable assignment and exit handling, after platform qualification; the PowerShell wrappers above are not bash. `--experiments A` selects 22 features from full C arrays. Omitting it runs all six arms.
+
+Preflight always checks all three splits: source/statistics and file hashes, populations, dtype/shape/order, finite and binary values, labels, identity consistency, chronology, common snapshot, evidence and all pairwise patient/stay intersections. Test integrity checks do not calculate test performance.
 
 The enforced configuration is single-layer GRU64, up-to-24 consecutive hours, batch256, Adam 0.001, unweighted BCEWithLogitsLoss, clip norm1.0, max30 epochs, patience5, seed42. These are fixed code/protocol fields, not CLI tuning flags. Improvements require validation AP > previous best+1e-8. AUROC/Brier/prevalence are validation summaries, not selection alternatives. The loop re-evaluates the best restored checkpoint and repeats preflight before declaring COMPLETE.
 
@@ -1195,23 +1184,12 @@ The enforced configuration is single-layer GRU64, up-to-24 consecutive hours, ba
 
 Output contains run_manifest.json and A/best_model.pt, A/resume.pt, A/history.json, A/metrics.json. History is published at completed epochs; absence of batch console output does not prove a hang. Inspect authorized process activity and storage without exposing records or paths to shared logs. Nonfinite loss or failed integrity check stops the run. Preserve FAILED/RUNNING evidence; do not rename it COMPLETE manually.
 
-```mermaid
-flowchart TD
-    P["Approval and full preflight"] --> T["Train one epoch"]
-    T --> V["Validation AP and other metrics"]
-    V --> B{"AP improves by tolerance?"}
-    B -->|Yes| U["Update best payload; reset patience"]
-    B -->|No| N["Increment stale count"]
-    U --> R["Atomic resume state"]
-    N --> R
-    R --> H["Publish best inference and history"]
-    H --> S{"30 epochs or patience 5?"}
-    S -->|No| T
-    S -->|Yes| C["Reload best, verify validation and inputs; COMPLETE"]
-```
+[![Training and checkpoint workflow](docs/handbook-assets/08-training-checkpoints.svg)](docs/handbook-assets/08-training-checkpoints.svg)
+
+**[Open full-size diagram](docs/handbook-assets/08-training-checkpoints.svg)** · [Editable diagram source](docs/handbook-assets/08-training-checkpoints.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -1238,7 +1216,11 @@ python -B sepsis_gru_v2_production.py --protocol "$trainingProtocol" --experimen
 if ($LASTEXITCODE -ne 0) { throw 'Resume rejected; stop for review' }
 ```
 
-resume.pt includes model/Adam state, completed epoch, best AP, stale count, history, best inference payload, Python/NumPy/Torch RNG and shuffle-generator RNG. It is atomic at **epoch boundaries**, not batches. An interrupted epoch repeats from the last complete state. Best_model.pt alone is inference-only and cannot resume. Resume checks experiment/features, protocol/data/statistics/source hashes, settings and recorded environment. It repairs lagging best/history files from the authoritative resume state after interrupted publication. Stale temporary files are not checkpoints. Before any completed checkpoint, a matching run manifest permits seeded restart; an orphan inference checkpoint is rejected. One process per output directory; no concurrent writers.
+resume.pt includes model/Adam state, completed epoch, best AP, stale count, history, best inference payload, Python/NumPy/Torch RNG and shuffle-generator RNG. It is atomic at **epoch boundaries**, not batches. An interrupted epoch repeats from the last complete state. Best_model.pt alone is inference-only and cannot resume.
+
+Resume checks experiment/features, protocol/data/statistics/source hashes, settings and recorded environment. It repairs lagging best/history files from the authoritative resume state after interrupted publication. Stale temporary files are not checkpoints. Before any completed checkpoint, a matching run manifest permits seeded restart; an orphan inference checkpoint is rejected.
+
+One process per output directory; no concurrent writers.
 
 > [!WARNING]
 > **Never evaluate the test set here.** `evaluate_test` must be exactly false; true is rejected. Training loaders include only train/validation. Final calibration/test release is later R2C work. The ready-to-run synthetic equivalent is `python -B sepsis_gru_v2_production.py --demo --experiments A`, already demonstrated in Step 81, with no persistent clinical artifact or approval changes.
@@ -1271,11 +1253,15 @@ Alternatively select one name with its own approved output/protocol. Resume uses
 
 Store operational details in the authorized environment; publish only reviewed summaries. Blank results mean unmeasured, not zero. Record incomplete/failed runs as well as successful ones.
 
-All-split feature matrices alone occupy about 535 MB decimal; adding labels and three int64 identity/time arrays yields about 636 MB, excluding headers. These are disk sizes, not peak RAM. Lazy windows avoid allocating N x 24 x F histories, but segment indices, split uniqueness, training shuffle, metrics arrays, batches, autograd and page cache use RAM. Sorting retains original shards plus SQLite staging/indexes, sorted CSV and arrays concurrently. An 8 GB laptop/35 GB free disk is not certified sufficient by small demos. Require an approved capacity assessment before full conversion and record actual runtime/resource use.
+All-split feature matrices alone occupy about 535 MB decimal; adding labels and three int64 identity/time arrays yields about 636 MB, excluding headers. These are disk sizes, not peak RAM. Lazy windows avoid allocating N x 24 x F histories, but segment indices, split uniqueness, training shuffle, metrics arrays, batches, autograd and page cache use RAM.
+
+Sorting retains original shards plus SQLite staging/indexes, sorted CSV and arrays concurrently. An 8 GB laptop/35 GB free disk is not certified sufficient by small demos. Require an approved capacity assessment before full conversion and record actual runtime/resource use.
 
 Colab/GPU remains an environment proposal, not supported production acceleration. If approved, make a narrowly reviewed device/checkpoint adaptation and synthetic benchmark before real use, preserving scientific parameters. Do not promise a runtime from CPU extrapolation. Temporary runtimes also require authorized durable checkpoints and exact resume environment; storage approval is separate from compute availability.
 
-Poor validation performance is a research result to investigate without test access: verify loss curves, class presence, feature alignment, provenance and checkpoint selection first. Do not search many unreported configurations and retain only the best. A changed loss, architecture, seed schedule or cohort needs a predefined separate experiment and disclosure. **Next:** complete the original six arms, then freeze calibration/evaluation; do not seek favorable test scores to decide which models to report.
+Poor validation performance is a research result to investigate without test access: verify loss curves, class presence, feature alignment, provenance and checkpoint selection first. Do not search many unreported configurations and retain only the best. A changed loss, architecture, seed schedule or cohort needs a predefined separate experiment and disclosure.
+
+**Next:** complete the original six arms, then freeze calibration/evaluation; do not seek favorable test scores to decide which models to report.
 
 ---
 
@@ -1288,7 +1274,9 @@ Poor validation performance is a research result to investigate without test acc
 > [!NOTE]
 > **Status: IMPLEMENTED AND VERIFIED for synthetic core metrics; PLANNED for final clinical evaluation.** Sources: [core metric implementation](sepsis_gru_v2_core.py), [production runner](sepsis_gru_v2_production.py), and [freeze §6](docs/sepsis_gru_v2_methodology_freeze.v0.1-provisional.md).
 
-A model can rank positive hours well while giving misleading probabilities. We therefore need discrimination, calibration and prevalence together. The existing metric function validates original labels before integer conversion, rejects fractional labels, nonfinite logits, shape mismatches and evaluation partitions missing a class, then applies sigmoid and calculates AP, AUROC, Brier score and prevalence. Its existence does not supply a governed final-test pipeline. Production selects on validation AP and rejects test evaluation; R2C final evaluation remains unfinished.
+A model can rank positive hours well while giving misleading probabilities. We therefore need discrimination, calibration and prevalence together. The existing metric function validates original labels before integer conversion, rejects fractional labels, nonfinite logits, shape mismatches and evaluation partitions missing a class, then applies sigmoid and calculates AP, AUROC, Brier score and prevalence.
+
+Its existence does not supply a governed final-test pipeline. Production selects on validation AP and rejects test evaluation; R2C final evaluation remains unfinished.
 
 For labels y_i and probabilities p_i over N eligible endpoints:
 
@@ -1312,22 +1300,12 @@ $P_k$ and $R_k$ denote precision and recall at successive thresholds. $p_i$ is t
 
 The final release must bind exact dataset/protocol hashes, all model checkpoints, per-model calibrators, metrics and numerical procedures, bootstrap seed and CI construction, optional threshold policy, strict-follow-up rule, explanation sampling and reporting templates. Test input schema, population counts and split disjointness can be validated earlier. Using test AP to choose an epoch, dose perturbation, threshold, feature mask or model is prohibited.
 
-```mermaid
-flowchart TD
-    V[Validation AP selects each checkpoint] --> C[Fit positive slope sigmoid on validation]
-    C --> F[Freeze models calibrators metrics and analysis rules]
-    F --> G{Final evaluation release approved?}
-    G -->|No| H[Keep test performance inaccessible]
-    G -->|Yes| T[Compute predefined test predictions]
-    T --> P[Paired primary and ablation comparisons]
-    T --> S[Mandatory strict followup subset]
-    P --> B[Patient clustered confidence intervals]
-    S --> B
-    B --> R[Report raw calibrated and qualified findings]
-```
+[![Final evaluation and calibration](docs/handbook-assets/09-final-evaluation.svg)](docs/handbook-assets/09-final-evaluation.svg)
+
+**[Open full-size diagram](docs/handbook-assets/09-final-evaluation.svg)** · [Editable diagram source](docs/handbook-assets/09-final-evaluation.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -1350,9 +1328,13 @@ This diagram is an analysis plan, not a callable command. Do not try `evaluate_t
 
 ### Correlation, uncertainty and comparison
 
-Hourly rows from one patient are correlated through shared physiology, treatments and overlapping GRU windows. The frozen proposal uses **1,000 patient-clustered bootstrap replicates and 95% confidence intervals**. Sample patient clusters with replacement, include all their eligible hours, and use the identical replicate membership for both models in a paired difference. A patient appearing twice contributes their cluster twice. Resampling individual hours would underrepresent dependence.
+Hourly rows from one patient are correlated through shared physiology, treatments and overlapping GRU windows. The frozen proposal uses **1,000 patient-clustered bootstrap replicates and 95% confidence intervals**. Sample patient clusters with replacement, include all their eligible hours, and use the identical replicate membership for both models in a paired difference.
 
-The point estimate remains hour-weighted: patients with more eligible hours contribute more endpoints. Clustered uncertainty does not silently convert it into a patient-weighted estimand. Specify the bootstrap seed, percentile or other agreed CI procedure, and handling of class-degenerate replicates before release. Report discarded/undefined replicates rather than quietly retrying until an attractive interval appears. These procedures are planned; no bootstrap implementation is present.
+A patient appearing twice contributes their cluster twice. Resampling individual hours would underrepresent dependence.
+
+The point estimate remains hour-weighted: patients with more eligible hours contribute more endpoints. Clustered uncertainty does not silently convert it into a patient-weighted estimand. Specify the bootstrap seed, percentile or other agreed CI procedure, and handling of class-degenerate replicates before release.
+
+Report discarded/undefined replicates rather than quietly retrying until an attractive interval appears. These procedures are planned; no bootstrap implementation is present.
 
 Threshold-dependent measures are secondary. If used, select a threshold using validation only under a declared objective, then lock it for test. Report sensitivity, specificity, precision and an explicit alert-burden denominator. Counting hourly threshold exceedances is not the same as counting clinical alerts with suppression/refractory periods; any such alert policy requires its own specification. Do not invent an operating threshold in this handbook.
 
@@ -1384,11 +1366,15 @@ $$
 p_{\mathrm{cal}}=\sigma(az+b)=\frac{1}{1+\exp[-(az+b)]},\qquad a>0
 $$
 
-The implementation specification still needs a stable positive-slope parameterization, optimization settings, convergence criteria, and explicit degenerate-case behavior. For example, a positive transform of an unconstrained parameter can enforce a > 0, but this handbook does not choose a new fitting algorithm. Use numerically stable log-loss operations rather than taking logs of rounded zeros/ones. Handle constant logits, absent classes, nonfinite inputs, nonconvergence and very large coefficients as reportable failures; do not silently return an unverified transform.
+The implementation specification still needs a stable positive-slope parameterization, optimization settings, convergence criteria, and explicit degenerate-case behavior. For example, a positive transform of an unconstrained parameter can enforce a > 0, but this handbook does not choose a new fitting algorithm. Use numerically stable log-loss operations rather than taking logs of rounded zeros/ones.
+
+Handle constant logits, absent classes, nonfinite inputs, nonconvergence and very large coefficients as reportable failures; do not silently return an unverified transform.
 
 After fitting, save slope, intercept, checkpoint hash, validation-input identity, fitting configuration, software versions and convergence status. Freeze these before final test evaluation. Raw and calibrated probabilities must remain distinguishable in the analysis artifacts.
 
-A reliability diagram groups predictions into prespecified bins and compares mean predicted probability against observed frequency. Report bin sample and positive counts: a bin with very few events is uncertain. Bin policy must be frozen before choosing the most flattering picture. Calibration intercept/slope are assessment statistics requiring a declared regression procedure; they are not automatically identical to the fitting parameters a and b. Assess raw and calibrated Brier scores on the same held-out endpoints.
+A reliability diagram groups predictions into prespecified bins and compares mean predicted probability against observed frequency. Report bin sample and positive counts: a bin with very few events is uncertain. Bin policy must be frozen before choosing the most flattering picture.
+
+Calibration intercept/slope are assessment statistics requiring a declared regression procedure; they are not automatically identical to the fitting parameters a and b. Assess raw and calibrated Brier scores on the same held-out endpoints.
 
 Using validation both for checkpoint selection and calibration fitting is a practical frozen choice with optimistic validation assessment. The untouched final test can assess the fully specified process. Do not fix this limitation by silently repartitioning patients or fitting against test labels. If resources prevent a stable calibrator, document the failure and obtain a disposition before test-driven changes.
 
@@ -1411,7 +1397,9 @@ $$
 
 The integral is approximated numerically. Here coordinates span both time and feature. A positive logit attribution means that coordinate contributes toward a higher logit relative to the selected reference along this integration path. It does not mean that increasing the feature would cause sepsis or that clinicians should change it.
 
-The reference must be defined from training information and recorded before analysis. Zero in standardized space corresponds to a training mean for continuous features, but binary flags and treatment-derived dependencies require explicit handling; an all-zero tensor is not automatically a clinically coherent patient. Explain the chosen reference and its limitations. Attribution is reference-dependent, so report that dependence rather than calling the output a unique explanation.
+The reference must be defined from training information and recorded before analysis. Zero in standardized space corresponds to a training mean for continuous features, but binary flags and treatment-derived dependencies require explicit handling; an all-zero tensor is not automatically a clinically coherent patient. Explain the chosen reference and its limitations.
+
+Attribution is reference-dependent, so report that dependence rather than calling the output a unique explanation.
 
 Implementation should use the frozen best-validation checkpoint in evaluation mode and explain its logit. Keep the real sequence length unchanged along the integration path, use the same packed-sequence interface, and exclude padded positions from attribution summaries. Padding does not represent an observed zero-valued hour. Verify that trailing padding changes do not affect the valid sequence's prediction or attributions when lengths are respected.
 
@@ -1450,7 +1438,9 @@ Increase only the middle bucket's dose by 10%, to 0.22. Its delta-dose becomes `
 
 Vasopressor-active remains one in this example because all doses remain positive. If an allowed scenario changes positivity, its active flag must change coherently. Antibiotic features, true labels and other physiology remain unchanged under this particular scenario. At an ICU-hour gap, transition-derived terms remain zero under the existing valid-transition rule; do not connect nonconsecutive buckets.
 
-Recompute in the raw feature domain, then apply the original per-feature scaler exactly once. TRC has its own frozen scaling; multiplying standardized deltas does not reproduce the standardized raw interaction. Maintain all other canonical feature positions and binary flags. If a changed hour precedes a selected GRU window, recompute downstream deltas from the full eligible raw history before slicing the window, so its boundary dependence is not lost. Never fabricate an unavailable predecessor.
+Recompute in the raw feature domain, then apply the original per-feature scaler exactly once. TRC has its own frozen scaling; multiplying standardized deltas does not reproduce the standardized raw interaction. Maintain all other canonical feature positions and binary flags.
+
+If a changed hour precedes a selected GRU window, recompute downstream deltas from the full eligible raw history before slicing the window, so its boundary dependence is not lost. Never fabricate an unavailable predecessor.
 
 Run the original and perturbed coherent sequence through the same frozen model and, when reporting calibrated risk, the same frozen calibrator. Record original/perturbed probability, difference, scenario eligibility, bounds and failure counts in authorized storage. Use reviewed aggregate summaries for collaboration. Do not retune the model/calibrator for a perturbation or alter the reference labels.
 
@@ -1472,11 +1462,15 @@ Sensitivity analyses ask how conclusions depend on a particular assumption. They
 | Weighted BCE | OPTIONAL / CONDITIONAL | Separate training runs and loss specification, followed by separate calibration | Dependence on loss weighting, not improvement of the frozen unweighted baseline |
 | Additional seeds | OPTIONAL / CONDITIONAL | Predefine seeds and repeat fits before final test comparison | Training variability beyond the initial seed 42 |
 
-The mandatory strict-follow-up analysis removes negative endpoints lacking a full six hours of ICU follow-up. Previously reported counts remove 275,358 negative endpoints from all splits combined, retain 31,044 positives, and leave 3,778,003 endpoints. These are not the expected test-subset count. Confirm actual split-specific mask counts in the authorized environment. Report the changed prevalence and paired model comparisons on the same restricted endpoints; do not attribute all metric movement to better or worse modeling.
+The mandatory strict-follow-up analysis removes negative endpoints lacking a full six hours of ICU follow-up. Previously reported counts remove 275,358 negative endpoints from all splits combined, retain 31,044 positives, and leave 3,778,003 endpoints. These are not the expected test-subset count. Confirm actual split-specific mask counts in the authorized environment.
+
+Report the changed prevalence and paired model comparisons on the same restricted endpoints; do not attribute all metric movement to better or worse modeling.
 
 The overlap configuration is preparation, not an approved patient-level mask. Do not infer identifiers from published aggregate counts. If a common exclusion set is later authorized, apply it consistently across compared arms and report selection effects. The latest audit found diagnostic signature-collapse changes without demonstrating that repeated signatures are invalid. Correcting the baseline or recomputing statistics is not justified by those counts alone.
 
-The principal limitations remain retrospective ≥24-hour stay selection, excluded early references, incomplete future follow-up in the primary baseline, treatment-conditioned reference construction, unknown prospective availability for some inputs, derived GCS carry/default behavior, whole-hour treatment aggregation, prescription rather than administration exposure, and unproven historical source equivalence. Single-source retrospective results and a single training seed also constrain generalization. Explainability and perturbations describe the fitted model, not causal mechanisms.
+The principal limitations remain retrospective ≥24-hour stay selection, excluded early references, incomplete future follow-up in the primary baseline, treatment-conditioned reference construction, unknown prospective availability for some inputs, derived GCS carry/default behavior, whole-hour treatment aggregation, prescription rather than administration exposure, and unproven historical source equivalence.
+
+Single-source retrospective results and a single training seed also constrain generalization. Explainability and perturbations describe the fitted model, not causal mechanisms.
 
 **Verification/next:** freeze the mandatory follow-up evaluation rule and mark optional studies explicitly completed, deferred or omitted with reasons. A focused, transparent primary study plus mandatory sensitivity is preferable to undocumented changes made in response to test results.
 
@@ -1530,7 +1524,9 @@ A failed integrity gate is evidence that execution is not ready. A poor but vali
 <a id="chapter-22"></a>
 ## 22. Full project completion roadmap
 
-This roadmap targets the **first week of Falgun 2083, approximately February 2027**. Confirm the exact institutional Gregorian deadline; this handbook does not assert a converted submission date. Dates below are planning windows, not completed milestones or runtime guarantees. Source status comes from the [closure](docs/sepsis_gru_v2_source_integrity_closure.v1.md), [R2A readiness](docs/sepsis_gru_v2_r2a_readiness.md), [runbook](docs/sepsis_gru_v2_gru_a_execution_runbook.v1.md) and [supervisor review](docs/sepsis_gru_v2_supervisor_review.v1.md).
+This roadmap targets the **first week of Falgun 2083, approximately February 2027**. Confirm the exact institutional Gregorian deadline; this handbook does not assert a converted submission date. Dates below are planning windows, not completed milestones or runtime guarantees.
+
+Source status comes from the [closure](docs/sepsis_gru_v2_source_integrity_closure.v1.md), [R2A readiness](docs/sepsis_gru_v2_r2a_readiness.md), [runbook](docs/sepsis_gru_v2_gru_a_execution_runbook.v1.md) and [supervisor review](docs/sepsis_gru_v2_supervisor_review.v1.md).
 
 ### Completed foundation
 
@@ -1615,7 +1611,9 @@ Acceptance is a reproducible, clearly labeled fictional-input demonstration. It 
 
 ### Contingencies
 
-If hardware is inadequate, seek authorized institutional compute or separately review a GPU adaptation; do not reduce frozen batch/window/features silently. If approval or retention is delayed, prioritize lawful dataset preservation and synthetic analysis tooling; no unapproved data transfer is a shortcut. If performance is poor, report the result and verify input/model contracts without looking at test for tuning. If time is insufficient, ask the supervisor to prioritize mandatory A/B/C, core ablations and strict-follow-up evaluation and explicitly revise scope; this handbook does not grant permission to omit agreed analyses.
+If hardware is inadequate, seek authorized institutional compute or separately review a GPU adaptation; do not reduce frozen batch/window/features silently. If approval or retention is delayed, prioritize lawful dataset preservation and synthetic analysis tooling; no unapproved data transfer is a shortcut. If performance is poor, report the result and verify input/model contracts without looking at test for tuning.
+
+If time is insufficient, ask the supervisor to prioritize mandatory A/B/C, core ablations and strict-follow-up evaluation and explicitly revise scope; this handbook does not grant permission to omit agreed analyses.
 
 If materialized data expire, reconstruction may change source versions, query behavior or statistics provenance. Treat recovered outputs as a newly verified snapshot, not automatically the historical baseline. Document the scientific consequences before training. **Next:** use these acceptance criteria as the project board, assigning actual people and dates through the team rather than inventing them here.
 
@@ -1674,13 +1672,17 @@ Figures should state cohort, sample size, outcome prevalence, model version and 
 <a id="chapter-24"></a>
 ## 24. Team collaboration guide
 
-Assign roles explicitly; no actual member names or access permissions are established here. A **research lead** maintains decisions and deadlines; a **data custodian** handles authorized snapshots and retention; an **ML engineer** operates conversion/training; an **evaluation engineer** implements frozen analyses; a **scientific reviewer/supervisor** approves claims and deviations. One person may hold several roles, but a second reviewer should check irreversible scientific/execution decisions.
+Assign roles explicitly; no actual member names or access permissions are established here. A **research lead** maintains decisions and deadlines; a **data custodian** handles authorized snapshots and retention; an **ML engineer** operates conversion/training; an **evaluation engineer** implements frozen analyses; a **scientific reviewer/supervisor** approves claims and deviations.
+
+One person may hold several roles, but a second reviewer should check irreversible scientific/execution decisions.
 
 New members start with [START HERE](#start-here), then [environment setup](#chapter-11), [data handling](#chapter-12) and their assigned chapter. Code access is not clinical-data authorization. Run synthetic checks before changing code, and verify whether locally required recovery archives are available. Do not place a teammate's credentials in a shared configuration.
 
 A useful task specifies one deliverable, permitted files, scientific invariants, synthetic acceptance tests, source references and whether it needs supervisor/environment approval. Separate engineering defects from methodological changes. Small reviews make it possible to see whether a feature order, label condition or approval gate changed accidentally.
 
-For future authorized code work, create a branch such as `codex/<focused-task>` from a verified clean state. Before any commit, inspect `git status --short`, `git diff`, explicit staged paths and `git diff --cached`. Stage only named reviewed non-sensitive files. Avoid indiscriminate staging of outputs or recovered archives. The strict ignore policy may hide new documents; deliberate allowlisting or explicit staging requires a separate reviewed action. **This handbook is not committed or force-added during its creation.**
+For future authorized code work, create a branch such as `codex/<focused-task>` from a verified clean state. Before any commit, inspect `git status --short`, `git diff`, explicit staged paths and `git diff --cached`. Stage only named reviewed non-sensitive files. Avoid indiscriminate staging of outputs or recovered archives.
+
+The strict ignore policy may hide new documents; deliberate allowlisting or explicit staging requires a separate reviewed action. **This handbook is not committed or force-added during its creation.**
 
 A local commit is not permission to push, publish data or share model artifacts. There is no remote operation in this task. If a future team repository is approved, use that approved sharing channel and review its contents; access-controlled Git still must not contain restricted clinical records or credentials.
 
@@ -1760,9 +1762,13 @@ Maintain separate records for scientific agreement, data-access permission, envi
 
 ### Formula and schema reference
 
-The single canonical feature table is in [chapter 5](#chapter-5); the six masks are in [chapter 9](#chapter-9). The clinical target is $\mathbf{1}\{p<t_{\mathrm{ref}}\le p+6\,\mathrm{hours}\}$ on eligible endpoints. Hourly treatment is `sum(dose * overlap_seconds / 3600)`. Transition features require a preceding consecutive hour. Continuous scaling is $(x-\mu_{\mathrm{train}})/\sigma_{\mathrm{train}}$ with finite positive population standard deviations required (nonpositive standard deviations are rejected), whereas binary values remain binary. See the source implementation before reimplementing these expressions.
+The single canonical feature table is in [chapter 5](#chapter-5); the six masks are in [chapter 9](#chapter-9). The clinical target is $\mathbf{1}\{p<t_{\mathrm{ref}}\le p+6\,\mathrm{hours}\}$ on eligible endpoints. Hourly treatment is `sum(dose * overlap_seconds / 3600)`. Transition features require a preceding consecutive hour.
 
-For exact serialized fields, use [manifest](sepsis_gru_v2_manifest.json), [array writer](sepsis_gru_v2_array_writer.py), [contracts](sepsis_gru_v2_contracts.py) and [source-evidence schema](schemas/sepsis_gru_v2_source_evidence.v1.schema.json). Exports carry all 33 features plus required identity, prediction-time, split and label columns. Disk arrays hold float32 features, uint8 labels and int64 identity/time values; normalization and column order are explicit evidence, not inferred from similar-looking values.
+Continuous scaling is $(x-\mu_{\mathrm{train}})/\sigma_{\mathrm{train}}$ with finite positive population standard deviations required (nonpositive standard deviations are rejected), whereas binary values remain binary. See the source implementation before reimplementing these expressions.
+
+For exact serialized fields, use [manifest](sepsis_gru_v2_manifest.json), [array writer](sepsis_gru_v2_array_writer.py), [contracts](sepsis_gru_v2_contracts.py) and [source-evidence schema](schemas/sepsis_gru_v2_source_evidence.v1.schema.json). Exports carry all 33 features plus required identity, prediction-time, split and label columns.
+
+Disk arrays hold float32 features, uint8 labels and int64 identity/time values; normalization and column order are explicit evidence, not inferred from similar-looking values.
 
 The evidence schema records snapshot identity, extraction/sort provenance, source and file hashes, frozen statistics and temporal evidence. Required attestation does not prove clinical facts by itself. The independently calculated counts, labels, identity separation and array hashes are separate safeguards. An authorized reviewer must verify the semantic link from source snapshot to training statistics and extraction.
 
@@ -1836,14 +1842,21 @@ These summaries preserve the [original decision record](docs/sepsis_gru_v2_metho
 
 ### Reference policy
 
-Repository documents are primary sources for what this project implemented and decided; they are not substitutes for a peer-reviewed bibliography. No verified external research bibliography is supplied by the inspected repository; Part VI separately cites official technology documentation inspected for its proposed stack. Do not manufacture authors, DOIs, issue numbers or quotations. The local addendum records a public `mimic-code` comparison commit, but its description is not evidence of exact deployment equivalence to historical derived tables.
+Repository documents are primary sources for what this project implemented and decided; they are not substitutes for a peer-reviewed bibliography. No verified external research bibliography is supplied by the inspected repository; Part VI separately cites official technology documentation inspected for its proposed stack. Do not manufacture authors, DOIs, issue numbers or quotations.
 
-Before thesis submission, verify and cite the official Sepsis-3 definition and supporting methodology, the MIMIC-IV version/dataset documentation, the pinned public derived-concept code actually discussed, the original GRU work, matching PyTorch GRU documentation, scikit-learn AP definition, sigmoid calibration literature and the original Integrated Gradients publication. This is a clearly marked bibliography task, not a new clinical-data audit. Record the version/access date and claim supported by each source; formal research references have deliberately not been invented here.
+The local addendum records a public `mimic-code` comparison commit, but its description is not evidence of exact deployment equivalence to historical derived tables.
+
+Before thesis submission, verify and cite the official Sepsis-3 definition and supporting methodology, the MIMIC-IV version/dataset documentation, the pinned public derived-concept code actually discussed, the original GRU work, matching PyTorch GRU documentation, scikit-learn AP definition, sigmoid calibration literature and the original Integrated Gradients publication.
+
+This is a clearly marked bibliography task, not a new clinical-data audit. Record the version/access date and claim supported by each source; formal research references have deliberately not been invented here.
 
 <a id="source-index"></a>
 ### Source-document index
 
 The following index lists every Git-tracked file at the inspected commit, using portable relative links. Chapters 5–10 explain their roles; archive members are described in chapter 6. Local root recovery ZIPs are additionally required by provenance tests but are not in this tracked list. The handbook itself is a new, intentionally uncommitted review artifact.
+
+<details>
+<summary><strong>Complete tracked-file index — expand when locating a source</strong></summary>
 
 **Root configuration and implementation**
 
@@ -1931,12 +1944,19 @@ The following index lists every Git-tracked file at the inspected commit, using 
 - [tests/test_r2a.py](tests/test_r2a.py)
 - [tests/test_r2b.py](tests/test_r2b.py)
 
+</details>
 
 ### Post-training design source index — addendum
 
-[Part VI](#part-vi) and [chapters 26–40](#chapter-26) are proposed design material within this handbook, not additional implemented repository files. They reuse the existing [core model/scaler](sepsis_gru_v2_core.py), [ablation definitions](sepsis_gru_v2_ablation_adapter.py), [disk dataset](sepsis_gru_v2_disk_dataset.py), [production checkpoint metadata](sepsis_gru_v2_production.py), [resume distinction](sepsis_gru_v2_resume.py), and [frozen analysis decisions](docs/sepsis_gru_v2_methodology_freeze.v0.1-provisional.md). The [future tree](#chapter-29) is explicitly non-existent; do not interpret it as the current source inventory.
+[Part VI](#part-vi) and [chapters 26–40](#chapter-26) are proposed design material within this handbook, not additional implemented repository files.
 
-Official technology sources inspected on 2026-10-23 for the proposal: [Streamlit execution concepts](https://docs.streamlit.io/get-started/fundamentals/main-concepts), [React component/state design](https://react.dev/learn/thinking-in-react), and [FastAPI validation features](https://fastapi.tiangolo.com/features/). These support framework descriptions, not a tested dependency version, application implementation or clinical authorization. [Chapter 28](#chapter-28) separates those facts from the project-specific recommendation.
+They reuse the existing [core model/scaler](sepsis_gru_v2_core.py), [ablation definitions](sepsis_gru_v2_ablation_adapter.py), [disk dataset](sepsis_gru_v2_disk_dataset.py), [production checkpoint metadata](sepsis_gru_v2_production.py), [resume distinction](sepsis_gru_v2_resume.py), and [frozen analysis decisions](docs/sepsis_gru_v2_methodology_freeze.v0.1-provisional.md).
+
+The [future tree](#chapter-29) is explicitly non-existent; do not interpret it as the current source inventory.
+
+Official technology sources inspected on 2026-10-23 for the proposal: [Streamlit execution concepts](https://docs.streamlit.io/get-started/fundamentals/main-concepts), [React component/state design](https://react.dev/learn/thinking-in-react), and [FastAPI validation features](https://fastapi.tiangolo.com/features/).
+
+These support framework descriptions, not a tested dependency version, application implementation or clinical authorization. [Chapter 28](#chapter-28) separates those facts from the project-specific recommendation.
 
 ---
 
@@ -1944,14 +1964,18 @@ Official technology sources inspected on 2026-10-23 for the proposal: [Streamlit
 # PART VI — POST-TRAINING SYSTEM DEVELOPMENT AND RESEARCH DEMONSTRATION
 
 > [!NOTE]
-> **Status: PLANNED.** This part describes a proposed local research demonstrator, not an implemented application or an approved clinical system. Confirm whether the supervisor wants this deliverable and its minimum scope before allocating implementation time. It must not displace the frozen scientific experiments or loosen their data, approval or final-test gates. Chapters 1–25 remain the research baseline; these chapters add a software presentation layer around verified results and reusable inference components.
+> **Status: PLANNED.** This part describes a proposed local research demonstrator, not an implemented application or an approved clinical system. Confirm whether the supervisor wants this deliverable and its minimum scope before allocating implementation time. It must not displace the frozen scientific experiments or loosen their data, approval or final-test gates.
+>
+> Chapters 1–25 remain the research baseline; these chapters add a software presentation layer around verified results and reusable inference components.
 
 The source baseline remains the commit recorded at the top. No frontend, web backend, serving bundle exporter, calibration service or explanation service is currently implemented. Existing reusable model/scaler and feature definitions are identified below. Future file names, interfaces and pseudocode are design proposals, not commands or paths that already exist.
 
 <a id="chapter-26"></a>
 ## 26. System scope and requirements
 
-A reproducible pipeline, a usable demonstration and a clinical system solve different problems. The existing pipeline verifies input provenance, trains the six fixed arms, selects validation checkpoints and preserves resumable state. Planned research analysis adds calibration, final evaluation and interpretation. A demonstration makes selected functions understandable to a supervisor using **entirely fictional inputs**. A clinical system would require prospective evidence, integration, governance and operational controls beyond this project.
+A reproducible pipeline, a usable demonstration and a clinical system solve different problems. The existing pipeline verifies input provenance, trains the six fixed arms, selects validation checkpoints and preserves resumable state. Planned research analysis adds calibration, final evaluation and interpretation.
+
+A demonstration makes selected functions understandable to a supervisor using **entirely fictional inputs**. A clinical system would require prospective evidence, integration, governance and operational controls beyond this project.
 
 | System boundary | Intended user and input | Output and acceptance | Current state |
 |---|---|---|---|
@@ -1959,11 +1983,17 @@ A reproducible pipeline, a usable demonstration and a clinical system solve diff
 | Local demonstrator | Team/supervisor; internally generated fictional histories and constrained fictional edits | Traceable model scores, coherent charts and qualified explanations | PLANNED; scope confirmation required |
 | Clinical application | Healthcare workflow with actual patient inputs | Decisions/alerts assessed for clinical benefit and safety | Outside scope; not approved or claimed |
 
-Minimum proposed demonstrator requirements are a visible synthetic-only banner, scenario selection, a validated history, a supported model selector, raw/calibrated score distinction, feature/time charts, artifact identity, and a limitations page. IG and coherent dose scenarios are enabled only after their shared services pass research verification. No patient database, hospital connection, BigQuery connector, clinician alert, treatment recommendation or arbitrary upload endpoint is needed.
+Minimum proposed demonstrator requirements are a visible synthetic-only banner, scenario selection, a validated history, a supported model selector, raw/calibrated score distinction, feature/time charts, artifact identity, and a limitations page. IG and coherent dose scenarios are enabled only after their shared services pass research verification.
 
-Nonfunctional requirements are fail-closed artifact loading; deterministic input transformation; bounded memory and request sizes; usable local CPU inference; understandable validation errors; and no external telemetry carrying inputs. Measure latency with fictional histories on the intended presentation machine before setting a service target. Do not invent a latency guarantee from training benchmarks. A single-user loopback demonstration is the initial target, not a scalable hosted service.
+No patient database, hospital connection, BigQuery connector, clinician alert, treatment recommendation or arbitrary upload endpoint is needed.
 
-Define two visibly different operating states. **Synthetic engineering mode** uses explicitly synthetic-trained or otherwise declared nonclinical test weights and demonstrates software only. **Research model demonstration mode** uses an authorized, reviewed trained artifact on fictional inputs; this still supplies no evidence of prospective clinical performance. A request field saying `synthetic=true` cannot authorize arbitrary external data. The application must control fixture generation and reject files/records imported from outside the approved demonstration workflow.
+Nonfunctional requirements are fail-closed artifact loading; deterministic input transformation; bounded memory and request sizes; usable local CPU inference; understandable validation errors; and no external telemetry carrying inputs. Measure latency with fictional histories on the intended presentation machine before setting a service target. Do not invent a latency guarantee from training benchmarks.
+
+A single-user loopback demonstration is the initial target, not a scalable hosted service.
+
+Define two visibly different operating states. **Synthetic engineering mode** uses explicitly synthetic-trained or otherwise declared nonclinical test weights and demonstrates software only. **Research model demonstration mode** uses an authorized, reviewed trained artifact on fictional inputs; this still supplies no evidence of prospective clinical performance.
+
+A request field saying `synthetic=true` cannot authorize arbitrary external data. The application must control fixture generation and reject files/records imported from outside the approved demonstration workflow.
 
 Acceptance requires an agreed scope record, approved artifact-handling location, documented exclusions and a demonstration script. Clinical result tables may be displayed only after the governed final evaluation and disclosure review; they must be visually separate from scores on fictional examples. **Next:** confirm this optional deliverable and its owner, without changing the immediate preservation/training priority.
 
@@ -1975,26 +2005,12 @@ Acceptance requires an agreed scope record, approved artifact-handling location,
 > [!NOTE]
 > **Status: PLANNED.** Reuse [SepsisGRU and FrozenV2Scaler](sepsis_gru_v2_core.py), [feature masks](sepsis_gru_v2_ablation_adapter.py) and [sequence behavior](sepsis_gru_v2_disk_dataset.py) through a tested adapter. Do not call the production training loop from a web request or make the serving process require access to train/validation/test arrays.
 
-```mermaid
-flowchart TD
-    F["Frontend: fictional history and model selection"] --> B["Backend controller: bounded request and session state"]
-    B --> V["Input validation: schema provenance chronology and values"]
-    V --> P["Feature service: coherent raw C fields then frozen scaling"]
-    P --> I["Inference: selected mask packed GRU and logit"]
-    A["Verified immutable artifact registry"] --> P
-    A --> I
-    A --> C["Calibration: bound positive slope sigmoid"]
-    I --> C
-    I --> E["Explainability: validated logit Integrated Gradients"]
-    B --> W["What-if engine: bounded raw dose scenario"]
-    W --> V
-    C --> R["Response assembler: scores versions and qualifications"]
-    E --> R
-    R --> F
-```
+[![Proposed application components](docs/handbook-assets/10-application-components.svg)](docs/handbook-assets/10-application-components.svg)
+
+**[Open full-size diagram](docs/handbook-assets/10-application-components.svg)** · [Editable diagram source](docs/handbook-assets/10-application-components.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -2017,23 +2033,16 @@ The following table preserves every connection and branch in the diagram above.
 
 </details>
 
-The frontend displays and edits synthetic case state. The backend controller owns request identity, validation and capability checks. These can be Python functions in Streamlit; a separate HTTP service is optional. Input validation distinguishes malformed values from unsupported features and never silently drops hours. The feature service is the only authority for deriving dynamics and scaling. Inference owns immutable model instances, feature masks and sequence lengths. Calibration consumes logits, not already-sigmoided probabilities. IG uses a separate gradient-enabled path. The what-if engine returns a new raw scenario through the same validation/preprocessing path, never directly patches a normalized tensor.
+The frontend displays and edits synthetic case state. The backend controller owns request identity, validation and capability checks. These can be Python functions in Streamlit; a separate HTTP service is optional. Input validation distinguishes malformed values from unsupported features and never silently drops hours. The feature service is the only authority for deriving dynamics and scaling.
 
-```mermaid
-flowchart LR
-    S["Fictional scenario generator or bounded editor"] --> H["Validated hourly history with relative times"]
-    H --> D["Recompute dependent raw features"]
-    D --> N["Frozen normalization exactly once"]
-    N --> Q["Canonical selected features and gap-aware window"]
-    Q --> L["Frozen model logit"]
-    L --> U["Raw sigmoid score"]
-    L --> K["Matching calibration transform"]
-    U --> O["Synthetic-only view with artifact and request identity"]
-    K --> O
-```
+Inference owns immutable model instances, feature masks and sequence lengths. Calibration consumes logits, not already-sigmoided probabilities. IG uses a separate gradient-enabled path. The what-if engine returns a new raw scenario through the same validation/preprocessing path, never directly patches a normalized tensor.
+
+[![Proposed inference data flow](docs/handbook-assets/11-inference-data-flow.svg)](docs/handbook-assets/11-inference-data-flow.svg)
+
+**[Open full-size diagram](docs/handbook-assets/11-inference-data-flow.svg)** · [Editable diagram source](docs/handbook-assets/11-inference-data-flow.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -2168,7 +2177,9 @@ The proposed package contains an immutable manifest, selected weights, exact can
 
 An illustrative field list is not a generated manifest: no real bundle ID, trained weights, calibrator coefficients, approval reference or patient hash is populated here. Keep detailed private provenance in authorized storage. Public documentation can refer to a reviewed bundle release identifier; it should not expose extraction rows, validation predictions, identity lists, local user paths or secrets.
 
-Packaging stages are: identify the validation-selected checkpoint; verify its run/protocol/statistics/mask identity; copy only permitted inference assets into a new staging directory; add the already-fitted matching calibrator; generate file hashes and manifest; compare direct-model and loaded-bundle outputs on deterministic fictional fixtures; then atomically publish the completed bundle in the approved artifact root. Never overwrite an existing release or select a checkpoint based on a demonstration's attractive output.
+Packaging stages are: identify the validation-selected checkpoint; verify its run/protocol/statistics/mask identity; copy only permitted inference assets into a new staging directory; add the already-fitted matching calibrator; generate file hashes and manifest; compare direct-model and loaded-bundle outputs on deterministic fictional fixtures; then atomically publish the completed bundle in the approved artifact root.
+
+Never overwrite an existing release or select a checkpoint based on a demonstration's attractive output.
 
 Final test metrics are not needed for loading a model. The formal research demonstration release follows the frozen evaluation/reporting process so the displayed study results are settled. Earlier engineering can use an explicitly synthetic model; neither mode may expose held-out patient predictions. Distribution of clinical-trained weights requires a separate artifact-handling decision even when UI inputs are fictional.
 
@@ -2181,11 +2192,17 @@ Final test metrics are not needed for loading a model. The formal research demon
 ## 31. Model-serving implementation plan
 
 > [!NOTE]
-> **Status: PLANNED.** Serving should be a pure inference operation: no training, no clinical table access, no fitting statistics, and no automatic test-set evaluation. Initialize trusted artifacts at application startup, map weights to CPU, construct the existing GRU for the exact selected feature count, strictly load parameters and call evaluation mode. Follow the existing restricted weight-loading practice (`weights_only=True`) where compatible; do not load user-uploaded checkpoints or arbitrary serialized objects.
+> **Status: PLANNED.** Serving should be a pure inference operation: no training, no clinical table access, no fitting statistics, and no automatic test-set evaluation. Initialize trusted artifacts at application startup, map weights to CPU, construct the existing GRU for the exact selected feature count, strictly load parameters and call evaluation mode.
+>
+> Follow the existing restricted weight-loading practice (`weights_only=True`) where compatible; do not load user-uploaded checkpoints or arbitrary serialized objects.
 
-The proposed service accepts only internally generated fictional histories, optionally edited through bounded typed controls. It validates a single fixture-local stay, unique ordered whole-hour offsets, finite values, binary flags and exact required fields. Malformed or duplicate hours fail with a useful error rather than being silently dropped. A legitimate gap is preserved and resets the model sequence. Histories exceeding the fixture limit should be rejected or explicitly cropped under a documented rule, never silently consume unbounded memory.
+The proposed service accepts only internally generated fictional histories, optionally edited through bounded typed controls. It validates a single fixture-local stay, unique ordered whole-hour offsets, finite values, binary flags and exact required fields. Malformed or duplicate hours fail with a useful error rather than being silently dropped. A legitimate gap is preserved and resets the model sequence.
 
-The minimum demonstration does **not** reproduce BigQuery event processing from bedside measurements. Its input contract starts with fictional hourly values equivalent to the V2 frozen-imputed/unscaled representation. Do not label a text box accepting six vital signs as sufficient to reproduce all 22 A features. Missingness flags and laboratory age/availability semantics require a controlled fixture generator; the model itself does not impute raw nulls. Editing a base value keeps missingness semantics explicit and recomputes all dependent dynamics.
+Histories exceeding the fixture limit should be rejected or explicitly cropped under a documented rule, never silently consume unbounded memory.
+
+The minimum demonstration does **not** reproduce BigQuery event processing from bedside measurements. Its input contract starts with fictional hourly values equivalent to the V2 frozen-imputed/unscaled representation. Do not label a text box accepting six vital signs as sufficient to reproduce all 22 A features.
+
+Missingness flags and laboratory age/availability semantics require a controlled fixture generator; the model itself does not impute raw nulls. Editing a base value keeps missingness semantics explicit and recomputes all dependent dynamics.
 
 **Illustrative pseudocode — not an existing function or runnable command:**
 
@@ -2231,7 +2248,9 @@ No routes below currently exist. The in-process Streamlit implementation should 
 | `POST /v1/explain` | Valid request identity and supported explanation configuration | Logit attribution matrix, feature/time labels, completeness residual and status |
 | `POST /v1/scenario` | Valid baseline request plus an allowed scenario ID/parameter | Baseline/scenario results, dependent-field change summary and interpretation qualification |
 
-Disallow extra fields such as uploaded file paths, SQL, subject IDs, patient names, model URLs or label overrides. A forged fixture ID or uncontrolled history payload must fail even if marked synthetic. Return no score on invalid input. Distinguish invalid request, unavailable capability, integrity failure and computation failure; the UI should explain the corrective action without a raw traceback or data values. For the HTTP alternative, choose explicit status codes and timeout behavior in its tested contract.
+Disallow extra fields such as uploaded file paths, SQL, subject IDs, patient names, model URLs or label overrides. A forged fixture ID or uncontrolled history payload must fail even if marked synthetic. Return no score on invalid input. Distinguish invalid request, unavailable capability, integrity failure and computation failure; the UI should explain the corrective action without a raw traceback or data values.
+
+For the HTTP alternative, choose explicit status codes and timeout behavior in its tested contract.
 
 **Acceptance:** direct and wrapped logits agree within a predefined numerical tolerance on short/full/gapped fictional histories for all six masks. Reject double scaling, wrong feature order and wrong calibrator. Repeated identical requests are stable on the qualified CPU environment; different sessions do not share edited histories. No existing training authorization path is reused as a serving bypass.
 
@@ -2258,7 +2277,9 @@ A score card should say “model-estimated retrospective reference probability�
 
 Input widgets need units and finite numeric bounds appropriate to the reviewed fixture specification. Bounds are validation limits, not clinical treatment guidance. Error messages identify the field/rule and preserve safe edits. Derived fields such as TRC should be read-only displays; users manipulate allowed base inputs and the service recomputes dependents. Changing a fixture, endpoint or arm clears or visibly invalidates previous output until recalculation completes.
 
-Provide keyboard navigation, readable labels, sufficient contrast and non-color cues for missingness or errors. Use explicit loading/error/empty states. Expensive IG requires an explicit action and bounded workload; ordinary page navigation should not recompute it. Show an unavailable explanation/calibration panel with its reason rather than fabricated content. Comparing arms requires the same fictional endpoint and history, with differences in selected feature masks made clear.
+Provide keyboard navigation, readable labels, sufficient contrast and non-color cues for missingness or errors. Use explicit loading/error/empty states. Expensive IG requires an explicit action and bounded workload; ordinary page navigation should not recompute it. Show an unavailable explanation/calibration panel with its reason rather than fabricated content.
+
+Comparing arms requires the same fictional endpoint and history, with differences in selected feature masks made clear.
 
 **Acceptance:** a new team member can complete the guided fictional scenario, identify the model/version and explain what the score does not mean. UI screenshots cannot contain clinical records. Content and accessibility review are separate from model accuracy claims.
 
@@ -2270,11 +2291,17 @@ Provide keyboard navigation, readable labels, sufficient contrast and non-color 
 > [!NOTE]
 > **Status: PLANNED; depends on validated research IG in [chapter 18](#chapter-18).** Integrate a single reviewed logit-attribution service; the UI must not implement a different explanation algorithm. Store the reference construction, integration rule, step policy and numerical tolerances with the analysis configuration and bind results to the checkpoint and request digest.
 
-For a selected fictional endpoint, the service retrieves the exact inference tensor and length, uses the matching training-derived reference policy, and calculates feature-by-time IG with the model in evaluation mode. Padding remains excluded throughout integration and display. Keep missingness flags visible: a positive attribution on a missing flag is an association learned by the model, not proof a measurement was clinically unnecessary. Intermediate fractional binary values on the integration path are mathematical points, not valid patient records.
+For a selected fictional endpoint, the service retrieves the exact inference tensor and length, uses the matching training-derived reference policy, and calculates feature-by-time IG with the model in evaluation mode. Padding remains excluded throughout integration and display.
 
-Recommended views are a signed time-by-feature heatmap, a ranked absolute-attribution bar chart, and a selected-feature time plot. Explain that absolute values show magnitude while signed values show direction relative to the reference. Aggregate physiology/lab/treatment/dynamic groups only using a declared sum or absolute-sum convention. Avoid renaming a heatmap “causes of sepsis.” The UI should state that it explains a **logit difference**, even if the adjacent prediction panel displays calibrated probability.
+Keep missingness flags visible: a positive attribution on a missing flag is an association learned by the model, not proof a measurement was clinically unnecessary. Intermediate fractional binary values on the integration path are mathematical points, not valid patient records.
 
-Completeness requires the attribution sum to approximate `f(x)-f(reference)` within the frozen numerical policy. Show the residual/status. On failure, mark the explanation unreliable and do not display it as verified; keep the prediction separate if its ordinary inference checks passed. Tests cover a known differentiable toy function, short sequences, full 24-hour histories, padding invariance, feature labels and output stability under repeated calls. Do not require any particular feature to rank highest; that would encode an unsupported clinical expectation.
+Recommended views are a signed time-by-feature heatmap, a ranked absolute-attribution bar chart, and a selected-feature time plot. Explain that absolute values show magnitude while signed values show direction relative to the reference. Aggregate physiology/lab/treatment/dynamic groups only using a declared sum or absolute-sum convention.
+
+Avoid renaming a heatmap “causes of sepsis.” The UI should state that it explains a **logit difference**, even if the adjacent prediction panel displays calibrated probability.
+
+Completeness requires the attribution sum to approximate `f(x)-f(reference)` within the frozen numerical policy. Show the residual/status. On failure, mark the explanation unreliable and do not display it as verified; keep the prediction separate if its ordinary inference checks passed.
+
+Tests cover a known differentiable toy function, short sequences, full 24-hour histories, padding invariance, feature labels and output stability under repeated calls. Do not require any particular feature to rank highest; that would encode an unsupported clinical expectation.
 
 Bound sample count/integration work and expose no arbitrary batch endpoint. For a presentation, a cached attribution is acceptable only if generated by the current verified bundle/configuration for the exact fictional fixture; label it cached and invalidate it on edits. A mock visualization without calculated attributions must be labeled a UI mockup and never passed off as an explanation.
 
@@ -2290,7 +2317,9 @@ Bound sample count/integration work and expose no arbitrary batch endpoint. For 
 
 The default proposed scope is GRU-C with a positive recorded hourly NEeq value. Candidate changes of ±10% and ±25% remain subject to the analysis specification and supervisor scope confirmation; they are not already active application settings. Select an allowed hour and bounded scenario, check training-derived plausibility constraints without refitting them, and report when a scenario cannot be formed. Do not search dose changes to minimize predicted risk.
 
-Construct a copy of the raw fictional history, change the selected dose, preserve the unedited case, and recalculate `vasopressor_active`, `delta_dose` and `treatment_response_interaction` for every affected valid transition, including the following hour. Keep gap resets and other flags coherent. If other base inputs are editable, recompute all their mathematical descendants too. An hour outside the displayed 24-row window may still affect a window-edge delta, so use the fixture's validated predecessor context before slicing. Do not invent a next-hour observation merely to show propagation.
+Construct a copy of the raw fictional history, change the selected dose, preserve the unedited case, and recalculate `vasopressor_active`, `delta_dose` and `treatment_response_interaction` for every affected valid transition, including the following hour. Keep gap resets and other flags coherent. If other base inputs are editable, recompute all their mathematical descendants too.
+
+An hour outside the displayed 24-row window may still affect a window-edge delta, so use the fixture's validated predecessor context before slicing. Do not invent a next-hour observation merely to show propagation.
 
 Reapply the same frozen normalization once and use the same checkpoint and calibrator. The UI shows base changes, recomputed terms, baseline/scenario scores, and their arithmetic difference. It must explicitly say physiology was held fixed as an artificial model-input assumption. The underlying outcome labels are not modified; ordinary serving does not need labels at all.
 
@@ -2306,7 +2335,9 @@ For example, use the three-hour arithmetic in chapter 19 to show why changing th
 > [!NOTE]
 > **Status: PLANNED fixture library.** Construct cases from explicit rules and fixed generator seeds, never by sampling, perturbing, de-identifying or paraphrasing actual MIMIC-IV rows. Do not use a clinical patient record as a hidden template. Fixture provenance records generator version, seed, case purpose and content hash, with fictional relative-time identifiers such as a case slug rather than a numeric patient ID.
 
-The generator should emit V2-equivalent hourly raw/imputed features with internally consistent flags and dynamics. It is not a replacement SQL reconstruction. For simple approved demonstrations, start with complete physiological/laboratory values and zero missingness flags. Separate missingness cases explicitly show a fictional observation schedule, the permitted carry/lookback behavior and fixed median fallback. Verify their transformations against the frozen semantics using synthetic tests. Bound raw ranges for software examples without implying that the selected values are clinical decision thresholds.
+The generator should emit V2-equivalent hourly raw/imputed features with internally consistent flags and dynamics. It is not a replacement SQL reconstruction. For simple approved demonstrations, start with complete physiological/laboratory values and zero missingness flags. Separate missingness cases explicitly show a fictional observation schedule, the permitted carry/lookback behavior and fixed median fallback.
+
+Verify their transformations against the frozen semantics using synthetic tests. Bound raw ranges for software examples without implying that the selected values are clinical decision thresholds.
 
 | Proposed case | Purpose | Required assertion, not a performance expectation |
 |---|---|---|
@@ -2350,9 +2381,13 @@ S1–S3 and a UI skeleton can use a synthetic engineering artifact before real t
 
 ### Focused test plan
 
-Unit tests should exercise the contract rather than reproduce implementation line for line: reordered feature names with identical dimensions must fail; transformed inputs cannot be scaled twice; an unknown categorical/extra field must fail; a gap resets history; right padding cannot change the valid output; and a matching checkpoint/calibrator pair loads while a wrong hash/arm fails. Test extreme finite logits, missing calibrator behavior and finite output handling without constructing clinical examples.
+Unit tests should exercise the contract rather than reproduce implementation line for line: reordered feature names with identical dimensions must fail; transformed inputs cannot be scaled twice; an unknown categorical/extra field must fail; a gap resets history; right padding cannot change the valid output; and a matching checkpoint/calibrator pair loads while a wrong hash/arm fails.
 
-Integration tests call the same service used by the UI and compare its logits to the existing GRU forward pass on identical tensors. Use a declared numerical tolerance based on the qualified device/dtype; do not assert cross-platform bitwise identity. Include all six masks, one-hour and 24-hour histories, a longer fixture requiring an explicit window crop, gaps and predecessor-dependent deltas. Check scalar-versus-batched inference where batching is implemented. Verify the service never loads clinical arrays or training labels to answer a prediction request.
+Test extreme finite logits, missing calibrator behavior and finite output handling without constructing clinical examples.
+
+Integration tests call the same service used by the UI and compare its logits to the existing GRU forward pass on identical tensors. Use a declared numerical tolerance based on the qualified device/dtype; do not assert cross-platform bitwise identity. Include all six masks, one-hour and 24-hour histories, a longer fixture requiring an explicit window crop, gaps and predecessor-dependent deltas.
+
+Check scalar-versus-batched inference where batching is implemented. Verify the service never loads clinical arrays or training labels to answer a prediction request.
 
 Explanation tests require an independently understood toy function and completeness/masking tests; scenario tests require arithmetic expected deltas/TRC, not an expected probability direction. App tests cover submit/reset, model switching, stale asynchronous responses, disabled capabilities and sensitive error redaction. Two independent browser sessions must not share case edits or cached request results. Bound work so repeated clicks cannot queue unlimited IG jobs.
 
@@ -2411,7 +2446,9 @@ Begin with the research question and exact retrospective target. Show the end-to
 
 Use a gap case to demonstrate sequence reset. If validated IG is available, explain a feature/time attribution relative to its reference and show the completeness status. Use the three-hour dose scenario to show recomputation of following-hour delta/TRC, and say explicitly that the changed score is not a treatment effect. Finish with frozen research results only if formally released, limitations and future work.
 
-Distinguish research-result figures from application behavior: a smooth chart or fast local response is usability evidence, not predictive validity. If network access fails, the initial local design should not need clinical connectivity. If computation fails, use a reviewed prerecorded synthetic demonstration or screenshots carrying bundle/fixture/version labels; identify them as prerecorded, not a live successful run. If a capability is unfinished, say so and present its design rather than simulated evidence.
+Distinguish research-result figures from application behavior: a smooth chart or fast local response is usability evidence, not predictive validity. If network access fails, the initial local design should not need clinical connectivity.
+
+If computation fails, use a reviewed prerecorded synthetic demonstration or screenshots carrying bundle/fixture/version labels; identify them as prerecorded, not a live successful run. If a capability is unfinished, say so and present its design rather than simulated evidence.
 
 **Acceptance:** a teammate can reproduce the same fictional input and outputs under the specified release, explain the architecture and stop the service without assistance. The viva materials contain no patient records, actual patient identifiers or unapproved model outputs.
 
@@ -2423,11 +2460,15 @@ Distinguish research-result figures from application behavior: a smooth chart or
 > [!NOTE]
 > **Status: PLANNED local demonstration controls; clinical deployment outside scope.** Existing research restrictions in [chapter 12](#chapter-12) remain in force. No frontend choice, local hostname or synthetic-input label authorizes access to clinical records or redistribution of clinical-trained artifacts.
 
-Default to one user on a local loopback interface, no arbitrary uploads, no external database, no third-party analytics, no public tunnel and no model-download endpoint. Store only bounded session state, not a patient database. An artifact registry points to approved local files; a request cannot supply a path or URL. Verify the package before loading and refuse executable extensions or unexpected files. Use reviewed dependencies and size/time limits; model files are not trusted merely because their extension is `.pt`.
+Default to one user on a local loopback interface, no arbitrary uploads, no external database, no third-party analytics, no public tunnel and no model-download endpoint. Store only bounded session state, not a patient database. An artifact registry points to approved local files; a request cannot supply a path or URL. Verify the package before loading and refuse executable extensions or unexpected files.
+
+Use reviewed dependencies and size/time limits; model files are not trusted merely because their extension is `.pt`.
 
 Logs should contain an opaque request identifier, bundle version, operation status and bounded timing, not history arrays, raw request bodies, filesystem paths, passwords or exception dumps. Show sanitized errors to the UI and keep any necessary diagnostic logs under the approved local handling policy. Do not collect true names/contact details for a demonstration. Clearing browser state does not delete any separate persisted logs; define both policies explicitly.
 
-For supervised presentation, restrict access to the intended operator and protect the machine/session. If a multi-user or hosted demonstration is later requested, review authentication, authorization, session isolation, transport protection, origin controls, retention and artifact distribution before changing exposure. That is a separate decision, not a default extension of a local demo. Do not place restricted artifacts in GitHub, Codex or an ordinary synchronized drive because only fictional UI inputs are used.
+For supervised presentation, restrict access to the intended operator and protect the machine/session. If a multi-user or hosted demonstration is later requested, review authentication, authorization, session isolation, transport protection, origin controls, retention and artifact distribution before changing exposure. That is a separate decision, not a default extension of a local demo.
+
+Do not place restricted artifacts in GitHub, Codex or an ordinary synchronized drive because only fictional UI inputs are used.
 
 Clinical deployment would require separate prospective validation, evidence of real-time availability, external/generalization assessment, workflow and human-factors evaluation, monitoring, incident response and applicable institutional/regulatory review. This handbook does not determine a regulatory classification or grant permission. The project has not demonstrated that acting on its scores benefits patients.
 
@@ -2441,24 +2482,12 @@ Clinical deployment would require separate prospective validation, evidence of r
 > [!NOTE]
 > **Status: PLANNED downstream integration over the existing research foundation.** This diagram connects the project without treating an attractive application as a replacement for scientific evaluation.
 
-```mermaid
-flowchart TD
-    D["Preserved dataset construction and authorized snapshot"] --> T["Frozen six-arm GRU training"]
-    T --> V["Validation AP selects checkpoints"]
-    V --> C["Validation-only calibration"]
-    C --> F["Freeze analyses and approve final test release"]
-    F --> E["Final test and mandatory sensitivity evaluation"]
-    E --> X["Reviewed explanations and input sensitivity"]
-    X --> A["Freeze approved inference artifact package"]
-    A --> G["Local fictional-input demonstration application"]
-    G --> Q["Parity usability and privacy verification"]
-    Q --> R["Report supervisor revision and viva"]
-    S["Synthetic fixtures and engineering weights"] --> P["Parallel service and UI development"]
-    P --> G
-```
+[![Research-to-demonstration workflow](docs/handbook-assets/12-research-to-demonstration.svg)](docs/handbook-assets/12-research-to-demonstration.svg)
+
+**[Open full-size diagram](docs/handbook-assets/12-research-to-demonstration.svg)** · [Editable diagram source](docs/handbook-assets/12-research-to-demonstration.mmd)
 
 <details>
-<summary>Diagram text alternative (no Mermaid required)</summary>
+<summary>Read the diagram as a step-by-step table</summary>
 
 The following table preserves every connection and branch in the diagram above.
 
@@ -2552,7 +2581,9 @@ These are bounded evidence or implementation gaps, not instructions to reopen co
 
 **This edition is a documentation-only team-review draft.** Only `SEPSIS_GRU_V2_MASTER_HANDBOOK.md` is created/edited. No code, SQL, tests, configurations, statistics, historical records or approval states are changed. No BigQuery query, clinical-data access, real training, package installation, commit or remote operation is performed.
 
-Local verification inspected 68 tracked files, the SQL members of both tracked archives, the four locally retained recovery archives and their preserved counterparts. It checked archive integrity and recorded hashes, execution-v2 source bindings, source/CLI consistency, the chapter and link structure, and content sensitivity. Current synthetic commands are documented against source; the historical 119-test result and Step 81 demo are identified as historical. The test suite is not rerun merely to create this documentation.
+Local verification inspected 68 tracked files, the SQL members of both tracked archives, the four locally retained recovery archives and their preserved counterparts. It checked archive integrity and recorded hashes, execution-v2 source bindings, source/CLI consistency, the chapter and link structure, and content sensitivity.
+
+Current synthetic commands are documented against source; the historical 119-test result and Step 81 demo are identified as historical. The test suite is not rerun merely to create this documentation.
 
 Markdown links and diagram structure are checked locally. Mermaid diagrams use standard GitHub flowchart syntax; renderer-level GitHub visual validation remains a team-review step because no renderer is installed or package added during this task. Review the rendered page before publication. Do not interpret static structure checks as a screenshot-confirmed rendering result.
 
@@ -2587,18 +2618,30 @@ Each diagram now has a collapsible Markdown table preserving every edge and bran
 
 The reader edition adds six part-level headings, a quick-navigation panel, clear chapter separators and native GitHub colored alerts. Scientific definitions, feature sets, commands and Mermaid diagram content are unchanged. The original plain-text GRU equations and other explanatory mathematical expressions are now typeset using GitHub-supported LaTeX delimiters.
 
-All **11 display equations and 22 inline expressions** passed actual MathJax 3.2.2 SVG generation without errors in a temporary headless browser. GitHub's exact live rendering of this revised local edition remains to be checked after the owner updates the remote file; nothing was published by this task. The page must be viewed in Preview to see mathematics. GitHub controls body font/color and sanitizes custom styling, so the design uses headings, whitespace, tables and native alert accents instead of embedded CSS or arbitrary text colors.
+All **11 display equations and 22 inline expressions** passed actual MathJax 3.2.2 SVG generation without errors in a temporary headless browser. GitHub's exact live rendering of this revised local edition remains to be checked after the owner updates the remote file; nothing was published by this task. The page must be viewed in Preview to see mathematics.
+
+GitHub controls body font/color and sanitizes custom styling, so the design uses headings, whitespace, tables and native alert accents instead of embedded CSS or arbitrary text colors.
 
 References: [GitHub mathematical expressions](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions) and [GitHub formatting and alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax). These explain presentation only, not scientific changes or approval.
 
+### Static diagrams and reading-layout verification — version 1.4
+
+The 12 live Mermaid embeds have been replaced by linked static SVG images. Their editable diagram sources are preserved under `docs/handbook-assets/`, and their existing complete connection tables remain available. Four formerly horizontal diagrams now use vertical presentation to reduce tiny labels; nodes and connections are unchanged. The SVGs use ordinary SVG text without HTML foreign objects, scripts or remote resources. All 12 were loaded successfully as standalone images and visually inspected in a contact sheet. Decision questions use orange rectangular nodes to avoid oversized diamonds; their labels and branch conditions are preserved.
+
+Long prose paragraphs have been separated at sentence boundaries, while executable commands, pseudocode, scientific tables and equations are preserved. The full chapter index and tracked-file index are expandable to reduce scrolling. All 40 chapters and their anchors remain available. These presentation changes do not alter model settings, scientific definitions, approvals or implementation status.
+
+The handbook and its image/source assets must be kept together when publishing. No Git commit or remote push was performed. Older renderer-verification entries describe their respective historical editions; version 1.4 no longer requires a live Mermaid renderer to display diagrams.
+
 ### How to keep the handbook current
 
-After each approved milestone, update the top version/date/source commit, START HERE status/next action, decision tree if needed, chapter status, roadmap checkbox and gap disposition together. If the demonstrator is in scope, also update chapter 40, the actual-versus-proposed file inventory, available bundle/capability status and verified application startup/test commands. Add the evidence reference and reviewer role. Link to a new protocol/decision record instead of silently rewriting original scientific or approval documents. An experiment is complete only when its artifacts and acceptance checks are reviewed, not when a command was launched.
+After each approved milestone, update the top version/date/source commit, START HERE status/next action, decision tree if needed, chapter status, roadmap checkbox and gap disposition together. If the demonstrator is in scope, also update chapter 40, the actual-versus-proposed file inventory, available bundle/capability status and verified application startup/test commands.
+
+Add the evidence reference and reviewer role. Link to a new protocol/decision record instead of silently rewriting original scientific or approval documents. An experiment is complete only when its artifacts and acceptance checks are reviewed, not when a command was launched.
 
 Before releasing an update:
 
 1. Compare against current code, manifests, protocol and actual approved evidence; check that all six feature dimensions and frozen parameters agree.
-2. Recheck every relative link and explicit internal anchor, balanced code fences and Mermaid diagrams in GitHub preview. Keep each diagram text alternative synchronized with its nodes, edges and branch conditions.
+2. Recheck every relative link and explicit internal anchor, balanced code fences and Mermaid diagrams in GitHub preview. Keep each static SVG, editable `.mmd` source and text alternative synchronized with its nodes, edges and branch conditions. Regenerate the SVG after editing a source; do not reintroduce a live Mermaid embed.
 3. Verify command flags against the CLI; label authorized placeholders and synthetic examples clearly.
 4. Recheck privacy: no patient records/identifiers, credentials, sensitive environment paths or unreviewed model outputs.
 5. Review Git changes and explicitly stage only intended non-sensitive documentation if separately authorized. This edition remains uncommitted for the project owner's review.
